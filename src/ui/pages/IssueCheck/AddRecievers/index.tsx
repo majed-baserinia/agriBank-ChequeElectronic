@@ -116,7 +116,7 @@ export default function AddReceivers() {
 							direction={'column'}
 							gap={'16px'}
 						>
-							<Title>{t('activationElCheck')}</Title>
+							<Title>{t('issueElCheck')}</Title>
 							{!matches ? (
 								// TODO: check if selected compony or homself acocunt and add one more step if it is compony
 								<Stepper

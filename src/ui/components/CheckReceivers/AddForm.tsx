@@ -172,6 +172,7 @@ export default function AddForm(props: AddFormProps) {
 					<Controller
 						control={control}
 						name="name"
+						defaultValue=''
 						render={({ field }) => {
 							return (
 								<InputAdapter

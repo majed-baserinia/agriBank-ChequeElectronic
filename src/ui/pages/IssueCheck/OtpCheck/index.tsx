@@ -125,7 +125,7 @@ export default function OtpCheck() {
 						wrap="nowrap"
 					>
 						<Grid>
-							<Title>{t('activationElCheck')}</Title>
+							<Title>{t('issueElCheck')}</Title>
 							{!matches ? (
 								<Stepper
 									list={[

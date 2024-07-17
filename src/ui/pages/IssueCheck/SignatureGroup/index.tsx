@@ -159,7 +159,7 @@ export default function SignatureGroup() {
 							direction={'column'}
 							gap={'16px'}
 						>
-							<Title>{t('activationElCheck')}</Title>
+							<Title>{t('issueElCheck')}</Title>
 							{!matches ? (
 								<Stepper
 									list={[
