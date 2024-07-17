@@ -1,7 +1,7 @@
 import { IRequestHandler, requestHandler } from '@Mediatr/index';
 import APIClient from 'business/infrastructure/api-client';
 
-import { IssueChequeFinalize, issuechequeinitiate } from 'business/infrastructure/end-points';
+import { IssueChequeFinalize } from 'business/infrastructure/end-points';
 import { IssueChequeFinalizeRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeFinalize/IssueChequeFinalizeRequest';
 import { IssueChequeFinalizeResponse } from 'common/entities/cheque/Digital Cheque/IssueChequeFinalize/IssueChequeFinalizeResponse';
 import IssueChequeFinalizeCommand from './IssueChequeFinalizeCommand';
