@@ -29,7 +29,8 @@ export default function InputAdapter(props: InputAdapterProps) {
 		error = false,
 		success = false,
 		size = 'md',
-		helperText
+		helperText,
+		focused
 	} = props;
 
 	const theme = useTheme();
@@ -111,6 +112,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 
 	return (
 		<TextField
+			inputRef={input => input && focused && input.focus()}
 			color={success ? 'success' : undefined}
 			variant="outlined"
 			dir={theme.direction}

@@ -15,7 +15,7 @@ export default function AddForm(props: AddFormProps) {
 	const { setOpen, setReceivers, sayad } = props;
 	const theme = useTheme();
 	const { t } = useTranslation();
-	const { data: inqueriedData, isLoading:  loadingIquiryName, mutate: inqueryRecieverName } = useRecieverNameInquiry();
+	const { data: inqueriedData, isLoading: loadingIquiryName, mutate: inqueryRecieverName } = useRecieverNameInquiry();
 	const [tab, setTab] = useState<'personal' | 'corporate'>('personal');
 	const [checkedForeigner, setCheckedForeigner] = useState(false);
 
@@ -161,7 +161,7 @@ export default function AddForm(props: AddFormProps) {
 							muiButtonProps={{ sx: { borderRadius: '16px' } }}
 							disabled={loadingIquiryName}
 						>
-							{loadingIquiryName ? "..." :t('inquiry')}
+							{loadingIquiryName ? '...' : t('inquiry')}
 						</ButtonAdapter>
 					</Grid>
 					<CheckboxAdapter
@@ -172,11 +172,11 @@ export default function AddForm(props: AddFormProps) {
 					<Controller
 						control={control}
 						name="name"
-						defaultValue=''
+						defaultValue=""
 						render={({ field }) => {
 							return (
 								<InputAdapter
-								
+									focused={!!field.value}
 									sx={{ flex: 1 }}
 									type="text"
 									label={tab === 'personal' ? t('first&lastName') : t('companyName')}
