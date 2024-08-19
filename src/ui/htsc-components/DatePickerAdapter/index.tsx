@@ -45,7 +45,7 @@ export default function DatePickerAdapter(props: Props) {
 
 				inputClass={`${error ? 'error' : ''} datepickerInput`}
 				hideOnScroll
-				calendarPosition={'top-right'}
+				calendarPosition={'bottom-right'}
 				placeholder={placeHolder}
 				onChange={(value) => handleChange(value)}
 				format={'YYYY/MM/DD'}
