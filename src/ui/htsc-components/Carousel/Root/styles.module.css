@@ -1,0 +1,12 @@
+.focus-center :global(.glide__slides) li [data-slide-is-root='true'] {
+	filter: opacity(var(--inactive-slide-opacity));
+	transform: scale(calc(var(--scaling-factor) - 1));
+	transition:
+		filter 200ms,
+		transform 350ms;
+}
+
+.focus-center :global(.glide__slides li.glide__slide--active) [data-slide-is-root='true'] {
+	filter: opacity(1);
+	transform: scale(1);
+}

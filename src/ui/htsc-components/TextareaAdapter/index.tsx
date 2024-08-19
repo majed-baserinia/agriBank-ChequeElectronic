@@ -1,7 +1,8 @@
 import { TextField, Typography, useTheme } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { TextareaAdapterProps } from "./type";
+import { use } from 'i18next';
 
 export default function TextareaAdapter(props: TextareaAdapterProps) {
 	const {
@@ -23,6 +24,15 @@ export default function TextareaAdapter(props: TextareaAdapterProps) {
 	const theme = useTheme();
 	const [value, setValue] = useState(defaultValue);
 	const [shrink, setShrink] = useState(defaultValue ? true : false);
+
+
+	useEffect(() => {
+		if(defaultValue){
+
+			setValue(defaultValue);
+			setShrink(true)
+		}
+	}, [defaultValue]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValue(event.target.value);

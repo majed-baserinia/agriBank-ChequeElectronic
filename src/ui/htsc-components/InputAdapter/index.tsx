@@ -43,7 +43,9 @@ export default function InputAdapter(props: InputAdapterProps) {
 			type == 'cart' ? formatToCart(defaultValue) : type == 'money' ? formatToMoney(defaultValue) : defaultValue;
 
 		setValue(defVal);
-
+		if (defVal) {
+			setShrink(true);
+		}
 		setEndIcon(
 			success ? (
 				<SvgToIcon
@@ -73,12 +75,12 @@ export default function InputAdapter(props: InputAdapterProps) {
 			onChange(originalValue);
 		}
 		if (type === 'number') {
-			setValue(originalValue);
-			onChange(originalValue);
+			setValue(numericValue);
+			onChange(numericValue);
 		}
 		if (type == 'cart' || type == 'money') {
 			// Format input as 4 digits separated by "-"
-			const formattedInput = type == 'cart' ? formatToCart(originalValue) : formatToMoney(originalValue);
+			const formattedInput = type == 'cart' ? formatToCart(numericValue) : formatToMoney(numericValue);
 
 			// Calculate the difference in length between the original and formatted values
 			const lengthDiff = formattedInput.length - originalValue.length;
