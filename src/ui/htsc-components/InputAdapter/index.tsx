@@ -63,7 +63,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 		const originalValue = event.target.value;
 
 		// Remove non-numeric characters
-		const numericValue = event.target.value.replace(/[^0-9]/g, '');
+		//const numericValue = event.target.value.replace(/[^0-9]/g, '');
 
 		// Save the cursor position before modifying the input value
 		const cursorPosition = event.target.selectionStart;
@@ -73,12 +73,12 @@ export default function InputAdapter(props: InputAdapterProps) {
 			onChange(originalValue);
 		}
 		if (type === 'number') {
-			setValue(numericValue);
-			onChange(numericValue);
+			setValue(originalValue);
+			onChange(originalValue);
 		}
 		if (type == 'cart' || type == 'money') {
 			// Format input as 4 digits separated by "-"
-			const formattedInput = type == 'cart' ? formatToCart(numericValue) : formatToMoney(numericValue);
+			const formattedInput = type == 'cart' ? formatToCart(originalValue) : formatToMoney(originalValue);
 
 			// Calculate the difference in length between the original and formatted values
 			const lengthDiff = formattedInput.length - originalValue.length;
