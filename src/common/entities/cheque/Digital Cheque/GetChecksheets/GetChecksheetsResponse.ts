@@ -16,5 +16,6 @@ export interface CheckSheet {
 	blackLSTDate: string;
 	sayadNo: number;
 	sayadChequebookType: string;
+	isUsed: boolean;
 }
  export type GetCheckSheetsResponse  = CheckSheet[]

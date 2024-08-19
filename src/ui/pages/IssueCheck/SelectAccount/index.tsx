@@ -12,13 +12,13 @@ import keshavarzi from 'assets/icon/Banks/Color/Keshavarzi.svg';
 import useAccounts from 'business/hooks/cheque/Digital Cheque/useAccounts';
 import useGetCheckbooks from 'business/hooks/cheque/Digital Cheque/useGetCheckbooks';
 import useGetChecksheets from 'business/hooks/cheque/Digital Cheque/useGetChecksheets';
+import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
 import { CheckSheet } from 'common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse';
 import { useEffect, useState } from 'react';
 import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
-import { pushAlert } from 'business/stores/AppAlertsStore';
 
 export default function SelectAccount() {
 	const navigate = useNavigate();
@@ -205,47 +205,49 @@ export default function SelectAccount() {
 											/>
 										</ChipWrapperForSelect> */}
 										{checksheets?.map((sheet, index) => {
-											return (
-												<MenuItem
-													key={index}
-													value={sheet.sayadNo}
-													onClick={(e) => {
-														setSelectedChecksheet(sheet);
-													}}
-													sx={{
-														border: `1px solid ${theme.palette.grey[50]}`,
-														borderRadius: '16px',
-														margin: '16px',
-														'&:hover': {
-															backgroundColor: 'unset',
-															border: `2px solid ${theme.palette.primary.main}`
-														}
-													}}
-												>
-													<Grid
-														container
-														direction={'column'}
-														justifyContent={'center'}
-														spacing={'8px'}
-														sx={{ padding: '16px' }}
-														gap={'8px'}
+											if (!sheet.isUsed) {
+												return (
+													<MenuItem
+														key={index}
+														value={sheet.sayadNo}
+														onClick={(e) => {
+															setSelectedChecksheet(sheet);
+														}}
+														sx={{
+															border: `1px solid ${theme.palette.grey[50]}`,
+															borderRadius: '16px',
+															margin: '16px',
+															'&:hover': {
+																backgroundColor: 'unset',
+																border: `2px solid ${theme.palette.primary.main}`
+															}
+														}}
 													>
-														<Typography
-															variant="bodyMd"
-															fontWeight={'bold'}
+														<Grid
+															container
+															direction={'column'}
+															justifyContent={'center'}
+															spacing={'8px'}
+															sx={{ padding: '16px' }}
+															gap={'8px'}
 														>
-															{t('sayadNumber')}:{sheet.sayadNo}
-														</Typography>
-														<Typography
-															variant="bodyXs"
-															fontWeight={'medium'}
-														>
-															{t('series')}:{sheet.chequeFrom} | {t('serial')}:
-															{sheet.chequeTo}
-														</Typography>
-													</Grid>
-												</MenuItem>
-											);
+															<Typography
+																variant="bodyMd"
+																fontWeight={'bold'}
+															>
+																{t('sayadNumber')}:{sheet.sayadNo}
+															</Typography>
+															<Typography
+																variant="bodyXs"
+																fontWeight={'medium'}
+															>
+																{t('series')}:{sheet.chequeFrom} | {t('serial')}:
+																{sheet.chequeTo}
+															</Typography>
+														</Grid>
+													</MenuItem>
+												);
+											} else return;
 										})}
 									</SelectAdapter>
 								</Grid>
@@ -306,8 +308,7 @@ export default function SelectAccount() {
 															variant="bodyXs"
 															fontWeight={'medium'}
 														>
-															{t('issueDate')}:{checkbook.issueDate} | {t('expireDate')}:
-															{checkbook.expiryDate}
+															{t('issueDate')}:{checkbook.issueDate}
 														</Typography>
 													</Grid>
 												</MenuItem>
