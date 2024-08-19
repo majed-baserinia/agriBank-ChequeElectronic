@@ -63,7 +63,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 		const originalValue = persianToEnglishDigits(event.target.value);
 
 		// Remove non-numeric characters
-		//const numericValue = event.target.value.replace(/[^0-9]/g, '');
+		const numericValue = originalValue.replace(/[^0-9]/g, '');
 
 		// Save the cursor position before modifying the input value
 		const cursorPosition = event.target.selectionStart;

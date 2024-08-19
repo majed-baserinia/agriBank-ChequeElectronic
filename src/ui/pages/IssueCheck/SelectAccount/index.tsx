@@ -12,14 +12,13 @@ import keshavarzi from 'assets/icon/Banks/Color/Keshavarzi.svg';
 import useAccounts from 'business/hooks/cheque/Digital Cheque/useAccounts';
 import useGetCheckbooks from 'business/hooks/cheque/Digital Cheque/useGetCheckbooks';
 import useGetChecksheets from 'business/hooks/cheque/Digital Cheque/useGetChecksheets';
-import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
 import { CheckSheet } from 'common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse';
 import { useEffect, useState } from 'react';
 import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
-import InputAdapter from 'ui/htsc-components/InputAdapter';
+import { pushAlert } from 'business/stores/AppAlertsStore';
 
 export default function SelectAccount() {
 	const navigate = useNavigate();
@@ -36,24 +35,24 @@ export default function SelectAccount() {
 	const [selectedCheckbook, setSelectedCheckbook] = useState<null | {}>(null);
 	const [selectedChecksheet, setSelectedChecksheet] = useState<null | CheckSheet>(null);
 
-	// useEffect(() => {
-	// 	let errorMessage;
-	// 	if (checkbooksError) errorMessage = checkbooksError.detail;
-	// 	if (checksheetsError) errorMessage = checksheetsError.detail;
-	// 	if (useAccountsError) errorMessage = useAccountsError.detail;
+	useEffect(() => {
+		let errorMessage;
+		if (checkbooksError) errorMessage = checkbooksError.detail;
+		if (checksheetsError) errorMessage = checksheetsError.detail;
+		if (useAccountsError) errorMessage = useAccountsError.detail;
 
-	// 	if (useAccountsError || checksheetsError || checkbooksError) {
-	// 		pushAlert({
-	// 			type: 'error',
-	// 			messageText: errorMessage,
-	// 			hasConfirmAction: true,
-	// 			actions: {
-	// 				onCloseModal: () => navigate(paths.Home),
-	// 				onConfirm: () => navigate(paths.Home)
-	// 			}
-	// 		});
-	// 	}
-	// }, [checkbooksError, checksheetsError, useAccountsError]);
+		if (useAccountsError || checksheetsError || checkbooksError) {
+			pushAlert({
+				type: 'error',
+				messageText: errorMessage,
+				hasConfirmAction: true,
+				actions: {
+					onCloseModal: () => navigate(paths.Home),
+					onConfirm: () => navigate(paths.Home)
+				}
+			});
+		}
+	}, [checkbooksError, checksheetsError, useAccountsError]);
 
 	const handleNextStep = () => {
 		//save the needed data for next page
@@ -87,14 +86,6 @@ export default function SelectAccount() {
 						wrap="nowrap"
 					>
 						<Grid>
-						<InputAdapter
-												isRequired
-												label={t('checkAmount')}
-												onChange={(value) => {}}
-												type="money"
-												// error={!!formState?.errors?.checkAmount}
-												// helperText={formState?.errors?.checkAmount?.message}
-											/>
 							<Title>{t('issueElCheck')}</Title>
 							{!matches ? (
 								<Stepper
