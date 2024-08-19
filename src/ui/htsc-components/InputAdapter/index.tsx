@@ -1,5 +1,5 @@
-import { InputAdornment, TextField, Typography, useTheme } from '@mui/material';
-import { formatToCart, formatToMoney } from 'common/utils/formatInput';
+import { InputAdornment, TextField, useTheme } from '@mui/material';
+import { formatToCart, formatToMoney, persianToEnglishDigits } from 'common/utils/formatInput';
 import { ReactNode, useEffect, useState } from 'react';
 
 import alertIcon from '../../../assets/icon/input/alertIcon.svg';
@@ -34,7 +34,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 	} = props;
 
 	const theme = useTheme();
-	const [value, setValue] = useState("");
+	const [value, setValue] = useState('');
 	const [shrink, setShrink] = useState(defaultValue ? true : false);
 	const [endIcon, setEndIcon] = useState<ReactNode>(null);
 
@@ -60,7 +60,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 	}, [success, error, defaultValue]);
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const originalValue = event.target.value;
+		const originalValue = persianToEnglishDigits(event.target.value);
 
 		// Remove non-numeric characters
 		//const numericValue = event.target.value.replace(/[^0-9]/g, '');
@@ -112,7 +112,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 
 	return (
 		<TextField
-			inputRef={input => input && focused && input.focus()}
+			inputRef={(input) => input && focused && input.focus()}
 			color={success ? 'success' : undefined}
 			variant="outlined"
 			dir={theme.direction}
