@@ -234,5 +234,6 @@
 	"myself": "خودم",
 	"deactivationSelectText": "جهت غیر فعالسازی، مشتری را انتخاب کنید.",
 	"netErr": "خطای ارتباط. لطفا مجدد تلاش کنید.",
-	"confirm": "تایید"
+	"confirm": "تایید",
+	"loadingTextAutoComp": "در حال دریافت..."
 }

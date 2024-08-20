@@ -234,5 +234,6 @@
 	"myself": "Myself",
 	"deactivationSelectText": "Select a client to deactivate.",
 	"netErr": "Network Error. Try again.",
-	"confirm": "confirm"
+	"confirm": "confirm",
+	"loadingTextAutoComp": "loading"
 }
