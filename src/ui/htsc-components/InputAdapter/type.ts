@@ -17,7 +17,7 @@ export type InputAdapterProps = {
 	success?: boolean;
 	size?: Size;
 	helperText?: string;
-	focused?: false;
+	focused?: boolean;
 };
 
 type Size = 'md' | 'lg' | 'sm';
