@@ -1,7 +1,8 @@
 export type Props = {
-	placeHolder?: string;
+	label?: string;
 	className?: string;
 	error?: boolean;
 	helperText?: string;
 	onChange: (value: string) => void;
+	defaultValue?: string
 };

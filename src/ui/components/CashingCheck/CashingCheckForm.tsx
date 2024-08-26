@@ -128,7 +128,7 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 					control={control}
 					render={({ field }) => (*/}
 					<DatePickerAdapter
-						placeHolder={`${t('receiptDate')} ${t('(optional)')} `}
+						label={`${t('receiptDate')} ${t('(optional)')} `}
 						onChange={(date) => {
 							//field.onChange(date?.toString());
 						}}

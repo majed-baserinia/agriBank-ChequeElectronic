@@ -136,7 +136,7 @@ export default function CheckInfo() {
 										control={control}
 										render={({ field }) => (
 											<DatePickerAdapter
-												placeHolder={t('date')}
+												label={t('date')}
 												onChange={(date) => {
 													field.onChange(date?.toString());
 												}}

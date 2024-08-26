@@ -7,7 +7,8 @@ export type InputAdapterProps = {
 	isRequired?: boolean;
 	label: string;
 	icon?: React.ReactNode;
-	type?: 'cart' | 'money' | 'text' | 'password' | 'number';
+	endIcon?: React.ReactNode;
+	type?: 'card' | 'money' | 'text' | 'password' | 'number' | 'date';
 	defaultValue?: string;
 	onChange: (value: string) => void;
 	muiTextFieldProps?: TextFieldProps;
@@ -16,7 +17,7 @@ export type InputAdapterProps = {
 	success?: boolean;
 	size?: Size;
 	helperText?: string;
-	focused?: boolean
+	focused?: false;
 };
 
 type Size = 'md' | 'lg' | 'sm';
