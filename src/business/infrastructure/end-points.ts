@@ -34,3 +34,4 @@ export const RejectGiveBackChequeFinalize= '/cheque/DigitalCheque/RejectGiveBack
 export const ChakadDeactivateCustomer= '/cheque/DigitalCheque/ChakadDeactivateCustomer';
 export const ReceiverInquiryCheque= '/cheque/ReceiverInquiryCheque';
 export const RecieverNameInquiry= '/Cheque/Cheque/receivernameinquiry';
+export const ChakavakPutECheque= '/Cheque/Cheque/ChakavakPutECheque';
