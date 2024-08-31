@@ -71,7 +71,17 @@ export default function CashingCheck() {
 		chakavakPutECheque(
 			{ ...data, bearerInfo: null, CustomerNo: 0, Sayad: selectedCheck!.sayadNo },
 			{
-				onSuccess: (res) => {},
+				onSuccess: (res) => {
+					pushAlert({
+						type: 'success',
+						messageText: res.message,
+						hasConfirmAction: true,
+						actions: {
+							onCloseModal: () => navigate(paths.Home),
+							onConfirm: () => navigate(paths.Home)
+						}
+					});
+				},
 				onError: (err) => {
 					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
 				}
