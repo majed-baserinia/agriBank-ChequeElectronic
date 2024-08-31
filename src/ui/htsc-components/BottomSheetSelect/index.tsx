@@ -10,11 +10,11 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Sheet from 'react-modal-sheet';
 import { Props } from './type';
 
-export default function BottomSheetSelect(props: Props) {
+export default function BottomSheetSelect<T extends { value: string; name: string }>(props: Props<T>) {
 	const { list, label, breackpoint = 'sm', defaultValue = '', onChange, isRequired, error, helperText } = props;
 
 	const theme = useTheme();
@@ -24,9 +24,9 @@ export default function BottomSheetSelect(props: Props) {
 
 	useEffect(() => {
 		setValue(defaultValue);
-	}, []);
+	}, [defaultValue]);
 
-	const handlClickItem = (item: { value: string; name: string }) => {
+	const handlClickItem = (item: T) => {
 		setValue(item.value);
 		onChange(item);
 		setOpen(false);
@@ -34,10 +34,7 @@ export default function BottomSheetSelect(props: Props) {
 
 	return (
 		<>
-			<FormControl
-				fullWidth
-				sx={{ marginTop: '10px' }}
-			>
+			<FormControl fullWidth>
 				<InputLabel id="label">
 					{
 						<>
@@ -65,10 +62,10 @@ export default function BottomSheetSelect(props: Props) {
 					onClose={() => setOpen(false)}
 					error={error}
 				>
-					{list.map((item) => {
+					{list.map((item, index) => {
 						return (
 							<MenuItem
-								key={item.value}
+								key={`${item.value}-${index}`}
 								value={item.value}
 								onClick={() => handlClickItem(item)}
 							>
@@ -95,11 +92,11 @@ export default function BottomSheetSelect(props: Props) {
 						<Sheet.Content>
 							{
 								<Grid sx={{ overflow: 'auto' }}>
-									{list.map((item) => {
+									{list.map((item, index) => {
 										return (
-											<>
+											<Fragment key={`${item.value}-${index}`}>
 												<MenuItem
-													key={item.value}
+													key={`${item.value}-${index}`}
 													value={item.value}
 													onClick={() => handlClickItem(item)}
 												>
@@ -111,7 +108,7 @@ export default function BottomSheetSelect(props: Props) {
 													</Typography>
 												</MenuItem>
 												<Divider />
-											</>
+											</Fragment>
 										);
 									})}
 								</Grid>

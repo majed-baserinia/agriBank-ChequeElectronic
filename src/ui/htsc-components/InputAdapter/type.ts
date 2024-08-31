@@ -1,5 +1,7 @@
 import { InputProps, SxProps, TextFieldProps, Theme } from '@mui/material';
 
+export type InputType = 'card' | 'money' | 'text' | 'password' | 'number' | 'date';
+
 export type InputAdapterProps = {
 	placeholder?: string;
 	disabled?: boolean;
@@ -8,7 +10,7 @@ export type InputAdapterProps = {
 	label: string;
 	icon?: React.ReactNode;
 	endIcon?: React.ReactNode;
-	type?: 'card' | 'money' | 'text' | 'password' | 'number' | 'date';
+	type?: InputType;
 	defaultValue?: string;
 	onChange: (value: string) => void;
 	muiTextFieldProps?: TextFieldProps;
@@ -17,7 +19,7 @@ export type InputAdapterProps = {
 	success?: boolean;
 	size?: Size;
 	helperText?: string;
-	focused?: boolean;
+	focused?: false;
 };
 
 type Size = 'md' | 'lg' | 'sm';

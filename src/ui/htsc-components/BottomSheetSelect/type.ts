@@ -1,9 +1,9 @@
-export type Props = {
-	list: { value: string; name: string }[];
+export type Props<T extends { value: string; name: string }> = {
+	list: T[];
 	label: string;
 	breackpoint?: 'md' | 'sm' | 'lg' | 'xs';
 	defaultValue?: string;
-	onChange: (item: { value: string; name: string }) => void;
+	onChange: (item: T) => void;
 	isRequired?: boolean;
 	error?: boolean;
 	helperText?: string;

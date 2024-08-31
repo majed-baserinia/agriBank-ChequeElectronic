@@ -1,4 +1,3 @@
-import { Theme } from '@mui/material';
 import {
 	formatGeorgianDate,
 	formatPersianDate,
@@ -6,16 +5,12 @@ import {
 	formatToMoney,
 	persianToEnglishDigits
 } from 'common/utils/formatInput';
-import { InputAdapterProps } from 'ui/htsc-components/InputAdapter/type';
 
-type Options = {
-	type: InputAdapterProps['type'];
-	theme: Theme;
-};
-export function useFormatter({ type, theme }: Options) {
-	return (value: string) => {
-		return filter(type, theme, value);
-	};
+import { Theme } from '@mui/material';
+import type { InputType } from './type';
+
+export function isInputTypeNumeric(type: InputType) {
+	return type === 'card' || type === 'money' || type === 'number' || type === 'date';
 }
 
 /**
@@ -24,8 +19,8 @@ export function useFormatter({ type, theme }: Options) {
  * @returns an object containing the original value, formatted value with any additional characters added and the numeric version
  * of the formatted value
  */
-function filter(
-	type: InputAdapterProps['type'],
+export function filter(
+	type: InputType,
 	theme: Theme,
 	value: string
 ): { original: string; formatted: string; numeric: string } {

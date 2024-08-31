@@ -9,24 +9,10 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { forwardRef, SyntheticEvent, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RenderInput from './RenderInput';
 import { Props } from './types';
-
-const generateGridStyle = (theme: Theme) => {
-	return {
-		position: 'absolute',
-		top: '0',
-		left: '0',
-		right: '0',
-		bottom: '0',
-		zIndex: '9',
-		padding: '16px',
-		height: window.innerHeight + 'px',
-		backgroundColor: theme.palette.background.paper
-	};
-};
 
 // TODO: may need to add card format and functionality to edit card number
 // there is already implemented in the chargeAccount repo
@@ -72,6 +58,20 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 	const handlePopState = (event: PopStateEvent) => {
 		event.preventDefault();
 		setOpen(false);
+	};
+
+	const generateGridStyle = (theme: Theme) => {
+		return {
+			position: 'absolute',
+			top: '0',
+			left: '0',
+			right: '0',
+			bottom: '0',
+			zIndex: '9',
+			padding: '16px',
+			height: window.innerHeight + 'px',
+			backgroundColor: theme.palette.background.paper
+		};
 	};
 
 	const onChangeHandler = (event: SyntheticEvent<Element, Event>, newValue: string | T | null) => {
@@ -156,6 +156,7 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 						}}
 					/>
 				)}
+				ListboxComponent={ListboxComponent}
 				renderInput={(params) => (
 					<RenderInput
 						params={params}
@@ -193,3 +194,17 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 		</Grid>
 	);
 }
+
+const ListboxComponent = forwardRef<HTMLUListElement, React.HTMLAttributes<HTMLUListElement>>(
+	function ListboxComponent(props, ref) {
+		const theme = useTheme();
+		const matches = useMediaQuery(theme.breakpoints.down('sm'));
+		return (
+			<ul
+				{...props}
+				ref={ref}
+				style={{ maxHeight: matches ? '100%' : '40vh' }}
+			></ul>
+		);
+	}
+);

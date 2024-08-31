@@ -1,11 +1,12 @@
 import { InputAdornment, TextField, useTheme } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 
+import { useFormatter } from 'ui/htsc-components/InputAdapter/userFormatter';
+import { isInputTypeNumeric } from 'ui/htsc-components/InputAdapter/utils';
 import alertIcon from '../../../assets/icon/input/alertIcon.svg';
 import sucIcon from '../../../assets/icon/input/successIcon.svg';
 import SvgToIcon from '../SvgToIcon';
 import { InputAdapterProps } from './type';
-import { useFormatter } from './formatter';
 
 const heightSizeList = {
 	sm: '40px',
@@ -139,14 +140,15 @@ export default function InputAdapter(props: InputAdapterProps) {
 			helperText={helperText}
 			InputProps={{
 				inputProps: {
-					inputMode:
-						type === 'card' || type === 'money' || type === 'number' || type === 'date'
-							? 'numeric'
-							: undefined,
-					...(type === 'date' ? { pattern: '[0-9]{4}\\/[0-9]{2}\\/[0-9]{2}' } : {})
+					inputMode: isInputTypeNumeric(type) ? 'numeric' : undefined,
+					className: `${isInputTypeNumeric(type) && theme.direction === 'rtl' ? 'text-right' : ''}`,
+					...(isInputTypeNumeric(type) && theme.direction === 'rtl' ? { dir: 'ltr' } : {})
 				},
-				dir: theme.direction,
-				sx: { input: { color: theme.palette.grey[400] } },
+				sx: {
+					input: {
+						color: theme.palette.grey[400]
+					}
+				},
 				startAdornment: icon ? <InputAdornment position="start">{icon}</InputAdornment> : null,
 				endAdornment:
 					error || success || endIcon ? (
