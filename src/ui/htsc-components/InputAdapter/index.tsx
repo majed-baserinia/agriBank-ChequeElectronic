@@ -1,7 +1,7 @@
 import { InputAdornment, TextField, useTheme } from '@mui/material';
 import { ReactNode, useEffect, useState } from 'react';
 
-import { useFormatter } from 'ui/htsc-components/InputAdapter/userFormatter';
+import { useFormatter } from 'ui/htsc-components/InputAdapter/useFormatter';
 import { isInputTypeNumeric } from 'ui/htsc-components/InputAdapter/utils';
 import alertIcon from '../../../assets/icon/input/alertIcon.svg';
 import sucIcon from '../../../assets/icon/input/successIcon.svg';
