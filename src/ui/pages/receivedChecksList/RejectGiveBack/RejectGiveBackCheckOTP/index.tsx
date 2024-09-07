@@ -29,7 +29,7 @@ export default function RejectGiveBackCheckOTP() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const [sendAgain, setSendAgain] = useState(false);
 	const { RejectGiveBackChequeInitiateResponse } = useChecklistData();
-console.log({RejectGiveBackChequeInitiateResponse});
+	console.log({ RejectGiveBackChequeInitiateResponse });
 
 	const { mutate: initiateOtp, data: initiateOtpRes, isLoading: initLoading } = useRejectGiveBackChequeInitiateOtp();
 	const { mutate: verifyOtp, isLoading: verifyLoading } = useRejectGiveBackChequeVerifyOtp();
@@ -40,10 +40,9 @@ console.log({RejectGiveBackChequeInitiateResponse});
 		context: RejectGiveBackChequeVerifyOtpCommand
 	});
 
-
 	useEffect(() => {
-		console.log("%c sdklahgjkdssdha;gsdfjsdfhsgh;as", "color:blue;");
-		
+		console.log('%c sdklahgjkdssdha;gsdfjsdfhsgh;as', 'color:blue;');
+
 		initiateOtp(
 			{ transferChequeKey: RejectGiveBackChequeInitiateResponse?.transferChequeKey! },
 			{
@@ -105,8 +104,6 @@ console.log({RejectGiveBackChequeInitiateResponse});
 		);
 	};
 
-	
-
 	return (
 		<Grid
 			container
@@ -116,7 +113,7 @@ console.log({RejectGiveBackChequeInitiateResponse});
 			dir={theme.direction}
 		>
 			<Grid
-			item
+				item
 				xs={12}
 				md={8}
 			>
@@ -170,7 +167,7 @@ console.log({RejectGiveBackChequeInitiateResponse});
 										<Otp
 											label={t('activationCodeOtp')}
 											maxLength={initiateOtpRes?.codeLength}
-											timerInSeconds={initiateOtpRes?.lifeTime}
+											timerInSeconds={{ timer: initiateOtpRes?.lifeTime! }}
 											onChange={(value) => field.onChange(value)}
 											handleResend={() => setSendAgain(!sendAgain)}
 											error={!!formState?.errors?.otpCode}
@@ -195,7 +192,7 @@ console.log({RejectGiveBackChequeInitiateResponse});
 			</Grid>
 			{matches ? null : (
 				<Grid
-				item
+					item
 					md={3}
 					dir={theme.direction}
 				>

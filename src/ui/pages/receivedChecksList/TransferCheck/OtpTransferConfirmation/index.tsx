@@ -83,7 +83,7 @@ export default function OtpTransferConfirmation() {
 				selectSingleSignatureLegal: true,
 				transferChequeKey: otpTransferRequirments.transferChequeKey
 			};
-console.log(requestBody);
+			console.log(requestBody);
 
 			if (transferAction === 'confirm') {
 				verifyOtpTransfer(requestBody, {
@@ -125,7 +125,7 @@ console.log(requestBody);
 			dir={theme.direction}
 		>
 			<Grid
-			item
+				item
 				xs={12}
 				md={8}
 			>
@@ -189,11 +189,11 @@ console.log(requestBody);
 													? InitiateRejectOtpRes?.codeLength
 													: InitiateTransferOtpRes?.codeLength
 											}
-											timerInSeconds={
-												InitiateRejectOtpRes?.lifeTime
+											timerInSeconds={{
+												timer: InitiateRejectOtpRes?.lifeTime
 													? InitiateRejectOtpRes?.lifeTime
-													: InitiateTransferOtpRes?.lifeTime
-											}
+													: InitiateTransferOtpRes?.lifeTime!
+											}}
 											onChange={(value) => field.onChange(value)}
 											handleResend={initiateOtpHandler}
 											error={!!formState?.errors?.otpCode}
@@ -218,7 +218,7 @@ console.log(requestBody);
 			</Grid>
 			{matches ? null : (
 				<Grid
-				item
+					item
 					md={3}
 					dir={theme.direction}
 				>
@@ -234,7 +234,9 @@ console.log(requestBody);
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={loadingVerifyTransfer || loadingVerifyReject || loadingInitTransfer || loadingInitReject} />
+			<Loader
+				showLoader={loadingVerifyTransfer || loadingVerifyReject || loadingInitTransfer || loadingInitReject}
+			/>
 		</Grid>
 	);
 }

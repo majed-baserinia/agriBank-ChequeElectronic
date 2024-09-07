@@ -112,7 +112,7 @@ export default function GiveBackCheckOTP() {
 			dir={theme.direction}
 		>
 			<Grid
-			item
+				item
 				xs={12}
 				md={8}
 			>
@@ -166,7 +166,7 @@ export default function GiveBackCheckOTP() {
 										<Otp
 											label={t('activationCodeOtp')}
 											maxLength={initiateOtpRes?.codeLength}
-											timerInSeconds={initiateOtpRes?.lifeTime}
+											timerInSeconds={{ timer: initiateOtpRes?.lifeTime! }}
 											onChange={(value) => field.onChange(value)}
 											handleResend={() => setSendAgain(!sendAgain)}
 											error={!!formState?.errors?.otpCode}
@@ -191,7 +191,7 @@ export default function GiveBackCheckOTP() {
 			</Grid>
 			{matches ? null : (
 				<Grid
-				item
+					item
 					md={3}
 					dir={theme.direction}
 				>
@@ -207,7 +207,7 @@ export default function GiveBackCheckOTP() {
 					</BoxAdapter>
 				</Grid>
 			)}
-            <Loader showLoader={initLoading || verifyLoading || finalizeLoading} />
+			<Loader showLoader={initLoading || verifyLoading || finalizeLoading} />
 		</Grid>
 	);
 }

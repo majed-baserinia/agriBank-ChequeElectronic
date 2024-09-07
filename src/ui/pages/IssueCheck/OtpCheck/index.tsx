@@ -17,8 +17,8 @@ import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Otp from 'ui/htsc-components/Otp';
 import Stepper from 'ui/htsc-components/Stepper';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
-import { menuList } from '../../HomePage/menuList';
 import { paths } from 'ui/route-config/paths';
+import { menuList } from '../../HomePage/menuList';
 
 export default function OtpCheck() {
 	const theme = useTheme();
@@ -112,7 +112,7 @@ export default function OtpCheck() {
 			dir={theme.direction}
 		>
 			<Grid
-			item
+				item
 				xs={12}
 				md={8}
 			>
@@ -175,7 +175,7 @@ export default function OtpCheck() {
 											helperText={formState?.errors?.otpCode?.message}
 											label={t('activationCodeOtp')}
 											maxLength={CheckInitiateOtpData?.codeLength}
-											timerInSeconds={CheckInitiateOtpData?.lifeTime}
+											timerInSeconds={{ timer: CheckInitiateOtpData?.lifeTime! }}
 											handleResend={handleSendAgain}
 										/>
 									)}
@@ -197,7 +197,7 @@ export default function OtpCheck() {
 			</Grid>
 			{matches ? null : (
 				<Grid
-				item
+					item
 					md={3}
 					dir={theme.direction}
 				>
