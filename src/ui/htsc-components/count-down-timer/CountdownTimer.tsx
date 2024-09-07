@@ -3,14 +3,14 @@ import { useEffect } from 'react';
 import { useCountDownTimer } from 'ui/htsc-components/count-down-timer/useCountDownTimer';
 
 export type Props = {
-	timerInSeconds: number | undefined;
+	timerInSeconds: {timer: number} | undefined;
 	onCountDownStarted?: () => void;
 	onCountDownEnded?: () => void;
 };
 
 const CountDownTimer = ({ timerInSeconds, onCountDownStarted, onCountDownEnded }: Props) => {
 	const { countDownTimer, setCountDownTimer, isTimerCounting } = useCountDownTimer({
-		initialValue: timerInSeconds,
+		initialValue: timerInSeconds?.timer,
 		onCountDownStarted: onCountDownStarted,
 		onCountDownEnded: onCountDownEnded
 	});
@@ -19,7 +19,7 @@ const CountDownTimer = ({ timerInSeconds, onCountDownStarted, onCountDownEnded }
 		if (timerInSeconds === undefined) {
 			return;
 		}
-		setCountDownTimer(timerInSeconds);
+		setCountDownTimer(timerInSeconds.timer);
 	}, [timerInSeconds]);
 
 	return (

@@ -235,5 +235,6 @@
 	"deactivationSelectText": "Select a client to deactivate.",
 	"netErr": "Network Error. Try again.",
 	"confirm": "confirm",
-	"loadingTextAutoComp": "loading"
+	"loadingTextAutoComp": "loading",
+	"initErrorText": "there is a problem with loading the app, please try later"
 }

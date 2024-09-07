@@ -9,10 +9,11 @@ import Loader from 'ui/htsc-components/loader/Loader';
 import themeInitializer from 'ui/theme-config/baseTheme';
 
 import ApiConfigSingleton from '../../business/stores/api-config-singleton';
-import useInitialSettingStore, { InitialSetting } from '../../business/stores/initial-setting-store';
+import useInitialSettingStore from '../../business/stores/initial-setting-store';
 
 const Layout = () => {
-	useInitPostMessage();
+	const { readyToLoad } = useInitPostMessage();
+
 	const { settings, setSettings } = useInitialSettingStore((s) => s);
 	const [configReady, seConfigReady] = useState(false);
 
@@ -25,7 +26,7 @@ const Layout = () => {
 
 	const getConfig = async () => {
 		try {
-			const res = await fetch('/api-config.json');
+			const res = await fetch('/api-config-open-account.json');
 			const apiConf = await res.json();
 			ApiConfigSingleton.initiateApiConfig(apiConf?.apiBaseUrl);
 
@@ -36,7 +37,7 @@ const Layout = () => {
 
 			//get the theme and set the language
 			const theme = await themeInitializer(themeName, apiConf?.ThemeRoute);
-			
+
 			changeLanguage(language ? language : 'fa-IR');
 
 			//set the settings {theme, language, idToken, refreshToken} to store
@@ -45,7 +46,7 @@ const Layout = () => {
 				...settings,
 				theme: theme,
 				language: language ? language : 'fa-IR'
-			} );
+			});
 
 			seConfigReady(true);
 		} catch (err) {
@@ -63,16 +64,18 @@ const Layout = () => {
 			<GlobalStyle />
 
 			<MaterialThemeProvider>
-				{configReady ? (
-					<div>
-						<AppAlerts />
-						{/* <div className="content-star xl:w-2/4 m-auto grid grid-rows-1 gap-y-4 p-7 md:w-3/4 lg:w-3/5"> */}
-						<Outlet />
-						{/* </div> */}
-					</div>
-				) : (
-					<Loader showLoader={!configReady}></Loader>
-				)}
+				<>
+					<AppAlerts />
+					{configReady && readyToLoad ? (
+						<div>
+							{/* <div className="content-star xl:w-2/4 m-auto grid grid-rows-1 gap-y-4 p-7 md:w-3/4 lg:w-3/5"> */}
+							<Outlet />
+							{/* </div> */}
+						</div>
+					) : (
+						<Loader showLoader></Loader>
+					)}
+				</>
 			</MaterialThemeProvider>
 		</>
 	);

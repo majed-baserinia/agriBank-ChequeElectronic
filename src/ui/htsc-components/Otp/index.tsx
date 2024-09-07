@@ -9,7 +9,8 @@ import CountDownTimer from '../count-down-timer/CountdownTimer';
 import { Props } from './type';
 
 export default function Otp(props: Props) {
-	const { maxLength = 8, onChange, helperText, error, label, handleResend, timerInSeconds } = props;
+	const { maxLength = 8, onChange, helperText, error, label, handleResend, timerInSeconds, defaultValue } = props;
+	;
 	const { t } = useTranslation();
 	const [IsCountDownTimerCounting, setIsCountDownTimerCounting] = useState<boolean>();
 
@@ -25,6 +26,7 @@ export default function Otp(props: Props) {
 				type="number"
 				error={error}
 				helperText={helperText}
+				defaultValue={defaultValue}
 			/>
 
 			<Grid
