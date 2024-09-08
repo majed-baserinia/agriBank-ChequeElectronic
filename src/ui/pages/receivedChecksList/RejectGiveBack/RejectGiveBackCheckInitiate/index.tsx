@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import CheckInfoBox from 'ui/components/CheckInfoBox';
 import Menu from 'ui/components/Menu';
-import Title from 'ui/components/Title';
+ 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
@@ -82,7 +82,6 @@ export default function RejectGiveBackCheckInitiate() {
 							direction={'column'}
 							gap={'8px'}
 						>
-							<Title>{t('rejectElCheckGiveBack')}</Title>
 							{!matches ? (
 								<Stepper
 									list={[t('checkInfo'), t('verificationCode'), t('end')]}

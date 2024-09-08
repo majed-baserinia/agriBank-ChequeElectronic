@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import DraggableList from 'ui/components/DraggableList';
 import Menu from 'ui/components/Menu';
 import RadioButtonOpenable from 'ui/components/RadioButtonOpenable';
-import Title from 'ui/components/Title';
+ 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import ModalOrPage from 'ui/htsc-components/ModalOrPage';
@@ -159,7 +159,6 @@ export default function SignatureGroup() {
 							direction={'column'}
 							gap={'16px'}
 						>
-							<Title>{t('issueElCheck')}</Title>
 							{!matches ? (
 								<Stepper
 									list={[

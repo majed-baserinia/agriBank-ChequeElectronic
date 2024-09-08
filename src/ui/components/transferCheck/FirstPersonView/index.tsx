@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import CheckOverViewBox from 'ui/components/CheckOverviewBox';
-import Title from 'ui/components/Title';
+ 
 import BottomSheetSelect from 'ui/htsc-components/BottomSheetSelect';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
@@ -50,7 +50,6 @@ export default function FirstPersonView() {
 					direction={'column'}
 					gap={'16px'}
 				>
-					<Title>{t('transferCheckEl')}</Title>
 					{!matches ? (
 						// TODO: check if selected compony or homself acocunt and add one more step if it is compony
 						<Stepper

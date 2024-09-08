@@ -7,7 +7,7 @@ import { AllowedNumbers } from 'ui/components/CheckListComps/types';
 import BasicCheckDetials from 'ui/components/CheckOverview/BasicCheckDetials';
 import CheckStatus from 'ui/components/CheckOverview/CheckStatus';
 import Menu from 'ui/components/Menu';
-import Title from 'ui/components/Title';
+ 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import Loader from 'ui/htsc-components/loader/Loader';
 
@@ -44,7 +44,6 @@ export default function TransferredCheckDetail() {
 							direction={'column'}
 							gap={'8px'}
 						>
-							<Title>{t('checkDetailPageTitle')}</Title>
 
 							<CheckStatus
 								checkBlockingStatus={selectedCheck?.blockStatusDescription}

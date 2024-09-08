@@ -2,7 +2,7 @@ import { Grid, MenuItem, Typography, useMediaQuery, useTheme } from '@mui/materi
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
-import Title from 'ui/components/Title';
+ 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import SelectAdapter from 'ui/htsc-components/SelectAdapter';
@@ -86,7 +86,6 @@ export default function SelectAccount() {
 						wrap="nowrap"
 					>
 						<Grid>
-							<Title>{t('issueElCheck')}</Title>
 							{!matches ? (
 								<Stepper
 									list={[

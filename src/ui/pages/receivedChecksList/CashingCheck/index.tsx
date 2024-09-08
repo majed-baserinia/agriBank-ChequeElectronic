@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import CashingCheckForm from 'ui/components/CashingCheck/CashingCheckForm';
 import CashingCheckOverview from 'ui/components/CashingCheckOverview';
 import Menu from 'ui/components/Menu';
-import Title from 'ui/components/Title';
+ 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Loader from 'ui/htsc-components/loader/Loader';
@@ -114,7 +114,6 @@ export default function CashingCheck() {
 							direction={'column'}
 							gap={'8px'}
 						>
-							<Title>{t('cashingCheck')}</Title>
 							{checkData ? (
 								<CashingCheckOverview check={checkData} />
 							) : isError ? (

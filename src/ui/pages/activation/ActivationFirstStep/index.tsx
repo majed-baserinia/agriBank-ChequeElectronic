@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
-import Title from 'ui/components/Title';
+ 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import RadioButtonAdapter from 'ui/htsc-components/RadioButtonAdapter';
@@ -88,7 +88,6 @@ export default function ActivationFirstStep() {
 						wrap="nowrap"
 					>
 						<Grid>
-							<Title>{t('activationElCheck')}</Title>
 							{!matches ? (
 								<Stepper
 									list={[t('accountInfo'), t('electroincSignature'), t('end')]}
