@@ -19,6 +19,7 @@ interface DataSteps {
 	};
 
 	setStepData: (data: {}) => void;
+	clearStore: ()=>void
 }
 
 export const useDataSteps = create<DataSteps>((set) => ({
@@ -26,5 +27,11 @@ export const useDataSteps = create<DataSteps>((set) => ({
 	setStepData: (data) =>
 		set((store) => ({
 			steps: { ...store.steps, ...data }
-		}))
+		})),
+
+	clearStore: () => {
+		set(() => {
+			return { steps: { receivers: [] } };
+		});
+	}
 }));
