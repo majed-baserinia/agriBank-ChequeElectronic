@@ -2,7 +2,7 @@ import { Grid, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
@@ -11,8 +11,8 @@ import useIssueChequeFinalize from 'business/hooks/cheque/Digital Cheque/useIssu
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
 
-import BasicCheckDetials from 'ui/components/CheckOverview/BasicCheckDetials';
 import PersonsList from 'ui/components/CheckOverview/PersonsList';
+import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
 import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
@@ -23,7 +23,8 @@ export default function OverView() {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { isLoading, mutate: finalSubmit } = useIssueChequeFinalize();
-	const { overviewData, signitureRequirementData } = useDataSteps((store) => store.steps);
+	const { steps, clearStore } = useDataSteps((store) => store);
+	const { overviewData, signitureRequirementData } = steps;
 
 	const handleSubmit = () => {
 		finalSubmit(
@@ -32,7 +33,7 @@ export default function OverView() {
 			},
 			{
 				onError: (err) => {
-					if (err.status===453 && err.instance === "RemoveRequest") {
+					if (err.status === 453 && err.instance === 'RemoveRequest') {
 						pushAlert({
 							type: 'error',
 							hasConfirmAction: true,
@@ -42,8 +43,7 @@ export default function OverView() {
 								onConfirm: () => navigate(paths.Home)
 							}
 						});
-					} else{
-
+					} else {
 						pushAlert({ type: 'error', hasConfirmAction: true, messageText: err.detail });
 					}
 				},
@@ -62,6 +62,10 @@ export default function OverView() {
 		);
 	};
 
+	const handleRefuse = () => {
+		clearStore();
+		navigate(paths.Home, { replace: true });
+	};
 	// const overviewData: IssueChequeOverView = {
 	// 	amount: 212,
 	// 	description: 'advdsvds',
@@ -167,28 +171,54 @@ export default function OverView() {
 							) : null}
 							{/* //TODO: fix the problem,  */}
 							{/* <CheckOverview overviewData={overviewData} /> */}
-							<BasicCheckDetials
+							{/* <BasicCheckDetials
 								amount={overviewData?.amount}
 								description={overviewData?.description}
 								dueDate={overviewData?.dueDate}
 								sayadNo={overviewData?.sayadNo}
 								reason={overviewData?.reasonDescription}
 								serialSerie={overviewData?.seri + '/' + overviewData?.serial}
-							/>
+							/> */}
+							{overviewData ? (
+								<NewCheckInfoBasics
+									checkData={{
+										amount: overviewData?.amount.toString(),
+										description: overviewData?.description,
+										date: overviewData?.dueDate,
+										sayad: overviewData?.sayadNo.toString(),
+										reason: overviewData?.reason,
+										serie: overviewData?.seri,
+										serial: overviewData?.serial
+									}}
+								/>
+							) : null}
 							<PersonsList
 								recievers={overviewData?.recievers}
 								signers={overviewData?.signers}
 							/>
 						</Grid>
 
-						<Grid container>
+						<Grid
+							container
+							justifyContent={'space-between'}
+							sx={{ marginTop: '16px' }}
+						>
 							<ButtonAdapter
 								variant="contained"
 								size="medium"
-								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+								muiButtonProps={{ sx: { width: '49%' } }}
 								onClick={() => handleSubmit()}
 							>
 								{t('register')}
+							</ButtonAdapter>
+
+							<ButtonAdapter
+								variant="outlined"
+								size="medium"
+								muiButtonProps={{ sx: { width: '49%' } }}
+								onClick={() => handleRefuse()}
+							>
+								{t('refuse')}
 							</ButtonAdapter>
 						</Grid>
 					</Grid>
