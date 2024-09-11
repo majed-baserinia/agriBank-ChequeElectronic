@@ -8,6 +8,7 @@ export interface InitialSetting {
 	idToken: string | undefined;
 	refreshToken: string | undefined;
 	osType: number;
+	[key: string]: any;
 }
 
 interface InitialSettingStore {
@@ -26,7 +27,6 @@ const useInitialSettingStore = create<InitialSettingStore>((set) => ({
 					refreshToken: newSetting.refreshToken
 				});
 			}
-			//set((prev) => ({ settings: { ...prev.settings, ...newSetting } }));
 			set((store) => {
 				return { settings: { ...store.settings, ...newSetting } };
 			});
