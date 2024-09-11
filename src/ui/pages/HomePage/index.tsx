@@ -22,8 +22,8 @@ export default function HomePage() {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-console.log("hello from ci/cd");
 
+	
 	return (
 		<Grid
 			container
