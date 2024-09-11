@@ -2,7 +2,7 @@ import { Grid, MenuItem, Typography, useMediaQuery, useTheme } from '@mui/materi
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import SelectAdapter from 'ui/htsc-components/SelectAdapter';
@@ -240,7 +240,7 @@ export default function SelectAccount() {
 																variant="bodyXs"
 																fontWeight={'medium'}
 															>
-																{t('series')}:{sheet.chequeFrom} | {t('serial')}:
+																{t('serieAndSerial')}: {sheet.chequeFrom} |
 																{sheet.chequeTo}
 															</Typography>
 														</Grid>
