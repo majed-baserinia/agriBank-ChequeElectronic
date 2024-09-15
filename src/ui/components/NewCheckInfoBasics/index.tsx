@@ -24,19 +24,23 @@ export default function NewCheckInfoBasics(props: Props) {
 				gap={'8px'}
 				sx={{ marginBottom: '8px', marginTop: '8px' }}
 			>
-				<Grid
-					container
-					justifyContent={'space-between'}
-					alignItems={'center'}
-				>
-					<Typography
-						variant="bodySm"
-						fontWeight={'medium'}
+				{checkStatus ? (
+					<Grid
+						container
+						justifyContent={'space-between'}
+						alignItems={'center'}
 					>
-						{t('checkStatus')}
-					</Typography>
-					<Grid>{checkStatus ? <ChipsStatusGenerator status={checkStatus} /> : null}</Grid>
-				</Grid>
+						<Typography
+							variant="bodySm"
+							fontWeight={'medium'}
+						>
+							{t('checkStatus')}
+						</Typography>
+						<Grid>
+							<ChipsStatusGenerator status={checkStatus} />{' '}
+						</Grid>
+					</Grid>
+				) : null}
 				<OverviewItem
 					title={t('sayadNo')}
 					value={sayad}
