@@ -12,8 +12,7 @@ import keshavarzi from 'assets/icon/Banks/Color/Keshavarzi.svg';
 import useAccounts from 'business/hooks/cheque/Digital Cheque/useAccounts';
 import useGetCheckbooks from 'business/hooks/cheque/Digital Cheque/useGetCheckbooks';
 import useGetChecksheets from 'business/hooks/cheque/Digital Cheque/useGetChecksheets';
-import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 import { CheckSheet } from 'common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse';
 import { useEffect, useState } from 'react';
 import Loader from 'ui/htsc-components/loader/Loader';
@@ -25,39 +24,33 @@ export default function SelectAccount() {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const setDataForNextStep = useDataSteps((store) => store.setStepData);
+	const { setNewDataToWizard, selectCheckPage } = useIssueCheckWizardData((store) => store);
 
-	const { data: AccountData, isLoading, error: useAccountsError } = useAccounts();
-	const { data: checkbooks, mutate: getCheckbooks, error: checkbooksError } = useGetCheckbooks();
-	const { data: checksheets, mutate: getChecksheets, error: checksheetsError } = useGetChecksheets();
+	const { data: AccountData, isLoading } = useAccounts();
+	const { data: checkbooks, mutate: getCheckbooks } = useGetCheckbooks();
+	const { data: checksheets, mutate: getChecksheets } = useGetChecksheets();
 
 	const [selectedAccountNumber, setSelectedAccountNumber] = useState('');
-	const [selectedCheckbook, setSelectedCheckbook] = useState<null | {}>(null);
-	const [selectedChecksheet, setSelectedChecksheet] = useState<null | CheckSheet>(null);
+	const [selectedCheckbook, setSelectedCheckbook] = useState<string>();
+	const [selectedChecksheet, setSelectedChecksheet] = useState<CheckSheet>();
 
 	useEffect(() => {
-		let errorMessage;
-		if (checkbooksError) errorMessage = checkbooksError.detail;
-		if (checksheetsError) errorMessage = checksheetsError.detail;
-		if (useAccountsError) errorMessage = useAccountsError.detail;
-
-		if (useAccountsError || checksheetsError || checkbooksError) {
-			pushAlert({
-				type: 'error',
-				messageText: errorMessage,
-				hasConfirmAction: true,
-				actions: {
-					onCloseModal: () => navigate(paths.Home),
-					onConfirm: () => navigate(paths.Home)
-				}
-			});
+		if (!isLoading && selectCheckPage) {
+			setSelectedAccountNumber(selectCheckPage.selectedAccount);
+			setSelectedCheckbook(selectCheckPage.selectedCheckbook);
+			setSelectedChecksheet(selectCheckPage.checkData);
 		}
-	}, [checkbooksError, checksheetsError, useAccountsError]);
+	}, [isLoading]);
 
 	const handleNextStep = () => {
 		//save the needed data for next page
-		setDataForNextStep({
-			selectdCheckSheet: selectedChecksheet
+		setNewDataToWizard({
+			selectCheckPage: {
+				selectedAccount: selectedAccountNumber,
+				selectedCheckbook: selectedCheckbook!,
+				selectedSheet: selectedChecksheet!.sayadNo!.toString(),
+				checkData: selectedChecksheet!
+			}
 		});
 
 		//navigate next page
@@ -125,6 +118,7 @@ export default function SelectAccount() {
 										}}
 										label={t('accountsList')}
 										renderValue
+										defaultValue={selectedAccountNumber}
 									>
 										{AccountData?.map((item, index) => {
 											return (
@@ -186,6 +180,7 @@ export default function SelectAccount() {
 										disabled={!selectedCheckbook}
 										onChange={() => {}}
 										label={t('checkSheet')}
+										defaultValue={selectedChecksheet?.sayadNo.toString() ?? undefined}
 										renderValue
 									>
 										{/* <ChipWrapperForSelect>
@@ -215,7 +210,7 @@ export default function SelectAccount() {
 														sx={{
 															border: `1px solid ${theme.palette.grey[50]}`,
 															borderRadius: '16px',
-															margin: '16px',
+															marginTop: '16px',
 															'&:hover': {
 																backgroundColor: 'unset',
 																border: `2px solid ${theme.palette.primary.main}`
@@ -263,6 +258,7 @@ export default function SelectAccount() {
 										disabled={!selectedAccountNumber}
 										onChange={() => {}}
 										label={t('checkbook')}
+										defaultValue={selectedCheckbook ?? undefined}
 										renderValue
 									>
 										{checkbooks?.map((checkbook, index) => {
@@ -276,13 +272,13 @@ export default function SelectAccount() {
 															startChequeNo: checkbook.chequeFrom,
 															endChequeNo: checkbook.chequeTo
 														};
-														setSelectedCheckbook(selectedCheckbook);
+														setSelectedCheckbook(checkbook.chequeTo);
 														getChecksheets(selectedCheckbook);
 													}}
 													sx={{
 														border: `1px solid ${theme.palette.grey[50]}`,
 														borderRadius: '16px',
-														margin: '16px',
+														marginTop: '16px',
 														'&:hover': {
 															backgroundColor: 'unset',
 															border: `2px solid ${theme.palette.primary.main}`

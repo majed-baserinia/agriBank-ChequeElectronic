@@ -3,7 +3,7 @@ import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import InputAdapter from 'ui/htsc-components/InputAdapter';
@@ -12,50 +12,47 @@ import TextareaAdapter from 'ui/htsc-components/TextareaAdapter';
 
 import CheckInfoFormValidatorCommand from 'business/application/cheque/Digital Cheque/CheckInfoFormValidator/CheckInfoFormValidatorCommand';
 import useGetReasonCodes from 'business/hooks/cheque/Digital Cheque/useGetReasonCodes';
-import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
+import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import BottomSheetSelect from 'ui/htsc-components/BottomSheetSelect';
 import DatePickerAdapter from 'ui/htsc-components/DatePickerAdapter';
 import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
-import { useEffect } from 'react';
-import { pushAlert } from 'business/stores/AppAlertsStore';
 
 export default function CheckInfo() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const { data: reasonCodes, isLoading: isPendingtoGetReasons, isError, error } = useGetReasonCodes();
-	const setDataForNextStep = useDataSteps((store) => store.setStepData);
+	const { data: reasonCodes, isLoading: isPendingGetReasons, isError } = useGetReasonCodes();
+	const { setNewDataToWizard, checkInfoPage } = useIssueCheckWizardData((store) => store);
 
-	const { control, formState, getValues, handleSubmit } = useForm<CheckInfoFormValidatorCommand>({
+	const { control, formState, getValues, handleSubmit, reset } = useForm<CheckInfoFormValidatorCommand>({
 		resolver: (values, context, options) => {
 			return validator(values, context, options);
 		},
 		context: CheckInfoFormValidatorCommand
 	});
 
-
-	useEffect(()=>{
-		if(error){
-			pushAlert({
-				type: 'error',
-				//TODO: fix the below message 
-				messageText: "error.detail",
-				hasConfirmAction: true,
-				actions: {
-					onCloseModal: () => navigate('/cheque'),
-					onConfirm: () => navigate('/cheque')
-				}
+	useEffect(() => {
+		// fil the inputs if there is data
+		if (!isPendingGetReasons && checkInfoPage) {			
+			reset({
+				checkAmount: checkInfoPage.checkAmount,
+				date: checkInfoPage.date,
+				description: checkInfoPage.description,
+				reason: checkInfoPage.reason
 			});
 		}
-	},[error])
+	}, [isPendingGetReasons]);
+
 	
+
 	const handleNextStep = () => {
-		setDataForNextStep({
-			issueCheckDetail: getValues()
+		setNewDataToWizard({
+			checkInfoPage: getValues()
 		});
 
 		navigate(paths.IssueCheck.addReceiversPath);
@@ -118,6 +115,7 @@ export default function CheckInfo() {
 												isRequired
 												label={t('checkAmount')}
 												onChange={(value) => field.onChange(value)}
+												defaultValue={field.value}
 												type="money"
 												error={!!formState?.errors?.checkAmount}
 												helperText={formState?.errors?.checkAmount?.message}
@@ -139,6 +137,7 @@ export default function CheckInfo() {
 												onChange={(date) => {
 													field.onChange(date?.toString());
 												}}
+												defaultValue={field.value?.toString()}
 												error={!!formState?.errors?.date}
 												helperText={formState?.errors?.date?.message}
 											/>
@@ -158,7 +157,7 @@ export default function CheckInfo() {
 												isRequired
 												label={t('reason')}
 												list={
-													isPendingtoGetReasons || isError
+													isPendingGetReasons || isError
 														? []
 														: reasonCodes.map((reason) => ({
 																value: reason.reasonCode,
@@ -168,6 +167,7 @@ export default function CheckInfo() {
 												onChange={(item) => {
 													field.onChange(item);
 												}}
+												defaultValue={field?.value?.value}
 												error={!!formState?.errors?.reason}
 												helperText={formState?.errors?.reason?.message}
 											/>
@@ -184,6 +184,7 @@ export default function CheckInfo() {
 										render={({ field }) => (
 											<TextareaAdapter
 												onChange={(value) => field.onChange(value)}
+												defaultValue={field.value}
 												isRequired
 												label={t('description')}
 												error={!!formState?.errors?.description}
@@ -227,7 +228,7 @@ export default function CheckInfo() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={isPendingtoGetReasons} />
+			<Loader showLoader={isPendingGetReasons} />
 		</Grid>
 	);
 }

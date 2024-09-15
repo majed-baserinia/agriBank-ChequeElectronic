@@ -4,6 +4,7 @@ import { SetStateAction } from 'react';
 export type CheckReceiversProps = {
 	getRceivers: (recievers: RecieverRequest[]) => void;
 	sayad: number;
+	receivers?: RecieverRequest[];
 };
 
 export type AddFormProps = {

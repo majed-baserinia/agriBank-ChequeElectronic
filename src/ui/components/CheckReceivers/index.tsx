@@ -1,4 +1,5 @@
 import { Dialog, useMediaQuery, useTheme } from '@mui/material';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 import { RecieverRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,16 +10,23 @@ import List from './List';
 import { CheckReceiversProps } from './type';
 
 export default function CheckReceivers(props: CheckReceiversProps) {
-	const { getRceivers, sayad } = props;
+	const { getRceivers, sayad, receivers } = props;
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const isDownSm = useMediaQuery(theme.breakpoints.down('sm'));
 	const [open, setOpen] = useState(false);
-	const [receivers, setReceivers] = useState<RecieverRequest[]>([]);
+	const [localreceivers, setLocalReceivers] = useState<RecieverRequest[]>([]);
 
 	useEffect(() => {
-		getRceivers(receivers);
-	}, [receivers]);
+		// fil the receivers if there is any in the store
+		if (receivers) {
+			setLocalReceivers(receivers);
+		}
+	}, []);
+
+	useEffect(() => {
+		getRceivers(localreceivers);
+	}, [localreceivers]);
 
 	return (
 		<>
@@ -32,8 +40,8 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 			</ButtonAdapter>
 
 			<List
-				receivers={receivers}
-				setReceivers={setReceivers}
+				receivers={localreceivers}
+				setReceivers={setLocalReceivers}
 			/>
 
 			{isDownSm ? (
@@ -46,9 +54,9 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 						<Sheet.Header />
 						<Sheet.Content>
 							<AddForm
-							sayad={sayad}
+								sayad={sayad}
 								setOpen={setOpen}
-								setReceivers={setReceivers}
+								setReceivers={setLocalReceivers}
 							/>
 						</Sheet.Content>
 					</Sheet.Container>
@@ -60,9 +68,9 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 					onClose={() => setOpen(false)}
 				>
 					<AddForm
-					sayad={sayad}
+						sayad={sayad}
 						setOpen={setOpen}
-						setReceivers={setReceivers}
+						setReceivers={setLocalReceivers}
 					/>
 				</Dialog>
 			)}

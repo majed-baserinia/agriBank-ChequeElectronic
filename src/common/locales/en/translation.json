@@ -236,5 +236,6 @@
 	"netErr": "Network Error. Try again.",
 	"confirm": "confirm",
 	"loadingTextAutoComp": "loading",
-	"initErrorText": "there is a problem with loading the app, please try later"
+	"initErrorText": "there is a problem with loading the app, please try later",
+	"codeOrId": "Code/ID"
 }
