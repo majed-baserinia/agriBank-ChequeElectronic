@@ -185,7 +185,7 @@ export default function OverView() {
 										description: otpPage.issueChequeOverView?.description,
 										date: otpPage.issueChequeOverView?.dueDate,
 										sayad: otpPage.issueChequeOverView?.sayadNo.toString(),
-										reason: otpPage.issueChequeOverView?.reason,
+										reason: otpPage.issueChequeOverView?.reasonDescription,
 										serie: otpPage.issueChequeOverView?.seri,
 										serial: otpPage.issueChequeOverView?.serial
 									}}
