@@ -3,7 +3,7 @@ import { IRequest } from '@Mediatr/index';
 export default class CheckInfoFormValidatorCommand implements IRequest<{}> {
 	date: Date;
 	checkAmount: string;
-	reason: string;
+	reason: { name: string; value: string };
 	description: string;
 
 	constructor(formData: CheckInfoFormValidatorCommand) {
