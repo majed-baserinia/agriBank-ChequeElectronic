@@ -2,14 +2,14 @@ import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
 
 import useIssueChequeInitiate from 'business/hooks/cheque/Digital Cheque/useIssueChequeInitiate';
 import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 import { IssueChequeInitiateRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest';
 import { useEffect } from 'react';
 import CheckReceivers from 'ui/components/CheckReceivers';
@@ -22,11 +22,13 @@ export default function AddReceivers() {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const { steps, setStepData } = useDataSteps((store) => store);
+	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage } = useIssueCheckWizardData(
+		(store) => store
+	);
 	const { isLoading, mutate: issueChequeInitiate } = useIssueChequeInitiate();
 
 	useEffect(() => {
-		if (!steps.selectdCheckSheet) {
+		if (!selectCheckPage) {
 			pushAlert({
 				type: 'error',
 				hasConfirmAction: true,
@@ -35,7 +37,7 @@ export default function AddReceivers() {
 			});
 		}
 
-		if (!steps.issueCheckDetail) {
+		if (!checkInfoPage) {
 			pushAlert({
 				type: 'error',
 				hasConfirmAction: true,
@@ -46,20 +48,18 @@ export default function AddReceivers() {
 	}, []);
 
 	const handleSubmitToNextLevel = () => {
-		const { selectdCheckSheet, issueCheckDetail, receivers } = steps;
-
 		// Check if all necessary steps and data exist
-		if (!selectdCheckSheet || !issueCheckDetail) {
+		if (!selectCheckPage || !checkInfoPage) {
 			return null;
 		}
 
 		const preparedData: IssueChequeInitiateRequest = {
-			sayadNo: selectdCheckSheet?.sayadNo,
-			amount: Number(issueCheckDetail?.checkAmount),
-			dueDate: issueCheckDetail?.date,
-			description: issueCheckDetail?.description,
-			reason: issueCheckDetail?.reason.value,
-			recievers: receivers
+			sayadNo: selectCheckPage.checkData.sayadNo,
+			amount: Number(checkInfoPage.checkAmount),
+			dueDate: checkInfoPage.date.toString(),
+			description: checkInfoPage.description,
+			reason: checkInfoPage.reason.value,
+			recievers: addReceiverPage?.receivers!
 		};
 
 		issueChequeInitiate(preparedData, {
@@ -73,10 +73,12 @@ export default function AddReceivers() {
 			},
 			onSuccess: (res) => {
 				//save the data
-				setStepData({
-					signitureRequirementData: {
-						issueChequeKey: res.issueChequeKey,
-						isSingleSignatureLegal: res.isSingleSignatureLegal
+				setNewDataToWizard({
+					addReceiverPage: {
+						signitureRequirementData: {
+							issueChequeKey: res.issueChequeKey,
+							isSingleSignatureLegal: res.isSingleSignatureLegal
+						}
 					}
 				});
 
@@ -131,8 +133,11 @@ export default function AddReceivers() {
 							) : null}
 							<Typography variant="bodyMd">{t('addReceiversText')}</Typography>
 							<CheckReceivers
-								sayad={steps.selectdCheckSheet?.sayadNo!}
-								getRceivers={(receiversList) => setStepData({ receivers: receiversList })}
+								sayad={selectCheckPage?.checkData.sayadNo!}
+								getRceivers={(receiversList) =>
+									setNewDataToWizard({ addReceiverPage: { receivers: receiversList } })
+								}
+								receivers={addReceiverPage?.receivers}
 							/>
 						</Grid>
 						<Grid container>

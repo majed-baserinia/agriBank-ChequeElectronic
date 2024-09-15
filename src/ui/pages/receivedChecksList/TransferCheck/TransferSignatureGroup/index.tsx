@@ -4,7 +4,7 @@ import IssueWithDrawalGroupsCommand from 'business/application/cheque/Digital Ch
 import useInquiryWithDrawalGroup from 'business/hooks/cheque/Digital Cheque/useInquiryWithDrawalGroup';
 import useIssueWithDrawalGroup from 'business/hooks/cheque/Digital Cheque/useIssueWithDrawalGroup';
 import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -66,9 +66,8 @@ export default function TransferSignatureGroup() {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
-	const { steps, setStepData } = useDataSteps((store) => store);
+	const { addReceiverPage } = useIssueCheckWizardData((store) => store);
 	const { mutate: IssueWithDrawalGroup, isLoading } = useIssueWithDrawalGroup();
-	const GetStepData = useDataSteps((s) => s.steps.signitureRequirementData);
 
 	const {
 		data: InquiryWithDrawalGroupData,
@@ -103,7 +102,7 @@ export default function TransferSignatureGroup() {
 		const data: IssueWithDrawalGroupsCommand = {
 			isSequentional: false,
 
-			issueChequeKey: GetStepData?.issueChequeKey!,
+			issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
 			withDrawalGroup: [
 				{
 					groupNumber: value,

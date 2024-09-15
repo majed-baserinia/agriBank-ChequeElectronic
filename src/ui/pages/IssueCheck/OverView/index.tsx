@@ -9,7 +9,7 @@ import Stepper from 'ui/htsc-components/Stepper';
 
 import useIssueChequeFinalize from 'business/hooks/cheque/Digital Cheque/useIssueChequeFinalize';
 import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 
 import PersonsList from 'ui/components/CheckOverview/PersonsList';
 import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
@@ -23,13 +23,12 @@ export default function OverView() {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { isLoading, mutate: finalSubmit } = useIssueChequeFinalize();
-	const { steps, clearStore } = useDataSteps((store) => store);
-	const { overviewData, signitureRequirementData } = steps;
+	const { reset, otpPage, addReceiverPage } = useIssueCheckWizardData((store) => store);
 
 	const handleSubmit = () => {
 		finalSubmit(
 			{
-				issueChequeKey: signitureRequirementData?.issueChequeKey!
+				issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!
 			},
 			{
 				onError: (err) => {
@@ -63,7 +62,7 @@ export default function OverView() {
 	};
 
 	const handleRefuse = () => {
-		clearStore();
+		reset();
 		navigate(paths.Home, { replace: true });
 	};
 	// const overviewData: IssueChequeOverView = {
@@ -154,7 +153,7 @@ export default function OverView() {
 						<Grid
 							container
 							direction={'column'}
-							gap={'16px'}
+							gap={'8px'}
 						>
 							{!matches ? (
 								<Stepper
@@ -179,22 +178,22 @@ export default function OverView() {
 								reason={overviewData?.reasonDescription}
 								serialSerie={overviewData?.seri + '/' + overviewData?.serial}
 							/> */}
-							{overviewData ? (
+							{otpPage?.issueChequeOverView ? (
 								<NewCheckInfoBasics
 									checkData={{
-										amount: overviewData?.amount.toString(),
-										description: overviewData?.description,
-										date: overviewData?.dueDate,
-										sayad: overviewData?.sayadNo.toString(),
-										reason: overviewData?.reason,
-										serie: overviewData?.seri,
-										serial: overviewData?.serial
+										amount: otpPage.issueChequeOverView?.amount.toString(),
+										description: otpPage.issueChequeOverView?.description,
+										date: otpPage.issueChequeOverView?.dueDate,
+										sayad: otpPage.issueChequeOverView?.sayadNo.toString(),
+										reason: otpPage.issueChequeOverView?.reason,
+										serie: otpPage.issueChequeOverView?.seri,
+										serial: otpPage.issueChequeOverView?.serial
 									}}
 								/>
 							) : null}
 							<PersonsList
-								recievers={overviewData?.recievers}
-								signers={overviewData?.signers}
+								recievers={otpPage?.issueChequeOverView?.recievers!}
+								signers={otpPage?.issueChequeOverView?.signers}
 							/>
 						</Grid>
 
@@ -242,7 +241,7 @@ export default function OverView() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={!overviewData || isLoading} />
+			<Loader showLoader={!otpPage?.issueChequeOverView || isLoading} />
 		</Grid>
 	);
 }

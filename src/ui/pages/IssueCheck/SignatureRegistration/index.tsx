@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
@@ -14,9 +14,7 @@ import sendAaginIcon from 'assets/icon/refresh-alert.svg';
 import useIssueChequeInitiateSignature from 'business/hooks/cheque/Digital Cheque/useIssueChequeInitiateSignature';
 import useIssueChequeVerifyInitiate from 'business/hooks/cheque/Digital Cheque/useIssueChequeVerifyInitiate';
 import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
-import SelectSignature from 'ui/components/SelectSignature';
-import ModalOrBottomSheet from 'ui/htsc-components/ModalOrBottomSheet';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
@@ -26,7 +24,7 @@ export default function SignatureRegistration() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const { steps, setStepData } = useDataSteps((store) => store);
+	const { addReceiverPage, setNewDataToWizard } = useIssueCheckWizardData((store) => store);
 
 	const [openModal, setOpenModal] = useState(false);
 	//const [selectedSigniture, setSelectedSigniture] = useState<'group' | 'myslef'>();
@@ -39,7 +37,7 @@ export default function SignatureRegistration() {
 
 	const handleIssueChequeInitiateSignature = () => {
 		issueChequeInitiateSignature(
-			{ issueChequeKey: steps.signitureRequirementData?.issueChequeKey! },
+			{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey! },
 			{
 				onError: (err) => {
 					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
@@ -53,7 +51,7 @@ export default function SignatureRegistration() {
 
 	const handleSubmitToNextLevel = () => {
 		const requestData = {
-			issueChequeKey: steps.signitureRequirementData?.issueChequeKey!,
+			issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
 			otpCode: '',
 			signSingleSignatureLegal: true
 		};
@@ -62,7 +60,11 @@ export default function SignatureRegistration() {
 				pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
 			},
 			onSuccess: (res) => {
-				setStepData({ overviewData: res.issueChequeOverView });
+				setNewDataToWizard({
+					otpPage: {
+						issueChequeOverView: res.issueChequeOverView
+					}
+				});
 				navigate(paths.IssueCheck.OverViewPath);
 			}
 		});
@@ -103,7 +105,7 @@ export default function SignatureRegistration() {
 			dir={theme.direction}
 		>
 			<Grid
-			item
+				item
 				xs={12}
 				md={8}
 			>
@@ -184,7 +186,7 @@ export default function SignatureRegistration() {
 			</Grid>
 			{matches ? null : (
 				<Grid
-				item
+					item
 					md={3}
 					dir={theme.direction}
 				>
