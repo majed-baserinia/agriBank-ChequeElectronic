@@ -29,22 +29,16 @@ axiosRetry(axiosInstance, {
 });
 
 const refreshToken = async (refreshToken: string): Promise<string | undefined> => {
-	try {
-		const authTokens = getAuthTokens();
-		const baseUrl = ApiConfigSingleton.getApiConfig().baseUrl;
-		axiosForLogin.defaults.headers.common['Authorization'] = `Bearer ${authTokens?.idToken}`;
-		const response = await axiosForLogin.post(baseUrl + '/refreshtoken', {
-			refreshToken: refreshToken
-		});
-		const newIdToken = response.data.idToken;
-		const newRefreshToken = response.data.refreshToken;
-		saveAuthTokens({ idToken: newIdToken, refreshToken: newRefreshToken });
-		return newIdToken;
-	} catch (error) {
-		clearAuth();
-		window.location.href = '/';
-		// throw error;
-	}
+	const authTokens = getAuthTokens();
+	const baseUrl = ApiConfigSingleton.getApiConfig().baseUrl;
+	axiosForLogin.defaults.headers.common['Authorization'] = `Bearer ${authTokens?.idToken}`;
+	const response = await axiosForLogin.post(baseUrl + '/refreshtoken', {
+		refreshToken: refreshToken
+	});
+	const newIdToken = response.data.idToken;
+	const newRefreshToken = response.data.refreshToken;
+	saveAuthTokens({ idToken: newIdToken, refreshToken: newRefreshToken });
+	return newIdToken;
 };
 
 axiosForLogin.interceptors.request.use((config) => {
@@ -71,6 +65,7 @@ axiosInstance.interceptors.response.use(
 		const originalRequest = error.config;
 
 		const authTokens = getAuthTokens();
+
 		if (authTokens && error.response?.status === 401) {
 			const refreshTokenValue = authTokens.refreshToken;
 			try {
@@ -78,13 +73,13 @@ axiosInstance.interceptors.response.use(
 				axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newIdToken}`;
 				return axiosInstance.request(originalRequest!);
 			} catch (refreshError) {
+				clearAuth();
+				window.location.href = import.meta.env.BASE_URL;
 				sendPostmessage('tokenIsNotValid', 'true');
-				return Promise.reject(refreshError);
 			}
 		} else if (error.response?.status == 400 && error?.response?.data) {
 			throw prepareErrorType(<ErrorType<TResponse>>error?.response?.data);
 		}
-console.log({error});
 
 		if (error.message === 'Network Error' && error.response?.status !== 500) {
 			pushAlert({
