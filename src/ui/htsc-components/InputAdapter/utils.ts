@@ -1,10 +1,4 @@
-import {
-	formatGeorgianDate,
-	formatPersianDate,
-	formatToCard,
-	formatToMoney,
-	persianToEnglishDigits
-} from 'common/utils/formatInput';
+import { formatPersianDate, formatToCard, formatToMoney, persianToEnglishDigits } from 'common/utils/formatInput';
 
 import { Theme } from '@mui/material';
 import type { InputType } from './type';
@@ -49,8 +43,7 @@ export function filter(
 	}
 
 	if (type === 'date') {
-		let formattedValue =
-			theme.direction === 'rtl' ? formatPersianDate(numericValue) : formatGeorgianDate(numericValue);
+		let formattedValue = formatPersianDate(numericValue);
 		return {
 			original: originalValue,
 			formatted: formattedValue,
