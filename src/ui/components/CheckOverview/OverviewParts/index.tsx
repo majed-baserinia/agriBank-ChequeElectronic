@@ -69,26 +69,26 @@ const SignerComp = (props: SignerData) => {
 	const { customerNumber } = props;
 	return (
 		<>
-			<Typography variant="bodyXs">{t('iDCodeCol')}</Typography>
+			<Typography variant="bodyXs">{t("codeOrId")}</Typography>
 			<Typography variant="bodyXs">{customerNumber}</Typography>
 		</>
 	);
 };
 
 const ReceiverComp = (props: ReceiverData) => {
-	const { customerType, nationalNo, shahabNo } = props;
+	const { nationalNo, shahabNo } = props;
 	const { t } = useTranslation();
 
-	const customerTypeMap: { [key: number]: string } = {
-		1: t('nationalIdCol'),
-		2: t('nationalIdCol'),
-		3: t('universalIDCol'),
-		4: t('nationalIdCol')
-	};
+	// const customerTypeMap: { [key: number]: string } = {
+	// 	1: t('nationalIdCol'),
+	// 	2: t('nationalIdCol'),
+	// 	3: t('universalIDCol'),
+	// 	4: t('nationalIdCol')
+	// };
 
 	return (
 		<>
-			<Typography variant="bodyXs">{customerTypeMap?.[customerType]}</Typography>
+			<Typography variant="bodyXs">{t("codeOrId")}</Typography>
 			<Typography variant="bodyXs">{nationalNo}</Typography>
 			{shahabNo && (
 				<>
@@ -104,7 +104,7 @@ const HolderComponent = (props: HolderData) => {
 	const { nationalNo } = props;
 	return (
 		<>
-			<Typography variant="bodyXs">{t('iDCodeCol')}</Typography>
+			<Typography variant="bodyXs">{t("codeOrId")}</Typography>
 			<Typography variant="bodyXs">{nationalNo}</Typography>
 		</>
 	);

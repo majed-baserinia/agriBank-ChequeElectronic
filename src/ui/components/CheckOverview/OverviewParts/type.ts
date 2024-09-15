@@ -7,7 +7,7 @@ export type ReceiverData = {
 	name: string;
 	shahabNo: string;
 	nationalNo: string;
-	customerType: 1 | 2 | 3 | 4;
+	//customerType: 1 | 2 | 3 | 4;
 };
 
 export interface HolderData  {
