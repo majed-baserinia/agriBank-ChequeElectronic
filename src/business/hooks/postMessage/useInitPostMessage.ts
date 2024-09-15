@@ -1,6 +1,6 @@
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import useInitialSettingStore, { InitialSetting } from 'business/stores/initial-setting-store';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { postMessageTypes } from './types';
@@ -21,40 +21,39 @@ const useInitPostMessage = () => {
 	const needsInitData = import.meta.env.VITE_APP_NEEDS_INIT_POSTMESSAGE === 'true';
 	const { settings, setSettings } = useInitialSettingStore((s) => s);
 
-	const receivedInitPostmessage = useRef(false);
+	const [receivedInitPostmessage, setReceivedInitPostmessage] = useState(false);
 	const intervalRef = useRef<NodeJS.Timeout | null>(null);
+	const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
 	useEffect(() => {
-		const onReceivePostMessage = (event: MessageEvent) => {
-			const type = event.data.type;
-			if (type === 'initiateIFrame') {
-				initiateIFrameHandler(event.data.data);
-			}
-			if (type === 'goback') {
-				goBackHandler();
+		window.addEventListener('message', onReceivePostMessage);
+
+		// Clean up the event listener and interval on unmount
+		return () => {
+			window.removeEventListener('message', onReceivePostMessage);
+			if (intervalRef.current) {
+				clearInterval(intervalRef.current);
 			}
 		};
+	}, []);
 
+	useEffect(() => {
 		const startSendingPostMessages = () => {
-			if (receivedInitPostmessage.current) return; // Prevent sending if response is already received
+			if (receivedInitPostmessage) return; // Prevent sending if response is already received
 
 			const id = setInterval(() => {
-				if (receivedInitPostmessage.current) {
-					clearInterval(id);
-				} else {
-					sendPostmessage('iFrameReady', 'Hi Parent');
-				}
+				sendPostmessage('iFrameReady', 'Hi Parent');
 			}, 500);
 
 			intervalRef.current = id;
 
 			// Schedule clearing of interval after 5 seconds
-			setTimeout(() => {
+			timeoutRef.current = setTimeout(() => {
 				if (intervalRef.current) {
 					clearInterval(intervalRef.current);
 				}
 
-				if (!receivedInitPostmessage.current) {
+				if (!receivedInitPostmessage) {
 					pushAlert({
 						type: 'error',
 						messageText: t('initErrorText'),
@@ -72,31 +71,36 @@ const useInitPostMessage = () => {
 			}, 5000);
 		};
 
-		window.addEventListener('message', onReceivePostMessage);
-
 		if (needsInitData) {
 			startSendingPostMessages();
 		} else {
 			if (intervalRef.current) {
 				clearInterval(intervalRef.current);
 			}
-			receivedInitPostmessage.current = true;
+			setReceivedInitPostmessage(true);
 		}
+	}, [receivedInitPostmessage]);
 
-		// Clean up the event listener and interval on unmount
-		return () => {
-			window.removeEventListener('message', onReceivePostMessage);
-			if (intervalRef.current) {
-				clearInterval(intervalRef.current);
-			}
-		};
-	}, [receivedInitPostmessage.current, needsInitData]);
+	const onReceivePostMessage = (event: MessageEvent) => {
+		const type = event.data.type;
+
+		if (type === 'initiateIFrame') {
+			initiateIFrameHandler(event.data.data);
+		}
+		if (type === 'goback') {
+			goBackHandler();
+		}
+	};
 
 	const initiateIFrameHandler = (data: InitialSetting) => {
 		if (intervalRef.current) {
 			clearInterval(intervalRef.current);
 		}
-		receivedInitPostmessage.current = true;
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
+		//receivedInitPostmessage.current = true;
+		setReceivedInitPostmessage(true);
 		setSettings({
 			...settings,
 			...data
@@ -113,7 +117,7 @@ const useInitPostMessage = () => {
 		navigate(-1);
 	};
 
-	return { readyToLoad: receivedInitPostmessage.current, checkIsInIframe };
+	return { readyToLoad: receivedInitPostmessage, checkIsInIframe };
 };
 
 export default useInitPostMessage;
