@@ -7,11 +7,10 @@ import {
 	InputLabel,
 	Select,
 	SelectChangeEvent,
-	Typography,
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import { ReactElement, ReactNode, SyntheticEvent, useState } from 'react';
+import { ReactElement, ReactNode, SyntheticEvent, useEffect, useState } from 'react';
 
 import { Props } from './type';
 
@@ -35,6 +34,10 @@ export default function SelectAdapter(props: Props) {
 	const [selectedValue, setSelectedValue] = useState<string>(defaultValue);
 	const [open, setOpen] = useState(false);
 
+	useEffect(() => {
+		setSelectedValue(defaultValue);
+	}, [defaultValue]);
+	
 	//const handleChange = (event:ChangeEvent<{ value: unknown}>) => {
 
 	const handleChange = (e: SelectChangeEvent<unknown>, child: ReactNode) => {
@@ -137,9 +140,7 @@ export default function SelectAdapter(props: Props) {
 				>
 					{children}
 				</Select>
-				<FormHelperText error={error}>
-					{helperText}
-				</FormHelperText>
+				<FormHelperText error={error}>{helperText}</FormHelperText>
 			</FormControl>
 		</Grid>
 	);
