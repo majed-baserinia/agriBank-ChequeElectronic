@@ -4,7 +4,7 @@ export interface VerifyOtpResponse {
 	issueChequeOverView: IssueChequeOverView;
 }
 
-interface IssueChequeOverView {
+export interface IssueChequeOverView {
 	sayadNo: number;
 	seri: string;
 	serial: string;

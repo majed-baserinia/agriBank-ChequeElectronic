@@ -5,13 +5,15 @@ import CheckInitiateOtpCommand from 'business/application/cheque/Digital Cheque/
 import VerifyOtpCommand from 'business/application/cheque/Digital Cheque/Verify Otp/VerifyOtpCommand';
 import useCheckInitiateOtp from 'business/hooks/cheque/Digital Cheque/useCheckInitiateOtp';
 import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useDataSteps } from 'business/stores/issueCheck/dataSteps';
 import { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
+import useVerifyOtp from 'business/hooks/cheque/Digital Cheque/useVerifyOtp';
+import usePostMessage from 'business/hooks/postMessage/usePostMessage';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Otp from 'ui/htsc-components/Otp';
@@ -25,19 +27,20 @@ export default function OtpCheck() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+	const { setNewDataToWizard, addReceiverPage } = useIssueCheckWizardData((s) => s);
+	usePostMessage({ callback: readOtp, message: { type: 'GetOTP', OTPLen: '8', ReadMode: 'UserConsent' } });
 
-	const GetStepData = useDataSteps((s) => s.steps.signitureRequirementData);
+	const { mutate: verifyOtp, error: veryError, isLoading } = useVerifyOtp();
 	const {
 		data: CheckInitiateOtpData,
 		mutate: CheckInitiateOtpMutate,
-		error: CheckInitiateOtpError
 	} = useCheckInitiateOtp();
 
 	const {
-		register: VerifyOtpRequest,
 		handleSubmit: handleSubmitForVerifyOtp,
 		formState,
-		control
+		control,
+		setValue
 	} = useForm<VerifyOtpCommand>({
 		resolver: (values, context, options) => {
 			values = { ...values };
@@ -46,9 +49,15 @@ export default function OtpCheck() {
 		context: VerifyOtpCommand
 	});
 
+	function readOtp(e: MessageEvent<any>) {
+		if (e.data.type === 'ResOTP') {
+			setValue('otpCode', e.data.OTP);
+		}
+	}
+
 	useEffect(() => {
 		CheckInitiateOtpMutate(
-			{ issueChequeKey: GetStepData?.issueChequeKey },
+			{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey },
 			{
 				onError: (err) => {
 					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
@@ -88,7 +97,7 @@ export default function OtpCheck() {
 	};
 	const handleSendAgain = () => {
 		CheckInitiateOtpMutate(
-			{ issueChequeKey: GetStepData?.issueChequeKey },
+			{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey },
 			{
 				onSuccess: (response) => {
 					pushAlert({
@@ -99,6 +108,34 @@ export default function OtpCheck() {
 				},
 				onError: (err) => {
 					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+				}
+			}
+		);
+	};
+
+	const verify = (data: VerifyOtpCommand) => {
+		verifyOtp(
+			{
+				issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
+				signSingleSignatureLegal: addReceiverPage?.signitureRequirementData?.isSingleSignatureLegal!,
+				otpCode: data.otpCode
+			},
+			{
+				onError: (err) => {
+					pushAlert({
+						type: 'error',
+						messageText: err.detail,
+						hasConfirmAction: true
+					});
+				},
+				onSuccess: (res) => {
+					setNewDataToWizard({
+						otpPage: {
+							needInquiryWithDrawalGroup: res.needInquiryWithDrawalGroup,
+							issueChequeOverView: res.issueChequeOverView
+						}
+					});
+					navigate(paths.IssueCheck.OverViewPath);
 				}
 			}
 		);
@@ -170,6 +207,7 @@ export default function OtpCheck() {
 									render={({ field }) => (
 										<Otp
 											onChange={(value) => field.onChange(value)}
+											defaultValue={field.value}
 											error={!!formState?.errors?.otpCode}
 											helperText={formState?.errors?.otpCode?.message}
 											label={t('activationCodeOtp')}
@@ -186,7 +224,7 @@ export default function OtpCheck() {
 								variant="contained"
 								size="medium"
 								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
-								onClick={handleSubmitForVerifyOtp(CheckInitiateOtp)}
+								onClick={handleSubmitForVerifyOtp(verify)}
 							>
 								{t('continue')}
 							</ButtonAdapter>
