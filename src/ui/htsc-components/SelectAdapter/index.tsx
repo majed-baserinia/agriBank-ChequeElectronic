@@ -37,7 +37,7 @@ export default function SelectAdapter(props: Props) {
 	useEffect(() => {
 		setSelectedValue(defaultValue);
 	}, [defaultValue]);
-	
+
 	//const handleChange = (event:ChangeEvent<{ value: unknown}>) => {
 
 	const handleChange = (e: SelectChangeEvent<unknown>, child: ReactNode) => {
@@ -70,6 +70,7 @@ export default function SelectAdapter(props: Props) {
 		zIndex: '9',
 		padding: '16px',
 		height: window.innerHeight + 'px',
+		width: '100%',
 		backgroundColor: theme.palette.background.paper
 	};
 
@@ -77,13 +78,13 @@ export default function SelectAdapter(props: Props) {
 		'& .MuiMenu-list': {
 			backgroundColor: theme.palette.background.paper,
 			height: '100%',
-			width: '100%',
+			minWidth: '100%',
 			boxShadow: 'none'
 		},
 		'& .MuiMenu-paper': {
 			backgroundColor: theme.palette.background.paper,
 			height: '100%',
-			width: '100%',
+			minWidth: '100%',
 			boxShadow: 'none'
 		}
 	};
@@ -93,7 +94,7 @@ export default function SelectAdapter(props: Props) {
 			container
 			flexDirection={'column'}
 			justifyContent={'space-between'}
-			sx={open && matches ? { ...gridStyle } : null}
+			sx={{ ...(open && matches ? gridStyle : {}), transition: 'width 0.2s ease-out' }}
 		>
 			<FormControl
 				fullWidth
@@ -101,6 +102,9 @@ export default function SelectAdapter(props: Props) {
 			>
 				<InputLabel id="label">{label}</InputLabel>
 				<Select
+					// we need one more rerender to apply the new styles correctly
+					// the key props is for forcing a rerender
+					key={`${open}-${matches}`}
 					size={size}
 					labelId="label"
 					{...muiSelectProps}
@@ -134,7 +138,7 @@ export default function SelectAdapter(props: Props) {
 						dir: theme.direction,
 						sx: matches ? menuStyle : null,
 						PaperProps: {
-							style: { maxWidth: '200px', overflowX: 'auto' }
+							style: { maxWidth: '200px', overflowX: 'auto', padding: !matches ? '0 8px' : 'inherit' }
 						}
 					}}
 				>
