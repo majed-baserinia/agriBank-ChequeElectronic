@@ -51,6 +51,7 @@ export default function AppAlerts() {
 			}}
 			maxWidth={'xs'}
 			fullWidth
+			sx={{ zIndex: 9999999999999999 }}
 		>
 			<Grid
 				container
