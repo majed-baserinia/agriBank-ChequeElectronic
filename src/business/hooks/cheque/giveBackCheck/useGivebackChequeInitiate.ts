@@ -1,6 +1,7 @@
 import { Mediator } from '@Mediatr/index';
 import { useMutation } from '@tanstack/react-query';
 import GivebackChequeInitiateCommand from 'business/application/cheque/giveBackCheck/GivebackChequeInitiate/GivebackChequeInitiateCommand';
+import { pushAlert } from 'business/stores/AppAlertsStore';
 import { ErrorType } from 'common/entities/ErrorType';
 import { GivebackChequeInitiateRequest } from 'common/entities/cheque/GivebackCheck/GivebackChequeInitiate/GivebackChequeInitiateRequest';
 import { GivebackChequeInitiateResponse } from 'common/entities/cheque/GivebackCheck/GivebackChequeInitiate/GivebackChequeInitiateResponse';
@@ -21,8 +22,8 @@ export default function useGivebackChequeInitiate() {
 		onSuccess: (data) => {
 			return () => data;
 		},
-		onError: (error, variables) => {
-			return () => variables;
-		}
+		onError: (err) => {
+			pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+		},
 	});
 }

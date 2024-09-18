@@ -2,12 +2,13 @@ import fluentValidationResolver from '@Fluentvalidator/extentions/fluentValidati
 import { Grid, useMediaQuery, useTheme } from '@mui/material';
 import TransferBasicCheckDataValidatorCommand from 'business/application/cheque/transferCheck/TransferBasicCheckDataValidator/TransferBasicCheckDataValidatorCommand';
 import useGetReasonCodes from 'business/hooks/cheque/Digital Cheque/useGetReasonCodes';
-import { useChecklistData } from 'business/stores/checklistData/checklistData';
+import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
+import { InquiryTransferStatusRespone } from 'common/entities/cheque/transferCheck/InquiryTransferStatus/InquiryTransferStatusResponse';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import CheckOverViewBox from 'ui/components/CheckOverviewBox';
- 
+import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
+
 import BottomSheetSelect from 'ui/htsc-components/BottomSheetSelect';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
@@ -15,16 +16,16 @@ import Stepper from 'ui/htsc-components/Stepper';
 import TextareaAdapter from 'ui/htsc-components/TextareaAdapter';
 import { paths } from 'ui/route-config/paths';
 
-export default function FirstPersonView() {
+export default function FirstPersonView({ checkData }: { checkData?: InquiryTransferStatusRespone }) {
 	const theme = useTheme();
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const { selectedCheck, addNewData } = useChecklistData();
+	const { addNewCartableData, selectedCheck } = useCartableChecklistData();
 
 	const { data: reasonCodes, isLoading: isPendingtoGetReasons, isError } = useGetReasonCodes();
 
-	const { control, formState, getValues, handleSubmit } = useForm<TransferBasicCheckDataValidatorCommand>({
+	const { control, formState, handleSubmit } = useForm<TransferBasicCheckDataValidatorCommand>({
 		resolver: (values, context, options) => {
 			return fluentValidationResolver(values, context, options);
 		},
@@ -32,8 +33,8 @@ export default function FirstPersonView() {
 	});
 
 	const onSubmit = (data: TransferBasicCheckDataValidatorCommand) => {
-		addNewData({ basicCheckData: { ...data }, transferAction: 'confirm' });
-		navigate(paths.ReceivedChecksList.AddNewReceivers);
+		addNewCartableData({ basicCheckData: { ...data }, transferAction: 'confirm' });
+		navigate(  paths.cartable.AddNewReceivers);
 	};
 
 	return (
@@ -64,10 +65,22 @@ export default function FirstPersonView() {
 						/>
 					) : null}
 
-					<CheckOverViewBox
-						amount={Number(selectedCheck?.amount)}
-						sayadNo={Number(selectedCheck?.sayadNo)}
-					/>
+					
+						<NewCheckInfoBasics
+							hasTitle
+							checkData={{
+								description: checkData ? checkData.description! : selectedCheck?.dataFromList?.description!,
+								amount: checkData ? checkData.amount.toString() : selectedCheck?.dataFromList?.amount.toString()!, 
+								date: checkData ? checkData.dueDate : selectedCheck?.dataFromList?.dueDate!,
+								sayad: checkData ? checkData.sayadId : selectedCheck?.dataFromList?.sayadNo.toString()!,
+								reason: checkData ? checkData.reasonDescription : selectedCheck?.dataFromList?.reasonDescription!,
+								serie: checkData ? checkData.seriesNo : selectedCheck?.dataFromList?.seriesNo.toString()!,
+								serial: checkData ? checkData.serialNo : selectedCheck?.dataFromList?.serialNo.toString()!,
+								checkStatus: checkData ? checkData.chequeStatusDescription : selectedCheck?.dataFromList?.chequeStatusDescription,
+								sheba:checkData ?  checkData.fromIban : selectedCheck?.dataFromList?.fromIban
+							}}
+						/>
+					
 					<Grid
 						item
 						xs={5}

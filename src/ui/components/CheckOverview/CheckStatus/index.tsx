@@ -1,8 +1,8 @@
 import { Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import ChipsStatusGenerator from 'ui/components/CheckListComps/ChipsStatusGenerator';
 import OverviewItem from '../OverviewItem';
 import { Props } from './types';
+import ChipStatusAdapter from 'ui/htsc-components/ChipStatusAdapter';
 
 export default function CheckStatus(props: Props) {
 	const { checkStatus, checkGuaranteeStatus, checkBlockingStatus } = props;
@@ -28,7 +28,15 @@ export default function CheckStatus(props: Props) {
 			>
 				{t('checkStatus')}
 			</Typography>
-			<Grid>{checkStatus ? <ChipsStatusGenerator status={checkStatus} /> : null}</Grid>
+			<Grid>
+				{checkStatus ? (
+					<ChipStatusAdapter
+						size="small"
+						type={'info'}
+						label={checkStatus}
+					/>
+				) : null}
+			</Grid>
 			<OverviewItem
 				title={t('checkGuaranteeStatus')}
 				value={checkGuaranteeStatus}

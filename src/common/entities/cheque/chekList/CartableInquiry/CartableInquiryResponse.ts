@@ -2,7 +2,7 @@ export interface CartableInquiryResponse {
 	cheques: Check[];
 }
 
-export interface Check {
+ export interface Check {
 	sayadNo: number;
 	serialNo: string;
 	seriesNo: string;
@@ -27,6 +27,7 @@ export interface Check {
 	blockStatus: number;
 	blockStatusDescription: string;
 	locked: number;
+	lockedDescription: string
 	shared: boolean;
 	sharedDescription: string;
 }

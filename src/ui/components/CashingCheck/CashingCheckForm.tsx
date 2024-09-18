@@ -12,7 +12,7 @@ import SwitchAdapter from 'ui/htsc-components/SwitchAdapter';
 export default function CashingCheckForm({ AccountData }: { AccountData?: AccountsQueryResponse }) {
 	const { t } = useTranslation();
 	const theme = useTheme();
-	const { control, formState } = useFormContext<ChakavakPutEChequeCommand>();
+	const { control } = useFormContext<ChakavakPutEChequeCommand>();
 
 	return (
 		<>
@@ -35,9 +35,10 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 						name="Creditor_Account"
 						render={({ field }) => (
 							<SelectAdapter
-								onChange={(selectedValue) => {
-									//setSelectedAccountNumber(selectedValue);
+								onChange={(selectedValue) => {									
+									field.onChange(selectedValue);
 								}}
+								defaultValue={field.value}
 								label={t('accountNumber')}
 								renderValue
 								helperText={t('accountselectCashingHelperText')}
@@ -48,7 +49,7 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 											<MenuItem
 												key={index}
 												style={{ margin: '10px 0' }}
-												value={item.accountNumber}
+												value={item.accountNumber.toString()}
 											>
 												<Grid
 													container
@@ -106,7 +107,10 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 						render={({ field }) => (
 							<InputAdapter
 								label={t('depositID')}
-								onChange={() => {}}
+								onChange={(value) => {
+									field.onChange(value);
+								}}
+								defaultValue={field.value}
 							/>
 						)}
 					/>
@@ -127,11 +131,10 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 							<DatePickerAdapter
 								label={`${t('receiptDate')} ${t('(optional)')} `}
 								onChange={(date) => {
-									//field.onChange(date?.toString());
+									field.onChange(date?.toString());
 								}}
+								defaultValue={field.value}
 								helperText={t('dateCashingHelperText')}
-								//error={!!formState?.errors?.date}
-								//helperText={formState?.errors?.date?.message}
 							/>
 						)}
 					/>
@@ -143,9 +146,12 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 					control={control}
 					render={({ field }) => (
 						<SwitchAdapter
+							spaceBetween
 							type="small"
-							label="rtets"
-							onChange={(e) => field.onChange(e.target.checked)}
+							label={t('returnCheckShouldBeIssued')}
+							onChange={(e) => {
+								field.onChange(e.target.checked);
+							}}
 							checked={field.value}
 						/>
 					)}

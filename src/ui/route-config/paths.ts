@@ -15,26 +15,27 @@ export const paths = {
 		OverViewPath: '/cheque/Issue/OverView',
 		OtpCheckPath: '/cheque/Issue/OtpCheck'
 	},
-	ReceivedChecksList: {
-		SelectCheckList: '/cheque/ReceivedChecksList/SelectCheckList',
-		ChecksList: '/cheque/ReceivedChecksList/ChecksList',
-		Detail: '/cheque/ReceivedChecksList/detail',
-		TransferCheck: '/cheque/ReceivedChecksList/transferCheck',
-		AddNewReceivers: '/cheque/ReceivedChecksList/transferCheck/AddNewReceivers',
-		OtpTransferConfirmation: '/cheque/ReceivedChecksList/transferCheck/OtpTransferConfirmation',
-		TransferSignatureGroup: '/cheque/ReceivedChecksList/transferCheck/TransferSignatureGroup',
-		TransferOverView: '/cheque/ReceivedChecksList/transferCheck/TransferOverView',
-		CashingCheck: '/cheque/ReceivedChecksList/CashingCheck',
-		GiveBackCheckInitiate: '/cheque/ReceivedChecksList/GiveBackCheckInitiate',
-		GiveBackCheckOTP: '/cheque/ReceivedChecksList/GiveBackCheckOTP',
-		GiveBackCheckSignature: '/cheque/ReceivedChecksList/GiveBackCheckSignature',
-		RejectGiveBackCheckInitiate: '/cheque/ReceivedChecksList/RejectGiveBackCheckInitiate',
-		RejectGiveBackCheckOTP: '/cheque/ReceivedChecksList/RejectGiveBackCheckOTP',
-		RejectGiveBackCheckSignature: '/cheque/ReceivedChecksList/RejectGiveBackCheckSignature'
+	cartable: {
+		SelectList: '/cheque/cartable/SelectList',
+		CartableList: '/cheque/cartable/CartableList',
+		Details: '/cheque/cartable/detail',
+		Transfer: '/cheque/cartable/transferCheck',
+		AddNewReceivers: '/cheque/cartable/transferCheck/AddNewReceivers',
+		OtpTransferConfirmation: '/cheque/cartable/transferCheck/OtpTransferConfirmation',
+		TransferSignatureGroup: '/cheque/cartable/transferCheck/TransferSignatureGroup',
+		TransferOverView: '/cheque/cartable/transferCheck/TransferOverView',
+		Cashing: '/cheque/cartable/CashingCheck',
+		GiveBackCheckInitiate: '/cheque/cartable/GiveBackCheckInitiate',
+		GiveBackCheckOTP: '/cheque/cartable/GiveBackCheckOTP',
+		GiveBackCheckSignature: '/cheque/cartable/GiveBackCheckSignature',
+		RejectGiveBackCheckInitiate: '/cheque/cartable/RejectGiveBackCheckInitiate',
+		RejectGiveBackCheckOTP: '/cheque/cartable/RejectGiveBackCheckOTP',
+		RejectGiveBackCheckSignature: '/cheque/cartable/RejectGiveBackCheckSignature'
 	},
 	TransferredChecks: {
 		SelectTransferredCheckList: '/cheque/TransferredChecks/SelectTransferredCheckList',
 		TransferredChecksList: '/cheque/TransferredChecks/TransferredChecksList',
 		TransferredCheckDetail: '/cheque/TransferredChecks/TransferredCheckDetail'
-	}
+	},
+	guide: '/cheque/guide'
 };

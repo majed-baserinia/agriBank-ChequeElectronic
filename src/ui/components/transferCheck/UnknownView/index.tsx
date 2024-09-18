@@ -1,10 +1,11 @@
 import { Grid, RadioGroup, Typography, useMediaQuery, useTheme } from '@mui/material';
 import useGetReasonCodes from 'business/hooks/cheque/Digital Cheque/useGetReasonCodes';
+import { InquiryTransferStatusRespone } from 'common/entities/cheque/transferCheck/InquiryTransferStatus/InquiryTransferStatusResponse';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import CheckOverViewBox from 'ui/components/CheckOverviewBox';
- 
+import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
+
 import BottomSheetSelect from 'ui/htsc-components/BottomSheetSelect';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
@@ -12,12 +13,13 @@ import RadioButtonAdapter from 'ui/htsc-components/RadioButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
 import TextareaAdapter from 'ui/htsc-components/TextareaAdapter';
 
-export default function UnknownView() {
+export default function UnknownView({ checkData }: { checkData: InquiryTransferStatusRespone }) {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-    const { data: reasonCodes, isLoading: isPendingtoGetReasons, isError } = useGetReasonCodes();
-    const [value, setValue] = useState('1');
+
+	const { data: reasonCodes, isLoading: isPendingtoGetReasons, isError } = useGetReasonCodes();
+	const [value, setValue] = useState('1');
 
 	const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setValue((event.target as HTMLInputElement).value);
@@ -52,7 +54,24 @@ export default function UnknownView() {
 						/>
 					) : null}
 
-					<CheckOverViewBox amount={231321321} sayadNo={213212} />
+					{/* <CheckOverViewBox amount={231321321} sayadNo={213212} /> */}
+					{checkData ? (
+						<NewCheckInfoBasics
+							hasTitle
+							checkData={{
+								amount: checkData.amount.toString(),
+								description: checkData.description!,
+								date: checkData.dueDate,
+								sayad: checkData.sayadId,
+								reason: checkData.reasonDescription,
+								serie: checkData.seriesNo,
+								serial: checkData.serialNo,
+								checkStatus: checkData.chequeStatusDescription,
+								sheba: checkData.fromIban
+							}}
+						/>
+					) : null}
+
 					<Grid
 						item
 						xs={5}
@@ -64,12 +83,13 @@ export default function UnknownView() {
 								<BottomSheetSelect
 									isRequired
 									label={t('reason')}
-									list={isPendingtoGetReasons || isError
-										? []
-										: reasonCodes.map((reason) => ({
-												value: reason.reasonCode,
-												name: reason.description
-											}))
+									list={
+										isPendingtoGetReasons || isError
+											? []
+											: reasonCodes.map((reason) => ({
+													value: reason.reasonCode,
+													name: reason.description
+												}))
 									}
 									onChange={(item) => {
 										field.onChange(item);
@@ -98,7 +118,7 @@ export default function UnknownView() {
 							)}
 						/>
 					</Grid>
-                    <Typography>{t("confirmOrRejectTransferText")}</Typography>
+					<Typography>{t('confirmOrRejectTransferText')}</Typography>
 					<RadioGroup
 						dir={theme.direction}
 						name="confirmOrReject"

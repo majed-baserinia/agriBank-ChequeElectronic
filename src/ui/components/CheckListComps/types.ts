@@ -1,15 +1,32 @@
-export type AllowedNumbers = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
-export type LabelListType = Record<AllowedNumbers, string>;
-export type TypeListType = Record<keyof LabelListType, 'info' | 'error' | 'success'>;
 
 export type rowType =
 	| {
-			sayadNumber: number;
+			sayadNumber: string;
 			status: JSX.Element;
 			serieAndSerial: string;
-			amount: number;
+			amount: string;
 			reason: string;
 			date: string;
 			action: JSX.Element;
 	  }[]
 	| undefined;
+
+export type CheckData = {
+	sayad: string;
+	amount: string;
+	dueDate: string;
+	serie: string;
+	serial: string;
+	reason: string;
+	description: string;
+	checkStatus: string;
+	sheba?: string;
+	sharedStatus?: string;
+	lockedStatus?: string;
+	blockedStatus?: string;
+	settlementDate?: string;
+	issueDate?: string;
+	branchCode?: string;
+	bankCode?: string;
+	checkType?: string;
+};
