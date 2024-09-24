@@ -65,7 +65,7 @@ export default function SignatureRegistration() {
 						issueChequeOverView: res.issueChequeOverView
 					}
 				});
-				navigate(paths.IssueCheck.OverViewPath);
+				navigate(paths.IssueCheck.OverViewPath, {replace: true});
 			}
 		});
 	};
