@@ -32,10 +32,10 @@ export const paths = {
 		RejectGiveBackCheckOTP: '/cheque/cartable/RejectGiveBackCheckOTP',
 		RejectGiveBackCheckSignature: '/cheque/cartable/RejectGiveBackCheckSignature'
 	},
-	TransferredChecks: {
-		SelectTransferredCheckList: '/cheque/TransferredChecks/SelectTransferredCheckList',
-		TransferredChecksList: '/cheque/TransferredChecks/TransferredChecksList',
-		TransferredCheckDetail: '/cheque/TransferredChecks/TransferredCheckDetail'
+	HandedOvers: {
+		SelectHandedOverList: '/cheque/HandedOvers/SelectHandedOverList',
+		HandedOverList: '/cheque/HandedOvers/HandedOverList',
+		HandedOverDetails: '/cheque/HandedOvers/HandedOverDetails'
 	},
 	guide: '/cheque/guide'
 };

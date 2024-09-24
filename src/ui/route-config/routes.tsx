@@ -11,27 +11,27 @@ import SignatureRegistration from 'ui/pages/IssueCheck/SignatureRegistration';
 import ActivationFirstStep from 'ui/pages/activation/ActivationFirstStep';
 import ActivationSecondStep from 'ui/pages/activation/ActivationSecondStep';
 
-import SelectTransferredCheckList from 'ui/pages/transferredChecks/SelectTransferredCheckList';
-import TransferredCheckDetail from 'ui/pages/transferredChecks/TransferredCheckDetail';
-import TransferredChecksList from 'ui/pages/transferredChecks/TransferredChecksList';
-import ErrorPage from '../pages/ErrorPage';
-import HomePage from '../pages/HomePage';
-import Layout from '../pages/Layout';
-import { paths } from './paths';
-import SelectList from 'ui/pages/cartable/SelectList';
 import CartableList from 'ui/pages/cartable/CartableList';
-import Details from 'ui/pages/cartable/Details';
-import CheckNewInfo from 'ui/pages/cartable/Transfer/CheckNewInfo';
-import AddNewReceivers from 'ui/pages/cartable/Transfer/AddNewReceivers';
-import OtpTransferConfirmation from 'ui/pages/cartable/Transfer/OtpTransferConfirmation';
-import TransferSignatureGroup from 'ui/pages/cartable/Transfer/TransferSignatureGroup';
-import TransferOverView from 'ui/pages/cartable/Transfer/TransferOverView';
 import Cashing from 'ui/pages/cartable/Cashing';
+import Details from 'ui/pages/cartable/Details';
 import GiveBackCheckInitiate from 'ui/pages/cartable/GiveBack/GiveBackCheckInitiate';
 import GiveBackCheckOTP from 'ui/pages/cartable/GiveBack/GiveBackCheckOTP';
 import GiveBackCheckSignature from 'ui/pages/cartable/GiveBack/GiveBackCheckSignature';
 import RejectGiveBackCheckInitiate from 'ui/pages/cartable/RejectGiveBack/RejectGiveBackCheckInitiate';
 import RejectGiveBackCheckOTP from 'ui/pages/cartable/RejectGiveBack/RejectGiveBackCheckOTP';
+import SelectList from 'ui/pages/cartable/SelectList';
+import AddNewReceivers from 'ui/pages/cartable/Transfer/AddNewReceivers';
+import CheckNewInfo from 'ui/pages/cartable/Transfer/CheckNewInfo';
+import OtpTransferConfirmation from 'ui/pages/cartable/Transfer/OtpTransferConfirmation';
+import TransferOverView from 'ui/pages/cartable/Transfer/TransferOverView';
+import TransferSignatureGroup from 'ui/pages/cartable/Transfer/TransferSignatureGroup';
+import SelectHandedOverList from 'ui/pages/handedOvers/SelectHandedOverList';
+import HandedOverDetails from 'ui/pages/handedOvers/handedOverDetails';
+import HandedOverList from 'ui/pages/handedOvers/handedOverList';
+import ErrorPage from '../pages/ErrorPage';
+import HomePage from '../pages/HomePage';
+import Layout from '../pages/Layout';
+import { paths } from './paths';
 
 const router = createBrowserRouter([
 	{
@@ -114,7 +114,7 @@ const router = createBrowserRouter([
 				path: paths.cartable.Cashing,
 				element: <Cashing />
 			},
-			
+
 			{
 				path: paths.cartable.GiveBackCheckInitiate,
 				element: <GiveBackCheckInitiate />
@@ -140,16 +140,16 @@ const router = createBrowserRouter([
 				element: <GiveBackCheckSignature />
 			},
 			{
-				path: paths.TransferredChecks.SelectTransferredCheckList,
-				element: <SelectTransferredCheckList />
+				path: paths.HandedOvers.SelectHandedOverList,
+				element: <SelectHandedOverList />
 			},
 			{
-				path: paths.TransferredChecks.TransferredChecksList,
-				element: <TransferredChecksList />
+				path: paths.HandedOvers.HandedOverList,
+				element: <HandedOverList />
 			},
 			{
-				path: paths.TransferredChecks.TransferredCheckDetail,
-				element: <TransferredCheckDetail />
+				path: paths.HandedOvers.HandedOverDetails,
+				element: <HandedOverDetails />
 			},
 			{
 				path: paths.Deactivation,
