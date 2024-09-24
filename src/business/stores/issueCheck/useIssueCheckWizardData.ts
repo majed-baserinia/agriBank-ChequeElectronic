@@ -42,6 +42,11 @@ export const useIssueCheckWizardData = create<IssuCheckWizardData & Functions>((
 		})),
 
 	reset: () => {
-		set(() => ({}));
+		return set(() => ({
+			selectCheckPage: undefined,
+			checkInfoPage: undefined,
+			addReceiverPage: undefined,
+			otpPage: undefined
+		}));
 	}
 }));
