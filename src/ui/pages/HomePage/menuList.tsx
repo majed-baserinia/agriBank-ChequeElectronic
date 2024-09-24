@@ -1,3 +1,4 @@
+import infoIcon from 'assets/icon/info-circle.svg';
 import activation from 'assets/icon/menu/active-check.svg';
 import issueCheck from 'assets/icon/menu/check-issue.svg';
 import deactivation from 'assets/icon/menu/deactive-check.svg';
@@ -28,7 +29,7 @@ export const menuList = {
 					alt="list check"
 				/>
 			),
-			routeTo: paths.ReceivedChecksList.SelectCheckList
+			routeTo:   paths.cartable.SelectList
 		},
 		{
 			id: '3',
@@ -39,7 +40,7 @@ export const menuList = {
 					alt="transfered Cheks Icon"
 				/>
 			),
-			routeTo: paths.TransferredChecks.SelectTransferredCheckList
+			routeTo: paths.HandedOvers.SelectHandedOverList
 		}
 	],
 	management: [
@@ -64,6 +65,19 @@ export const menuList = {
 				/>
 			),
 			routeTo: paths.Deactivation
+		}
+	],
+	guide: [
+		{
+			id: '1',
+			title: 'chakadGuide',
+			icon: (
+				<SvgToIcon
+					icon={infoIcon}
+					alt="chakadGuide"
+				/>
+			),
+			routeTo: paths.guide
 		}
 	]
 };
