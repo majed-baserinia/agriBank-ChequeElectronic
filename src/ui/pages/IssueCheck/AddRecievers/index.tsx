@@ -18,6 +18,7 @@ import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
 
 export default function AddReceivers() {
+	
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
@@ -75,6 +76,7 @@ export default function AddReceivers() {
 				//save the data
 				setNewDataToWizard({
 					addReceiverPage: {
+						...addReceiverPage,
 						signitureRequirementData: {
 							issueChequeKey: res.issueChequeKey,
 							isSingleSignatureLegal: res.isSingleSignatureLegal
@@ -134,8 +136,8 @@ export default function AddReceivers() {
 							<Typography variant="bodyMd">{t('addReceiversText')}</Typography>
 							<CheckReceivers
 								sayad={selectCheckPage?.checkData.sayadNo!}
-								getRceivers={(receiversList) =>
-									setNewDataToWizard({ addReceiverPage: { receivers: receiversList } })
+								onRceiversChange={(receiversList) =>
+									setNewDataToWizard({ addReceiverPage: {...addReceiverPage, receivers: receiversList } })
 								}
 								receivers={addReceiverPage?.receivers}
 							/>
