@@ -1,11 +1,12 @@
 import { Grid, Typography, useTheme } from '@mui/material';
+import { formatAmount } from 'common/utils';
 import { useTranslation } from 'react-i18next';
-import ChipsStatusGenerator from '../CheckListComps/ChipsStatusGenerator';
+import ChipStatusAdapter from 'ui/htsc-components/ChipStatusAdapter';
 import OverviewItem from '../CheckOverview/OverviewItem';
 import { Props } from './types';
 
 export default function NewCheckInfoBasics(props: Props) {
-	const { checkData } = props;
+	const { checkData, hasTitle = false } = props;
 	const { amount, description, reason, sayad, serial, serie, sheba, date, checkStatus } = checkData;
 	const theme = useTheme();
 	const { t } = useTranslation();
@@ -18,6 +19,14 @@ export default function NewCheckInfoBasics(props: Props) {
 				borderRadius: '16px'
 			}}
 		>
+			{hasTitle ? (
+				<Typography
+					marginBottom={12}
+					textAlign={'center'}
+				>
+					{t('checkDetail')}
+				</Typography>
+			) : null}
 			<Grid
 				container
 				direction={'column'}
@@ -37,7 +46,11 @@ export default function NewCheckInfoBasics(props: Props) {
 							{t('checkStatus')}
 						</Typography>
 						<Grid>
-							<ChipsStatusGenerator status={checkStatus} />{' '}
+							<ChipStatusAdapter
+								size="small"
+								type={'info'}
+								label={checkStatus}
+							/>
 						</Grid>
 					</Grid>
 				) : null}
@@ -46,8 +59,8 @@ export default function NewCheckInfoBasics(props: Props) {
 					value={sayad}
 				/>
 				<OverviewItem
-					title={t('amount')}
-					value={amount}
+					title={t('amountR')}
+					value={formatAmount(amount)}
 				/>
 				<OverviewItem
 					title={t('dueDate')}
@@ -63,10 +76,12 @@ export default function NewCheckInfoBasics(props: Props) {
 						value={sheba}
 					/>
 				) : null}
-				<OverviewItem
-					title={t('reason')}
-					value={reason}
-				/>
+				{reason ? (
+					<OverviewItem
+						title={t('reason')}
+						value={reason}
+					/>
+				) : null}
 				<Grid
 					container
 					direction={'column'}
