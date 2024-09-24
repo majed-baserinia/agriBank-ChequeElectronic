@@ -33,13 +33,19 @@ export default function OverView() {
 			{
 				onError: (err) => {
 					if (err.status === 453 && err.instance === 'RemoveRequest') {
+						
 						pushAlert({
 							type: 'error',
 							hasConfirmAction: true,
 							messageText: err.detail,
 							actions: {
-								onCloseModal: () => navigate(paths.Home),
-								onConfirm: () => navigate(paths.Home)
+								onCloseModal: () => {
+								
+									navigate(paths.Home);
+								},
+								onConfirm: () => {
+									navigate(paths.Home);
+								}
 							}
 						});
 					} else {
@@ -47,13 +53,20 @@ export default function OverView() {
 					}
 				},
 				onSuccess(res) {
+					reset();
 					pushAlert({
 						type: 'success',
 						hasConfirmAction: true,
 						messageText: res.message,
 						actions: {
-							onCloseModal: () => navigate(paths.Home),
-							onConfirm: () => navigate(paths.Home)
+							onCloseModal: () => {
+								
+								navigate(paths.Home);
+							},
+							onConfirm: () => {
+							
+								navigate(paths.Home);
+							}
 						}
 					});
 				}
@@ -142,9 +155,18 @@ export default function OverView() {
 				xs={12}
 				md={8}
 			>
-				<BoxAdapter fullWidth={matches}>
+				<BoxAdapter
+					fullWidth={matches}
+					muiPaperProps={{
+						sx: {
+							minWidth: '25%',
+							borderRadius: matches ? 0 : '32px',
+							padding: '16px'
+						}
+					}}
+				>
 					<Grid
-						minHeight={matches ? 'calc(100vh - 64px)' : 'calc(100vh - 192px)'}
+						minHeight={matches ? 'calc(100vh - 32px)' : 'calc(100vh - 192px)'}
 						container
 						direction={'column'}
 						justifyContent={'space-between'}
@@ -153,7 +175,6 @@ export default function OverView() {
 						<Grid
 							container
 							direction={'column'}
-							gap={'8px'}
 						>
 							{!matches ? (
 								<Stepper
