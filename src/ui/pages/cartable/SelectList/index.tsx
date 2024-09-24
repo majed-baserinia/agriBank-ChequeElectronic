@@ -43,26 +43,9 @@ export default function SelectList() {
 	const navigate = useNavigate();
 	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 	const {addNewCartableData} = useCartableChecklistData((store) => store);
-	const { data: listItems, isLoading, error: GetAllRelatedCustomersError } = useGetAllRelatedCustomers('checkList');
+	const { data: listItems, isLoading } = useGetAllRelatedCustomers('checkList');
 	const [menuItems, setMenuItems] = useState<MenuItems>([]);
 
-	useEffect(() => {
-		if (GetAllRelatedCustomersError) {
-			pushAlert({
-				type: 'error',
-				messageText: GetAllRelatedCustomersError.detail,
-				hasConfirmAction: true,
-				actions: {
-					onCloseModal: () => {
-						navigate(paths.Home);
-					},
-					onConfirm: () => {
-						navigate(paths.Home);
-					}
-				}
-			});
-		}
-	}, [GetAllRelatedCustomersError]);
 
 	useEffect(() => {
 		//set the new list to the store
