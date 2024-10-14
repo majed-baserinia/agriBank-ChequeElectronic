@@ -48,6 +48,7 @@ export default function SelectHandedOverList() {
 	useEffect(() => {
 		if (relatedCustomers) {
 			addNewStoreData({ selectListPage: { relatedCustomers: relatedCustomers } });
+			console.log({ relatedCustomers });
 
 			if (relatedCustomers.length === 1) {
 				navigate(paths.HandedOvers.HandedOverList + '?cif=' + relatedCustomers[0].customerNumber, {
@@ -65,7 +66,7 @@ export default function SelectHandedOverList() {
 
 				setMenuItems(newList);
 			}
-		} 
+		}
 	}, [relatedCustomers]);
 
 	//display the loader this way to user because user shouldn't see the page if there is no Checks that user represent or sign.

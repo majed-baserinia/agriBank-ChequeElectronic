@@ -1,7 +1,5 @@
-import { AllowedNumbers } from "ui/components/CheckListComps/types";
-
 export type Props = {
-	checkStatus?: AllowedNumbers;
+	checkStatus?: string;
 	checkGuaranteeStatus?: string;
 	checkBlockingStatus?: string;
 };
