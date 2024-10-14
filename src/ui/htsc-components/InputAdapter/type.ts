@@ -7,7 +7,7 @@ export type InputAdapterProps = {
 	disabled?: boolean;
 	sx?: SxProps;
 	isRequired?: boolean;
-	label: string;
+	label?: string;
 	icon?: React.ReactNode;
 	endIcon?: React.ReactNode;
 	type?: InputType;

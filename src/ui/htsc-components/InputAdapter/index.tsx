@@ -38,7 +38,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 	const theme = useTheme();
 	const [value, setValue] = useState('');
 	const [shrink, setShrink] = useState(defaultValue ? true : false);
-	const format = useFormatter({ type, theme });
+	const format = useFormatter({ type });
 	const [internalEndIcon, setInternalEndIcon] = useState<ReactNode>(null);
 
 	useEffect(() => {
@@ -100,7 +100,11 @@ export default function InputAdapter(props: InputAdapterProps) {
 
 	return (
 		<TextField
-			inputRef={(input) => input && focused && input.focus()}
+			inputRef={(input: HTMLInputElement) => {
+				if (input && focused) {
+					input.focus();
+				}
+			}}
 			color={success ? 'success' : undefined}
 			variant="outlined"
 			dir={theme.direction}
@@ -112,16 +116,18 @@ export default function InputAdapter(props: InputAdapterProps) {
 			disabled={disabled}
 			type={type === 'password' ? 'password' : 'text'}
 			label={
-				<>
-					{isRequired ? (
-						<>
-							{label}
-							<span style={{ color: theme.palette.error.main }}> *</span>
-						</>
-					) : (
-						label
-					)}
-				</>
+				label ? (
+					<>
+						{isRequired ? (
+							<>
+								{label}
+								<span style={{ color: theme.palette.error.main }}> *</span>
+							</>
+						) : (
+							label
+						)}
+					</>
+				) : undefined
 			}
 			placeholder={placeholder}
 			value={value}
@@ -134,6 +140,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 					borderWidth: success || error ? '2px' : '1px',
 					borderColor: success ? theme.palette.success[400] : null
 				},
+
 				...sx
 			}}
 			error={error}
@@ -146,7 +153,7 @@ export default function InputAdapter(props: InputAdapterProps) {
 				},
 				sx: {
 					input: {
-						color: theme.palette.grey[400]
+						color: theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.grey[400]
 					}
 				},
 				startAdornment: icon ? <InputAdornment position="start">{icon}</InputAdornment> : null,

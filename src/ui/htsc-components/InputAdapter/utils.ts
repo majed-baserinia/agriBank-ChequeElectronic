@@ -1,6 +1,5 @@
 import { formatPersianDate, formatToCard, formatToMoney, persianToEnglishDigits } from 'common/utils/formatInput';
 
-import { Theme } from '@mui/material';
 import type { InputType } from './type';
 
 export function isInputTypeNumeric(type: InputType) {
@@ -13,11 +12,7 @@ export function isInputTypeNumeric(type: InputType) {
  * @returns an object containing the original value, formatted value with any additional characters added and the numeric version
  * of the formatted value
  */
-export function filter(
-	type: InputType,
-	theme: Theme,
-	value: string
-): { original: string; formatted: string; numeric: string } {
+export function filter(type: InputType, value: string): { original: string; formatted: string; numeric: string } {
 	const originalValue = persianToEnglishDigits(value);
 
 	// Remove non-numeric characters
@@ -43,7 +38,7 @@ export function filter(
 	}
 
 	if (type === 'date') {
-		let formattedValue = formatPersianDate(numericValue);
+		const formattedValue = formatPersianDate(numericValue);
 		return {
 			original: originalValue,
 			formatted: formattedValue,
