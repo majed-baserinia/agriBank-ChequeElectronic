@@ -3,6 +3,6 @@ export interface ChakavakGetEChequeListRequest {
 	PageSize: number;
 	CustomerNo: number;
 	AccountNo?: number;
-	Serial?: number;
+	Serial?: string;
 	ChqStatus?: number;
-};
+}

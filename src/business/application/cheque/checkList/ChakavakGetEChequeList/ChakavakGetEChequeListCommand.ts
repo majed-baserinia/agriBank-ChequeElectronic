@@ -6,7 +6,7 @@ export default class ChakavakGetEChequeListCommand implements IRequest<ChakavakG
 	PageSize: number;
 	CustomerNo: number;
 	AccountNo?: number;
-	Serial?: number;
+	Serial?: string;
 	ChqStatus?: number;
 
 	constructor(input: ChakavakGetEChequeListCommand) {
