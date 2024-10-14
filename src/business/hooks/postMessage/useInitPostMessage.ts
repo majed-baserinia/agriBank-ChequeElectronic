@@ -18,7 +18,10 @@ const useInitPostMessage = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
-	const needsInitData = import.meta.env.VITE_APP_NEEDS_INIT_POSTMESSAGE === 'true';
+	//we are checking the query string for 'Auth', in all situations it is true except the time that it is false
+	const Auth = new URLSearchParams(window.location.search).get('Auth');
+	const needsInitData = Auth === 'false' ? false : true;
+
 	const { settings, setSettings } = useInitialSettingStore((s) => s);
 
 	const [receivedInitPostmessage, setReceivedInitPostmessage] = useState(false);
@@ -81,7 +84,7 @@ const useInitPostMessage = () => {
 		}
 	}, [receivedInitPostmessage]);
 
-	const onReceivePostMessage = (event: MessageEvent) => {
+	const onReceivePostMessage = (event: MessageEvent<{ type: string; data: InitialSetting }>) => {
 		const type = event.data.type;
 
 		if (type === 'initiateIFrame') {
@@ -113,8 +116,11 @@ const useInitPostMessage = () => {
 
 		if (window.location.pathname == basePath || `${window.location.pathname}/` == basePath) {
 			sendPostmessage('isFinishedBack', 'true');
+		} else {
+			navigate(-1);
+			//send acknowledge to the parent
+			sendPostmessage('wentBack', 'true');
 		}
-		navigate(-1);
 	};
 
 	return { readyToLoad: receivedInitPostmessage, checkIsInIframe };
