@@ -25,7 +25,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "exclude": ["node_modules", "lib/**/*.js", ],
-  "include": ["src", "test", "public/browserUpdate.js"],
+  "exclude": ["node_modules", "lib/**/*.js",".eslintrc.cjs", ],
+  "include": ["src", "test", "public/browserUpdate.js", "eslint.config.mjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
