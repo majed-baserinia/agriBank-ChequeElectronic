@@ -78,7 +78,7 @@ axiosInstance.interceptors.response.use(
 				sendPostmessage('tokenIsNotValid', 'true');
 			}
 		} else if (error.response?.status == 400 && error?.response?.data) {
-			return prepareErrorType(<ErrorType<TResponse>>error?.response?.data);
+			throw prepareErrorType(<ErrorType<TResponse>>error?.response?.data);
 		}
 
 		if (error.message === 'Network Error' && error.response?.status !== 500) {
@@ -88,7 +88,7 @@ axiosInstance.interceptors.response.use(
 				hasConfirmAction: true
 			});
 		}
-		return prepareErrorType(<ErrorType<TResponse>>error?.response?.data);
+		return Promise.reject(prepareErrorType(<ErrorType<TResponse>>error?.response?.data));
 	}
 );
 
