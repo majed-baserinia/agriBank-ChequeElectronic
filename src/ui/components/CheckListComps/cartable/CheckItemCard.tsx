@@ -1,4 +1,4 @@
-import { Grid, useMediaQuery, useTheme } from '@mui/material';
+import { Grid, useTheme } from '@mui/material';
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
 import { formatAmount } from 'common/utils';
@@ -15,7 +15,6 @@ export default function CheckItemCard({ check }: { check: Check }) {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const theme = useTheme();
-	const matchesSmall = useMediaQuery(theme.breakpoints.down('sm'));
 	const { addNewCartableData, selectedCheck } = useCartableChecklistData();
 
 	return (
@@ -28,8 +27,8 @@ export default function CheckItemCard({ check }: { check: Check }) {
 				padding: '16px',
 				border: `1px solid ${theme.palette.grey[50]}`,
 				borderRadius: '16px',
-				//TODO: fix the width on mediaquery
-				maxWidth: matchesSmall ? 'unset' : '285px'
+				flex: 1,
+				minWidth: 300
 			}}
 			gap={'16px'}
 			wrap="nowrap"
@@ -91,7 +90,7 @@ export default function CheckItemCard({ check }: { check: Check }) {
 					forwardIcon
 					onClick={() => {
 						addNewCartableData({ selectedCheck: { ...selectedCheck, dataFromList: check } });
-						navigate(  paths.cartable.Details);
+						navigate(paths.cartable.Details);
 					}}
 				>
 					{t('details')}
