@@ -11,7 +11,7 @@ import { paths } from 'ui/route-config/paths';
 const mediator = new Mediator();
 
 export default function useChakavakPutECheque() {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	return useMutation<ChakavakPutEChequeResponse, ErrorType<ChakavakPutEChequeRequest>, ChakavakPutEChequeCommand>({
 		mutationFn: (data: ChakavakPutEChequeCommand) =>
@@ -30,7 +30,7 @@ export default function useChakavakPutECheque() {
 				}
 			});
 		},
-		onError: (error, variables) => {
+		onError: (error) => {
 			pushAlert({ type: 'error', messageText: error.detail, hasConfirmAction: true });
 		}
 	});
