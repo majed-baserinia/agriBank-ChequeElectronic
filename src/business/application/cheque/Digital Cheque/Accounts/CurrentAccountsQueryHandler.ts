@@ -6,7 +6,7 @@ import CurrentAccountResponse from 'common/entities/cheque/Digital Cheque/Accoun
 
 @requestHandler(CurrentAccountsQuery)
 export class CurrentAccountsQueryHandler implements IRequestHandler<CurrentAccountsQuery, CurrentAccountResponse[]> {
-	handle(value: CurrentAccountsQuery): Promise<CurrentAccountResponse[]> {
+	handle(): Promise<CurrentAccountResponse[]> {
 		const apiClient = new APIClient<null, CurrentAccountResponse[]>(CurrentAccounts);
 		return apiClient.getAll({});
 	}

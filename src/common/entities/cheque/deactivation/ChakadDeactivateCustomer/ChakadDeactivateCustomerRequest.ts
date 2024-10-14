@@ -1,3 +1,3 @@
 export interface ChakadDeactivateCustomerRequest {
-    customerNumber: number
+	customerNumber: number;
 }
