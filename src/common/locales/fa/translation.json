@@ -261,5 +261,6 @@
 	"sharedStatus": "وضعیت اشتراک",
 	"settlementDate": "تاریخ وصول",
 	"checkType": "نوع چک",
-	"bankCode": "کد بانک"
+	"bankCode": "کد بانک",
+	"somethingIsWrong": "مشکلی پیش آمده است لطفا مجدد تلاش کنید"
 }

@@ -261,5 +261,6 @@
 	"sharedStatus": "Shared Status",
 	"settlementDate": "settlementDate",
 	"checkType": "Check Type",
-	"bankCode": "Bank Code"
+	"bankCode": "Bank Code",
+	"somethingIsWrong": "Somthing is wrong"
 }
