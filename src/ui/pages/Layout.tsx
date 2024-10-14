@@ -27,7 +27,7 @@ const Layout = () => {
 	const getConfig = async () => {
 		try {
 			const res = await fetch('/api-config.json');
-			const apiConf = await res.json();
+			const apiConf = (await res.json()) as Record<string, string>;
 			ApiConfigSingleton.initiateApiConfig(apiConf?.apiBaseUrl);
 
 			//read lang and theme from query string
@@ -38,7 +38,7 @@ const Layout = () => {
 			//get the theme and set the language
 			const theme = await themeInitializer(themeName, apiConf?.ThemeRoute);
 
-			changeLanguage(language ? language : 'fa-IR');
+			void changeLanguage(language ?? 'fa-IR');
 
 			//set the settings {theme, language, idToken, refreshToken} to store
 
@@ -58,7 +58,7 @@ const Layout = () => {
 
 	useEffect(() => {
 		if (readyToLoad) {
-			getConfig();
+			void getConfig();
 		}
 	}, [readyToLoad]);
 

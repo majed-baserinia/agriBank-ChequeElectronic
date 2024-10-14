@@ -18,7 +18,6 @@ import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
 
 export default function AddReceivers() {
-	
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
@@ -53,45 +52,46 @@ export default function AddReceivers() {
 		if (!selectCheckPage || !checkInfoPage) {
 			return null;
 		}
+		if (addReceiverPage) {
+			const preparedData: IssueChequeInitiateRequest = {
+				sayadNo: selectCheckPage.checkData.sayadNo,
+				amount: Number(checkInfoPage.checkAmount),
+				dueDate: checkInfoPage.date.toString(),
+				description: checkInfoPage.description,
+				reason: checkInfoPage.reason.value,
+				recievers: addReceiverPage.receivers!
+			};
 
-		const preparedData: IssueChequeInitiateRequest = {
-			sayadNo: selectCheckPage.checkData.sayadNo,
-			amount: Number(checkInfoPage.checkAmount),
-			dueDate: checkInfoPage.date.toString(),
-			description: checkInfoPage.description,
-			reason: checkInfoPage.reason.value,
-			recievers: addReceiverPage?.receivers!
-		};
-
-		issueChequeInitiate(preparedData, {
-			onError: (err) => {
-				//TODO: navigate the user if need to
-				pushAlert({
-					type: 'error',
-					hasConfirmAction: true,
-					messageText: err.detail
-				});
-			},
-			onSuccess: (res) => {
-				//save the data
-				setNewDataToWizard({
-					addReceiverPage: {
-						...addReceiverPage,
-						signitureRequirementData: {
-							issueChequeKey: res.issueChequeKey,
-							isSingleSignatureLegal: res.isSingleSignatureLegal
+			issueChequeInitiate(preparedData, {
+				onError: (err) => {
+					//TODO: navigate the user if need to
+					pushAlert({
+						type: 'error',
+						hasConfirmAction: true,
+						messageText: err.detail
+					});
+				},
+				onSuccess: (res) => {
+					//save the data
+					setNewDataToWizard({
+						addReceiverPage: {
+							...addReceiverPage,
+							signitureRequirementData: {
+								issueChequeKey: res.issueChequeKey,
+								isSingleSignatureLegal: res.isSingleSignatureLegal
+							}
 						}
-					}
-				});
+					});
 
-				//check the res and navigate based on it
-				if (res.isNeedOtp) {
-					navigate(paths.IssueCheck.OtpCheckPath);
-				} else {
-					navigate(paths.IssueCheck.SignatureRegistrationPath);
+					//check the res and navigate based on it
+					if (res.isNeedOtp) {
+						navigate(paths.IssueCheck.OtpCheckPath);
+					} else {
+						navigate(paths.IssueCheck.SignatureRegistrationPath);
+					}
 				}
-			}
-		});
+			});
+		}
 	};
 
 	return (
@@ -134,13 +134,17 @@ export default function AddReceivers() {
 								/>
 							) : null}
 							<Typography variant="bodyMd">{t('addReceiversText')}</Typography>
-							<CheckReceivers
-								sayad={selectCheckPage?.checkData.sayadNo!}
-								onRceiversChange={(receiversList) =>
-									setNewDataToWizard({ addReceiverPage: {...addReceiverPage, receivers: receiversList } })
-								}
-								receivers={addReceiverPage?.receivers}
-							/>
+							{selectCheckPage ? (
+								<CheckReceivers
+									sayad={selectCheckPage.checkData.sayadNo}
+									onRceiversChange={(receiversList) =>
+										setNewDataToWizard({
+											addReceiverPage: { ...addReceiverPage, receivers: receiversList }
+										})
+									}
+									receivers={addReceiverPage?.receivers}
+								/>
+							) : null}
 						</Grid>
 						<Grid container>
 							<ButtonAdapter

@@ -48,7 +48,7 @@ export default function SelectAccount() {
 			selectCheckPage: {
 				selectedAccount: selectedAccountNumber,
 				selectedCheckbook: selectedCheckbook!,
-				selectedSheet: selectedChecksheet!.sayadNo!.toString(),
+				selectedSheet: selectedChecksheet!.sayadNo.toString(),
 				checkData: selectedChecksheet!
 			}
 		});
@@ -152,8 +152,9 @@ export default function SelectAccount() {
 																color={theme.palette.grey[200]}
 															>
 																{!item.isShared
-																	? `${item.owners[0]?.firstName} ${item.owners[0]
-																			?.lastName} ${t('curentAccountP')}`
+																	? `${item.owners[0]?.firstName} ${
+																			item.owners[0]?.lastName
+																		} ${t('curentAccountP')}`
 																	: t('sharedAccountP')}
 															</Typography>
 

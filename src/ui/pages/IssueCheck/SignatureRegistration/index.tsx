@@ -1,5 +1,5 @@
 import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
@@ -26,8 +26,6 @@ export default function SignatureRegistration() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { addReceiverPage, setNewDataToWizard } = useIssueCheckWizardData((store) => store);
 
-	const [openModal, setOpenModal] = useState(false);
-	//const [selectedSigniture, setSelectedSigniture] = useState<'group' | 'myslef'>();
 	const { mutate: issueChequeInitiateSignature, isLoading: initiateLoading } = useIssueChequeInitiateSignature();
 	const { mutate: issueChequeVerifyInitiate, isLoading } = useIssueChequeVerifyInitiate();
 
@@ -36,38 +34,42 @@ export default function SignatureRegistration() {
 	}, []);
 
 	const handleIssueChequeInitiateSignature = () => {
-		issueChequeInitiateSignature(
-			{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey! },
-			{
+		if (addReceiverPage?.signitureRequirementData) {
+			issueChequeInitiateSignature(
+				{ issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey! },
+				{
+					onError: (err) => {
+						pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+					},
+					onSuccess: (res) => {
+						pushAlert({ type: 'info', messageText: res.message, hasConfirmAction: true });
+					}
+				}
+			);
+		}
+	};
+
+	const handleSubmitToNextLevel = () => {
+		if (addReceiverPage?.signitureRequirementData) {
+			const requestData = {
+				issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey!,
+				otpCode: '',
+				signSingleSignatureLegal: true
+			};
+			issueChequeVerifyInitiate(requestData, {
 				onError: (err) => {
 					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
 				},
 				onSuccess: (res) => {
-					pushAlert({ type: 'info', messageText: res.message, hasConfirmAction: true });
+					setNewDataToWizard({
+						otpPage: {
+							issueChequeOverView: res.issueChequeOverView
+						}
+					});
+					navigate(paths.IssueCheck.OverViewPath, { replace: true });
 				}
-			}
-		);
-	};
-
-	const handleSubmitToNextLevel = () => {
-		const requestData = {
-			issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
-			otpCode: '',
-			signSingleSignatureLegal: true
-		};
-		issueChequeVerifyInitiate(requestData, {
-			onError: (err) => {
-				pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
-			},
-			onSuccess: (res) => {
-				setNewDataToWizard({
-					otpPage: {
-						issueChequeOverView: res.issueChequeOverView
-					}
-				});
-				navigate(paths.IssueCheck.OverViewPath, {replace: true});
-			}
-		});
+			});
+		}
 	};
 
 	// useEffect(() => {

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import DraggableList from 'ui/components/DraggableList';
 import Menu from 'ui/components/Menu';
 import RadioButtonOpenable from 'ui/components/RadioButtonOpenable';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import ModalOrPage from 'ui/htsc-components/ModalOrPage';
@@ -66,14 +66,10 @@ export default function SignatureGroup() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
 	const { addReceiverPage } = useIssueCheckWizardData((store) => store);
-	const { mutate: IssueWithDrawalGroup, isLoading } = useIssueWithDrawalGroup();
+	//const { mutate: IssueWithDrawalGroup, isLoading } = useIssueWithDrawalGroup();
 	//const GetStepData = useDataSteps((s) => s.steps.signitureRequirementData);
 
-	const {
-		data: InquiryWithDrawalGroupData,
-		mutate: InquiryWithDrawalGroupMutate,
-		error
-	} = useInquiryWithDrawalGroup();
+	const { mutate: InquiryWithDrawalGroupMutate } = useInquiryWithDrawalGroup();
 	const [value, setValue] = useState(data?.withdrawalGroup[0].groupNumber);
 	const [listOrder, setListOrder] = useState<{ customerNumber: number; name: string }[]>();
 	const [selectedGroup, setSelectedGroup] = useState(
@@ -92,40 +88,37 @@ export default function SignatureGroup() {
 			}
 		);
 	}, []);
-	const {
-		data: IssueWithDrawalGroupData,
-		mutate: IssueWithDrawalGroupMutate,
-		error: IssueWithDrawalGroupError
-	} = useIssueWithDrawalGroup();
+	const { mutate: IssueWithDrawalGroupMutate } = useIssueWithDrawalGroup();
 
 	const IssueWithDrawalGroupSubmit = () => {
-		const data: IssueWithDrawalGroupsCommand = {
-			isSequentional:false,
-			issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
-			withDrawalGroup: [
-				{
-					groupNumber: value,
-					withdrawalGroups: selectedGroup!
+		if (addReceiverPage?.signitureRequirementData) {
+			const data: IssueWithDrawalGroupsCommand = {
+				isSequentional: false,
+				issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey!,
+				withDrawalGroup: [
+					{
+						groupNumber: value,
+						withdrawalGroups: selectedGroup!
+					}
+				]
+			};
+			IssueWithDrawalGroupMutate(data, {
+				onError: (err) => {
+					if (err.status == 453) {
+						pushAlert({
+							type: 'error',
+							messageText: err.detail,
+							hasConfirmAction: true,
+							actions: {
+								onCloseModal: () => navigate('/cheque'),
+								onConfirm: () => navigate('/cheque')
+							}
+						});
+					}
+					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
 				}
-			]
-		};
-		IssueWithDrawalGroupMutate(data, {
-			onSuccess: (response) => {},
-			onError: (err) => {
-				if (err.status == 453) {
-					pushAlert({
-						type: 'error',
-						messageText: err.detail,
-						hasConfirmAction: true,
-						actions: {
-							onCloseModal: () => navigate('/cheque'),
-							onConfirm: () => navigate('/cheque')
-						}
-					});
-				}
-				pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
-			}
-		});
+			});
+		}
 	};
 
 	function handleListUpdate() {
@@ -271,7 +264,12 @@ export default function SignatureGroup() {
 								icon={infoIcon}
 								alt="info"
 							/>
-							<Typography variant='bodyMd' textOverflow={'ellipsis'}>{t('draggableListText')}</Typography>
+							<Typography
+								variant="bodyMd"
+								textOverflow={'ellipsis'}
+							>
+								{t('draggableListText')}
+							</Typography>
 						</Grid>
 						<DraggableList
 							list={
@@ -280,7 +278,10 @@ export default function SignatureGroup() {
 								}) || []
 							}
 							getData={(newList) => {
-								const list = newList.map((i) => ({ customerNumber: Number(i.id), name: i.text as string }));
+								const list = newList.map((i) => ({
+									customerNumber: Number(i.id),
+									name: i.text as string
+								}));
 								setListOrder(list);
 							}}
 						/>

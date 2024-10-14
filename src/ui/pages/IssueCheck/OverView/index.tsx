@@ -26,21 +26,40 @@ export default function OverView() {
 	const { reset, otpPage, addReceiverPage } = useIssueCheckWizardData((store) => store);
 
 	const handleSubmit = () => {
-		finalSubmit(
-			{
-				issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!
-			},
-			{
-				onError: (err) => {
-					if (err.status === 453 && err.instance === 'RemoveRequest') {
-						
+		if (addReceiverPage?.signitureRequirementData) {
+			finalSubmit(
+				{
+					issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey!
+				},
+				{
+					onError: (err) => {
+						if (err.status === 453 && err.instance === 'RemoveRequest') {
+							reset();
+							pushAlert({
+								type: 'error',
+								hasConfirmAction: true,
+								messageText: err.detail,
+								actions: {
+									onCloseModal: () => {
+										navigate(paths.Home);
+									},
+									onConfirm: () => {
+										navigate(paths.Home);
+									}
+								}
+							});
+						} else {
+							pushAlert({ type: 'error', hasConfirmAction: true, messageText: err.detail });
+						}
+					},
+					onSuccess(res) {
+						reset();
 						pushAlert({
-							type: 'error',
+							type: 'success',
 							hasConfirmAction: true,
-							messageText: err.detail,
+							messageText: res.message,
 							actions: {
 								onCloseModal: () => {
-								
 									navigate(paths.Home);
 								},
 								onConfirm: () => {
@@ -48,30 +67,10 @@ export default function OverView() {
 								}
 							}
 						});
-					} else {
-						pushAlert({ type: 'error', hasConfirmAction: true, messageText: err.detail });
 					}
-				},
-				onSuccess(res) {
-					reset();
-					pushAlert({
-						type: 'success',
-						hasConfirmAction: true,
-						messageText: res.message,
-						actions: {
-							onCloseModal: () => {
-								
-								navigate(paths.Home);
-							},
-							onConfirm: () => {
-							
-								navigate(paths.Home);
-							}
-						}
-					});
 				}
-			}
-		);
+			);
+		}
 	};
 
 	const handleRefuse = () => {
@@ -213,7 +212,7 @@ export default function OverView() {
 								/>
 							) : null}
 							<PersonsList
-								recievers={otpPage?.issueChequeOverView?.recievers!}
+								recievers={otpPage?.issueChequeOverView?.recievers}
 								signers={otpPage?.issueChequeOverView?.signers}
 							/>
 						</Grid>

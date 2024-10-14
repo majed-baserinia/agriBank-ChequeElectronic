@@ -31,10 +31,7 @@ export default function OtpCheck() {
 	usePostMessage({ callback: readOtp, message: { type: 'GetOTP', OTPLen: '8', ReadMode: 'UserConsent' } });
 
 	const { mutate: verifyOtp, error: veryError, isLoading } = useVerifyOtp();
-	const {
-		data: CheckInitiateOtpData,
-		mutate: CheckInitiateOtpMutate,
-	} = useCheckInitiateOtp();
+	const { data: CheckInitiateOtpData, mutate: CheckInitiateOtpMutate } = useCheckInitiateOtp();
 
 	const {
 		handleSubmit: handleSubmitForVerifyOtp,
@@ -49,7 +46,7 @@ export default function OtpCheck() {
 		context: VerifyOtpCommand
 	});
 
-	function readOtp(e: MessageEvent<any>) {
+	function readOtp(e: MessageEvent<{ type: string; OTP: string }>) {
 		if (e.data.type === 'ResOTP') {
 			setValue('otpCode', e.data.OTP);
 		}
@@ -114,31 +111,33 @@ export default function OtpCheck() {
 	};
 
 	const verify = (data: VerifyOtpCommand) => {
-		verifyOtp(
-			{
-				issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
-				signSingleSignatureLegal: addReceiverPage?.signitureRequirementData?.isSingleSignatureLegal!,
-				otpCode: data.otpCode
-			},
-			{
-				onError: (err) => {
-					pushAlert({
-						type: 'error',
-						messageText: err.detail,
-						hasConfirmAction: true
-					});
+		if (addReceiverPage?.signitureRequirementData) {
+			verifyOtp(
+				{
+					issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey!,
+					signSingleSignatureLegal: addReceiverPage.signitureRequirementData.isSingleSignatureLegal!,
+					otpCode: data.otpCode
 				},
-				onSuccess: (res) => {
-					setNewDataToWizard({
-						otpPage: {
-							needInquiryWithDrawalGroup: res.needInquiryWithDrawalGroup,
-							issueChequeOverView: res.issueChequeOverView
-						}
-					});
-					navigate(paths.IssueCheck.OverViewPath);
+				{
+					onError: (err) => {
+						pushAlert({
+							type: 'error',
+							messageText: err.detail,
+							hasConfirmAction: true
+						});
+					},
+					onSuccess: (res) => {
+						setNewDataToWizard({
+							otpPage: {
+								needInquiryWithDrawalGroup: res.needInquiryWithDrawalGroup,
+								issueChequeOverView: res.issueChequeOverView
+							}
+						});
+						navigate(paths.IssueCheck.OverViewPath);
+					}
 				}
-			}
-		);
+			);
+		}
 	};
 	return (
 		<Grid
@@ -212,7 +211,7 @@ export default function OtpCheck() {
 											helperText={formState?.errors?.otpCode?.message}
 											label={t('activationCodeOtp')}
 											maxLength={CheckInitiateOtpData?.codeLength}
-											timerInSeconds={{ timer: CheckInitiateOtpData?.lifeTime! }}
+											timerInSeconds={{ timer: CheckInitiateOtpData!.lifeTime }}
 											handleResend={handleSendAgain}
 										/>
 									)}

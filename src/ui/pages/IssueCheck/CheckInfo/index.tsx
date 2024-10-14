@@ -38,7 +38,7 @@ export default function CheckInfo() {
 
 	useEffect(() => {
 		// fil the inputs if there is data
-		if (!isPendingGetReasons && checkInfoPage) {			
+		if (!isPendingGetReasons && checkInfoPage) {
 			reset({
 				checkAmount: checkInfoPage.checkAmount,
 				date: checkInfoPage.date,
@@ -47,8 +47,6 @@ export default function CheckInfo() {
 			});
 		}
 	}, [isPendingGetReasons]);
-
-	
 
 	const handleNextStep = () => {
 		setNewDataToWizard({
