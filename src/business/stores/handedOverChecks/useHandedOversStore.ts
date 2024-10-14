@@ -1,4 +1,7 @@
-import { ChakavakGetEChequeListResponse, chakavakCheck } from 'common/entities/cheque/chekList/ChakavakGetEChequeList/ChakavakGetEChequeListResponse';
+import {
+	ChakavakGetEChequeListResponse,
+	chakavakCheck
+} from 'common/entities/cheque/chekList/ChakavakGetEChequeList/ChakavakGetEChequeListResponse';
 import { GetAllRelatedCustomersResponse } from 'common/entities/cheque/chekList/GetAllRelatedCustomers/GetAllRelatedCustomersResponse';
 import { create } from 'zustand';
 
@@ -21,6 +24,10 @@ export const useHandedOversData = create<Actions & HandedOversData>((set) => ({
 		}));
 	},
 	resetStore: () => {
-		set((store) => ({}));
+		set(() => ({
+			detailsPage: undefined,
+			listPage: undefined,
+			selectListPage: undefined
+		}));
 	}
 }));

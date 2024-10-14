@@ -3,7 +3,10 @@ import { GiveBackChequeVerifyOtpResponse } from 'common/entities/cheque/Giveback
 import { GivebackChequeInitiateResponse } from 'common/entities/cheque/GivebackCheck/GivebackChequeInitiate/GivebackChequeInitiateResponse';
 import { RejectGivebackChequeInitiateResponse } from 'common/entities/cheque/RejectGiveBackCheck/RejectGiveBackCheckInitiate/RejectGiveBackCheckInitiateResponse';
 import { ReceiverInquiryChequeResponse } from 'common/entities/cheque/cashCheck/ReceiverInquiryCheque/ReceiverInquiryChequeResponse';
-import { CartableInquiryResponse, Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
+import {
+	CartableInquiryResponse,
+	Check
+} from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
 import { GetAllRelatedCustomersResponse } from 'common/entities/cheque/chekList/GetAllRelatedCustomers/GetAllRelatedCustomersResponse';
 import { InquiryTransferStatusRespone } from 'common/entities/cheque/transferCheck/InquiryTransferStatus/InquiryTransferStatusResponse';
 import { TransferChequeInitiateResponse } from 'common/entities/cheque/transferCheck/TransferChequeInitiate/TransferChequeInitiateResponse';
@@ -19,10 +22,10 @@ interface cartableListData {
 	transferAction?: 'confirm' | 'reject';
 	relatedCustomers?: GetAllRelatedCustomersResponse;
 	cartableListData?: CartableInquiryResponse;
-	selectedCheck?: { 
-		iquiriedData?: ReceiverInquiryChequeResponse | InquiryTransferStatusRespone, 
-		dataFromList?: Check
-	 };
+	selectedCheck?: {
+		iquiriedData?: ReceiverInquiryChequeResponse | InquiryTransferStatusRespone;
+		dataFromList?: Check;
+	};
 	basicCheckData?: { reason: { value: string; name: string }; description: string; toIban: string };
 	otpTransferRequirments?: TransferChequeInitiateResponse;
 	transferOverview?: TransferChequeVerifyOtpResponse;
@@ -40,6 +43,18 @@ export const useCartableChecklistData = create<Functions & cartableListData>((se
 		}));
 	},
 	reset: () => {
-		set((store) => ({}));
+		set(() => ({
+			transferAction: undefined,
+			relatedCustomers: undefined,
+			cartableListData: undefined,
+			selectedCheck: undefined,
+			basicCheckData: undefined,
+			otpTransferRequirments: undefined,
+			transferOverview: undefined,
+			receivers: undefined,
+			giveBackChequeInitiateResponse: undefined,
+			GiveBackChequeVerifyOtpResponse: undefined,
+			RejectGiveBackChequeInitiateResponse: undefined
+		}));
 	}
 }));
