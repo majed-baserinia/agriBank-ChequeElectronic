@@ -34,7 +34,7 @@ export default function ModalOrBottomSheet(props: Props) {
 			onClose={() => setOpen(false)}
 			snapPoints={snapPoints}
 		>
-			<Sheet.Container style={{ padding: '16px' }}>
+			<Sheet.Container style={{ backgroundColor: theme.palette.background.paper, padding: '16px' }}>
 				<Sheet.Header style={{ marginBottom: '16px' }}>
 					<Typography
 						variant="bodyLg"
@@ -58,7 +58,7 @@ export default function ModalOrBottomSheet(props: Props) {
 				<Grid
 					container
 					justifyContent={'space-between'}
-					alignItems={"center"}
+					alignItems={'center'}
 				>
 					<Typography
 						variant="bodyLg"
