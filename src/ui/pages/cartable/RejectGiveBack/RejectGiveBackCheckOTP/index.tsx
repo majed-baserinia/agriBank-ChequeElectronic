@@ -5,6 +5,7 @@ import RejectGiveBackChequeVerifyOtpCommand from 'business/application/cheque/re
 import useRejectGiveBackChequeFinalize from 'business/hooks/cheque/rejectGivebackCheque/useRejectGiveBackChequeFinalize';
 import useRejectGiveBackChequeInitiateOtp from 'business/hooks/cheque/rejectGivebackCheque/useRejectGiveBackChequeInitiateOtp';
 import useRejectGiveBackChequeVerifyOtp from 'business/hooks/cheque/rejectGivebackCheque/useRejectGiveBackChequeVerifyOtp';
+import usePostMessage from 'business/hooks/postMessage/usePostMessage';
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 import { useEffect, useState } from 'react';
@@ -12,7 +13,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Otp from 'ui/htsc-components/Otp';
@@ -30,78 +31,89 @@ export default function RejectGiveBackCheckOTP() {
 	const [sendAgain, setSendAgain] = useState(false);
 	const { RejectGiveBackChequeInitiateResponse } = useCartableChecklistData();
 
-	
 	const { mutate: initiateOtp, data: initiateOtpRes, isLoading: initLoading } = useRejectGiveBackChequeInitiateOtp();
 	const { mutate: verifyOtp, isLoading: verifyLoading } = useRejectGiveBackChequeVerifyOtp();
 	const { mutate: finalizeRejectGiveBack, isLoading: finalizeLoading } = useRejectGiveBackChequeFinalize();
 
-	const { handleSubmit, formState, control } = useForm<RejectGiveBackChequeVerifyOtpCommand>({
+	usePostMessage({ callback: readOtp, message: { type: 'GetOTP', OTPLen: '8', ReadMode: 'UserConsent' } });
+
+	function readOtp(e: MessageEvent<{ type: string; OTP: string }>) {
+		if (e.data.type === 'ResOTP') {
+			setValue('otpCode', e.data.OTP);
+		}
+	}
+
+	const { handleSubmit, formState, control, setValue } = useForm<RejectGiveBackChequeVerifyOtpCommand>({
 		resolver: (values, context, options) => fluentValidationResolver(values, context, options),
 		context: RejectGiveBackChequeVerifyOtpCommand
 	});
 
 	useEffect(() => {
-
-		
-		initiateOtp(
-			{ transferChequeKey: RejectGiveBackChequeInitiateResponse?.transferChequeKey! },
-			{
-				onError: (err) => {
-					pushAlert({
-						type: 'error',
-						messageText: err.detail,
-						hasConfirmAction: true,
-						actions: {
-							onCloseModal: () => {
-								navigate(paths.Home);
-							},
-							onConfirm: () => {
-								navigate(paths.Home);
+		if (RejectGiveBackChequeInitiateResponse?.transferChequeKey) {
+			initiateOtp(
+				{ transferChequeKey: RejectGiveBackChequeInitiateResponse.transferChequeKey },
+				{
+					onError: (err) => {
+						pushAlert({
+							type: 'error',
+							messageText: err.detail,
+							hasConfirmAction: true,
+							actions: {
+								onCloseModal: () => {
+									navigate(paths.Home);
+								},
+								onConfirm: () => {
+									navigate(paths.Home);
+								}
 							}
-						}
-					});
-				},
-				onSuccess: () => {}
-			}
-		);
+						});
+					},
+					onSuccess: () => {}
+				}
+			);
+		}
 	}, [sendAgain]);
 
 	const VerifyOtpHandler = (data: RejectGiveBackChequeVerifyOtpCommand) => {
-		verifyOtp(
-			{
-				...data,
-				selectSingleSignatureLegal: true,
-				transferChequeKey: RejectGiveBackChequeInitiateResponse?.transferChequeKey!
-			},
-			{
-				onError: (err) => {
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+		if (RejectGiveBackChequeInitiateResponse?.transferChequeKey) {
+			verifyOtp(
+				{
+					...data,
+					selectSingleSignatureLegal: true,
+					transferChequeKey: RejectGiveBackChequeInitiateResponse.transferChequeKey
 				},
-				onSuccess: (res) => {
-					finalizeRejectGiveBack(
-						{ transferChequeKey: RejectGiveBackChequeInitiateResponse?.transferChequeKey! },
-						{
-							onError: (err) => {},
-							onSuccess: (res) => {
-								pushAlert({
-									type: 'success',
-									messageText: res.message,
-									hasConfirmAction: true,
-									actions: {
-										onCloseModal: () => {
-											navigate(paths.Home);
-										},
-										onConfirm: () => {
-											navigate(paths.Home);
+				{
+					onError: (err) => {
+						pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+					},
+					onSuccess: (_) => {
+						finalizeRejectGiveBack(
+							{ transferChequeKey: RejectGiveBackChequeInitiateResponse.transferChequeKey },
+							{
+								onError: (err) => {
+									pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+								},
+								onSuccess: (res) => {
+									pushAlert({
+										type: 'success',
+										messageText: res.message,
+										hasConfirmAction: true,
+										actions: {
+											onCloseModal: () => {
+												navigate(paths.Home);
+											},
+											onConfirm: () => {
+												navigate(paths.Home);
+											}
 										}
-									}
-								});
+									});
+								}
 							}
-						}
-					);
+						);
+					}
 				}
-			}
-		);
+			);
+		}
 	};
 
 	return (
@@ -164,9 +176,10 @@ export default function RejectGiveBackCheckOTP() {
 									control={control}
 									render={({ field }) => (
 										<Otp
+											defaultValue={field.value}
 											label={t('activationCodeOtp')}
 											maxLength={initiateOtpRes?.codeLength}
-											timerInSeconds={{ timer: initiateOtpRes?.lifeTime! }}
+											timerInSeconds={{ timer: initiateOtpRes!.lifeTime }}
 											onChange={(value) => field.onChange(value)}
 											handleResend={() => setSendAgain(!sendAgain)}
 											error={!!formState?.errors?.otpCode}

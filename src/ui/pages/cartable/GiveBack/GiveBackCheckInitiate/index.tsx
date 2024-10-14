@@ -50,21 +50,22 @@ export default function GiveBackCheckInitiate() {
 
 	const handleNextStep = () => {
 		const data = getValues();
-
-		givebackChequeInitiate(
-			{
-				...data,
-				customerNumber: 0,
-				sayadNo: Number(selectedCheck?.dataFromList?.sayadNo!),
-				toIban: ''
-			},
-			{
-				onSuccess: (data) => {
-					addNewCartableData({ giveBackChequeInitiateResponse: data });
-					navigate(paths.cartable.GiveBackCheckOTP);
+		if (selectedCheck?.dataFromList) {
+			givebackChequeInitiate(
+				{
+					...data,
+					customerNumber: 0,
+					sayadNo: Number(selectedCheck.dataFromList.sayadNo),
+					toIban: ''
+				},
+				{
+					onSuccess: (data) => {
+						addNewCartableData({ giveBackChequeInitiateResponse: data });
+						navigate(paths.cartable.GiveBackCheckOTP);
+					}
 				}
-			}
-		);
+			);
+		}
 	};
 
 	return (
@@ -114,7 +115,7 @@ export default function GiveBackCheckInitiate() {
 									hasTitle
 									checkData={{
 										amount: checkData.amount.toString(),
-										description: checkData.description!,
+										description: checkData.description,
 										date: checkData.dueDate,
 										sayad: checkData.sayadId,
 										reason: checkData.reasonDescription,

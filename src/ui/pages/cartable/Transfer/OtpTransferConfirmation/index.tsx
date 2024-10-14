@@ -6,6 +6,7 @@ import useRejectTransferChequeInitiateOtp from 'business/hooks/cheque/transferCh
 import useRejectTransferChequeVerifyOtp from 'business/hooks/cheque/transferCheck/useRejectTransferChequeVerifyOtp';
 import useTransferChequeInitiateOtp from 'business/hooks/cheque/transferCheck/useTransferChequeInitiateOtp';
 import useTransferChequeVerifyOtp from 'business/hooks/cheque/transferCheck/useTransferChequeVerifyOtp';
+import usePostMessage from 'business/hooks/postMessage/usePostMessage';
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 import { TransferChequeVerifyOtpResponse } from 'common/entities/cheque/transferCheck/TransferChequeVerifyOtp/TransferChequeVerifyOtpResponse';
@@ -32,6 +33,13 @@ export default function OtpTransferConfirmation() {
 
 	const { otpTransferRequirments, addNewCartableData, transferAction } = useCartableChecklistData();
 
+	usePostMessage({ callback: readOtp, message: { type: 'GetOTP', OTPLen: '8', ReadMode: 'UserConsent' } });
+
+	function readOtp(e: MessageEvent<{ type: string; OTP: string }>) {
+		if (e.data.type === 'ResOTP') {
+			setValue('otpCode', e.data.OTP);
+		}
+	}
 	const {
 		data: InitiateTransferOtpRes,
 		mutate: initOtpTransfer,
@@ -46,7 +54,7 @@ export default function OtpTransferConfirmation() {
 	} = useRejectTransferChequeInitiateOtp();
 	const { mutate: verifyOtpReject, isLoading: loadingVerifyReject } = useRejectTransferChequeVerifyOtp();
 
-	const { handleSubmit, formState, control } = useForm<TransferChequeVerifyOtpCommand>({
+	const { handleSubmit, formState, control, setValue } = useForm<TransferChequeVerifyOtpCommand>({
 		resolver: (values, context, options) => resolver(values, context, options),
 		context: TransferChequeVerifyOtpCommand
 	});
@@ -83,7 +91,6 @@ export default function OtpTransferConfirmation() {
 				selectSingleSignatureLegal: true,
 				transferChequeKey: otpTransferRequirments.transferChequeKey
 			};
-			console.log(requestBody);
 
 			if (transferAction === 'confirm') {
 				verifyOtpTransfer(requestBody, {
@@ -182,6 +189,7 @@ export default function OtpTransferConfirmation() {
 									control={control}
 									render={({ field }) => (
 										<Otp
+											defaultValue={field.value}
 											label={t('activationCodeOtp')}
 											maxLength={
 												InitiateRejectOtpRes?.codeLength
@@ -191,7 +199,7 @@ export default function OtpTransferConfirmation() {
 											timerInSeconds={{
 												timer: InitiateRejectOtpRes?.lifeTime
 													? InitiateRejectOtpRes?.lifeTime
-													: InitiateTransferOtpRes?.lifeTime!
+													: InitiateTransferOtpRes!.lifeTime
 											}}
 											onChange={(value) => field.onChange(value)}
 											handleResend={initiateOtpHandler}

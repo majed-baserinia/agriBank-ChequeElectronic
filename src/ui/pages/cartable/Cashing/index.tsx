@@ -27,7 +27,7 @@ export default function Cashing() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { selectedCheck } = useCartableChecklistData();
 	const { data: checkData, mutate: inquiryCheckData, isLoading, isError } = useReceiverInquiryCheque();
-	const { mutate: chakavakPutECheque } = useChakavakPutECheque();
+	const { mutate: chakavakPutECheque, isLoading: isLoadingSubmit } = useChakavakPutECheque();
 	const { data: AccountData, isLoading: accountsDataLoading } = useAccountsQuery();
 
 	const methods = useForm<ChakavakPutEChequeCommand>({
@@ -50,12 +50,17 @@ export default function Cashing() {
 	}, []);
 
 	const onSubmit = (data: ChakavakPutEChequeCommand) => {
-		chakavakPutECheque({ ...data, bearerInfo: null, CustomerNo: 0, Sayad: Number(selectedCheck!.dataFromList?.sayadNo) });
+		chakavakPutECheque({
+			...data,
+			bearerInfo: null,
+			CustomerNo: 0,
+			Sayad: Number(selectedCheck!.dataFromList?.sayadNo)
+		});
 	};
 	return (
 		<Grid
 			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
+			sx={{ padding: { xs: '0', md: '64px 0' } }}
 			justifyContent={'center'}
 			gap={'24px'}
 			dir={theme.direction}
@@ -70,13 +75,13 @@ export default function Cashing() {
 					muiPaperProps={{
 						sx: {
 							minWidth: '25%',
-							borderRadius: matches ? 0 : '32px',
+							borderRadius: { md: '32px', xs: 0 },
 							padding: '16px'
 						}
 					}}
 				>
 					<Grid
-						minHeight={matches ? 'calc(100vh - 32px)' : 'calc(100vh - 192px)'}
+						minHeight={{ xs: 'calc(100vh - 32px)', md: 'calc(100vh - 192px)' }}
 						container
 						direction={'column'}
 						justifyContent={'space-between'}
@@ -142,25 +147,25 @@ export default function Cashing() {
 				</BoxAdapter>
 			</Grid>
 
-			{matches ? null : (
-				<Grid
-					item
-					md={3}
-					dir={theme.direction}
-				>
-					<BoxAdapter>
-						<Menu
-							divider={false}
-							list={menuList.management}
-						/>
-						<Menu
-							divider={false}
-							list={menuList.services}
-						/>
-					</BoxAdapter>
-				</Grid>
-			)}
-			<Loader showLoader={isLoading || accountsDataLoading} />
+			<Grid
+				item
+				md={3}
+				dir={theme.direction}
+				display={{ md: 'block', xs: 'none' }}
+			>
+				<BoxAdapter>
+					<Menu
+						divider={false}
+						list={menuList.management}
+					/>
+					<Menu
+						divider={false}
+						list={menuList.services}
+					/>
+				</BoxAdapter>
+			</Grid>
+
+			<Loader showLoader={isLoading || accountsDataLoading || isLoadingSubmit} />
 		</Grid>
 	);
 }

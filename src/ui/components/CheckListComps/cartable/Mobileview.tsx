@@ -1,9 +1,8 @@
 import { Grid } from '@mui/material';
+import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
 import { useTranslation } from 'react-i18next';
 import Loader from 'ui/htsc-components/loader/Loader';
 import CheckItemCard from './CheckItemCard';
-import { CheckData } from '../types';
-import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
 
 export default function MobileView({ list }: { list?: Check[] }) {
 	const { t } = useTranslation();

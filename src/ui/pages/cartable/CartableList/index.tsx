@@ -50,12 +50,21 @@ export default function CartableList() {
 	}, [selectedBeneficiary]);
 
 	return (
-		<Grid sx={{ padding: matches ? '0' : '64px' }}>
-			<BoxAdapter fullWidth={matches}>
+		<Grid sx={{ padding: { tablet: '64px 0', xs: '0' } }}>
+			<BoxAdapter
+				fullWidth={matches}
+				muiPaperProps={{
+					sx: {
+						minWidth: '25%',
+						borderRadius: { md: '32px', xs: 0 },
+						padding: '16px'
+					}
+				}}
+			>
 				<Grid
 					sx={{
-						minHeight: matches ? '100vh' : 'calc(100% - 128px)',
-						padding: matches ? '0' : '16px'
+						minHeight: { tablet: 'calc(100% - 128px)', xs: '100vh' },
+						padding: { tablet: '16px', xs: '0' }
 					}}
 					container
 					direction={'column'}
@@ -75,7 +84,7 @@ export default function CartableList() {
 							{relatedCustomers?.length === 1 ? t('you') : selectedBeneficiaryName}
 						</Typography>
 						<Grid width={'30%'}>
-							{relatedCustomers?.length! > 1 ? (
+							{relatedCustomers!.length > 1 ? (
 								<SelectAdapter
 									size="small"
 									label=""

@@ -1,4 +1,5 @@
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
+import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
 import { formatAmount } from 'common/utils';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -7,8 +8,7 @@ import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import ChipStatusAdapter from 'ui/htsc-components/ChipStatusAdapter';
 import TableAdapter from 'ui/htsc-components/TableAdapter/TableAdapter';
 import { paths } from 'ui/route-config/paths';
-import { CheckData, rowType } from '../types';
-import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
+import { rowType } from '../types';
 
 export default function DesktopView({ list }: { list?: Check[] }) {
 	const navigate = useNavigate();
@@ -29,16 +29,15 @@ export default function DesktopView({ list }: { list?: Check[] }) {
 				),
 				serieAndSerial: check.seriesNo + '/' + check.serialNo,
 				amount: formatAmount(check.amount.toString()),
-				reason: check.reason,
+				reason: check.reasonDescription,
 				date: check.dueDate,
 				action: (
 					<ButtonAdapter
 						size="small"
 						variant="text"
 						onClick={() => {
-							// MARK: this needs to be fixed
-							addNewCartableData({ selectedCheck: { ...selectedCheck, dataFromList: check} });
-							navigate(  paths.cartable.Details);
+							addNewCartableData({ selectedCheck: { ...selectedCheck, dataFromList: check } });
+							navigate(paths.cartable.Details);
 						}}
 						forwardIcon
 					>

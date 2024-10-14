@@ -11,7 +11,6 @@ export default function CheckNewInfo() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { view, isLoading } = useFirstPageViewGenerator();
 
-
 	return (
 		<Grid
 			container

@@ -1,7 +1,6 @@
 import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import infoIcon from 'assets/icon/info-circle.svg';
 import useGetAllRelatedCustomers from 'business/hooks/cheque/checklist/useGetAllRelatedCustomers';
-import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -42,10 +41,9 @@ export default function SelectList() {
 	const theme = useTheme();
 	const navigate = useNavigate();
 	const matches = useMediaQuery(theme.breakpoints.down('sm'));
-	const {addNewCartableData} = useCartableChecklistData((store) => store);
+	const { addNewCartableData } = useCartableChecklistData((store) => store);
 	const { data: listItems, isLoading } = useGetAllRelatedCustomers('checkList');
 	const [menuItems, setMenuItems] = useState<MenuItems>([]);
-
 
 	useEffect(() => {
 		//set the new list to the store

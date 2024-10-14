@@ -50,24 +50,25 @@ export default function RejectGiveBackCheckInitiate() {
 
 	const handleNextStep = () => {
 		const data = getValues();
-
-		rejectGivebackChequeInitiate(
-			{
-				...data,
-				customerNumber: 0,
-				sayadNo: Number(selectedCheck?.dataFromList?.sayadNo!),
-				toIban: ''
-			},
-			{
-				onError: (err) => {
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+		if (selectedCheck?.dataFromList) {
+			rejectGivebackChequeInitiate(
+				{
+					...data,
+					customerNumber: 0,
+					sayadNo: Number(selectedCheck.dataFromList.sayadNo),
+					toIban: ''
 				},
-				onSuccess: (data) => {
-					addNewCartableData({ RejectGiveBackChequeInitiateResponse: data });
-					navigate(paths.cartable.RejectGiveBackCheckOTP);
+				{
+					onError: (err) => {
+						pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+					},
+					onSuccess: (data) => {
+						addNewCartableData({ RejectGiveBackChequeInitiateResponse: data });
+						navigate(paths.cartable.RejectGiveBackCheckOTP);
+					}
 				}
-			}
-		);
+			);
+		}
 	};
 
 	return (
@@ -117,7 +118,7 @@ export default function RejectGiveBackCheckInitiate() {
 									hasTitle
 									checkData={{
 										amount: checkData.amount.toString(),
-										description: checkData.description!,
+										description: checkData.description,
 										date: checkData.dueDate,
 										sayad: checkData.sayadId,
 										reason: checkData.reasonDescription,

@@ -1,5 +1,3 @@
-export default function RejecGiveBackCheckSignature(){
-    return (
-        <div>RejecGiveBackCheckSignature</div>
-    )
+export default function RejecGiveBackCheckSignature() {
+	return <div>RejecGiveBackCheckSignature</div>;
 }

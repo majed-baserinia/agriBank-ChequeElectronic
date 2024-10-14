@@ -21,7 +21,9 @@ export default function TransferOverView() {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const { transferOverview, selectedCheck, otpTransferRequirments, reset } = useCartableChecklistData((store) => store);
+	const { transferOverview, selectedCheck, otpTransferRequirments, reset } = useCartableChecklistData(
+		(store) => store
+	);
 
 	const { isLoading, mutate: finalSubmit } = useDetectFinalizeTransfer()();
 
@@ -36,6 +38,7 @@ export default function TransferOverView() {
 						pushAlert({ type: 'error', hasConfirmAction: true, messageText: err.detail });
 					},
 					onSuccess(res) {
+						reset();
 						pushAlert({
 							type: 'success',
 							hasConfirmAction: true,
@@ -172,15 +175,15 @@ export default function TransferOverView() {
 								<NewCheckInfoBasics
 									hasTitle
 									checkData={{
-										amount: selectedCheck.dataFromList?.amount.toString()!,
-										description: transferOverview.transferChequeOverView?.description!,
-										date: selectedCheck.dataFromList?.dueDate!,
+										amount: selectedCheck.dataFromList!.amount.toString(),
+										description: transferOverview.transferChequeOverView?.description,
+										date: selectedCheck.dataFromList!.dueDate,
 										sayad: transferOverview.transferChequeOverView?.sayadNo.toString(),
 										reason: transferOverview?.transferChequeOverView?.reasonDescription,
-										serie: selectedCheck.dataFromList?.seriesNo!,
-										serial: selectedCheck.dataFromList?.serialNo!,
-										checkStatus: selectedCheck.dataFromList?.chequeStatusDescription!,
-										sheba: selectedCheck.dataFromList?.fromIban!
+										serie: selectedCheck.dataFromList!.seriesNo,
+										serial: selectedCheck.dataFromList!.serialNo,
+										checkStatus: selectedCheck.dataFromList!.chequeStatusDescription,
+										sheba: selectedCheck.dataFromList!.fromIban
 									}}
 								/>
 							) : null}
@@ -195,21 +198,24 @@ export default function TransferOverView() {
 							justifyContent={'space-between'}
 							gap={'16px'}
 						>
-							<Grid sx={{ width: '48%' }}>
+							<Grid
+								container
+								justifyContent={'space-between'}
+								sx={{ marginTop: '16px' }}
+							>
 								<ButtonAdapter
 									variant="contained"
 									size="medium"
-									muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+									muiButtonProps={{ sx: { width: '49%' } }}
 									onClick={() => handleSubmit()}
 								>
 									{t('registerAndConfirm')}
 								</ButtonAdapter>
-							</Grid>
-							<Grid sx={{ width: '48%' }}>
+
 								<ButtonAdapter
 									variant="outlined"
 									size="medium"
-									muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+									muiButtonProps={{ sx: { width: '49%' } }}
 									onClick={() => handleCancel()}
 								>
 									{t('cancel')}

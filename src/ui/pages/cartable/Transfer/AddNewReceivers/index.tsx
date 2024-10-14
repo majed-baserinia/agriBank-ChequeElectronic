@@ -2,7 +2,7 @@ import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
@@ -95,7 +95,15 @@ export default function AddNewReceivers() {
 								/>
 							) : null}
 							<Typography variant="bodyMd">{t('addNewReceiversText')}</Typography>
-							<CheckReceivers sayad={Number(selectedCheck?.dataFromList?.sayadNo!)} onRceiversChange={(receiversList) => addNewCartableData({ receivers: receiversList })} />
+							<CheckReceivers
+								sayad={Number(selectedCheck!.dataFromList!.sayadNo)}
+								onRceiversChange={(receiversList) =>
+									addNewCartableData({
+										receivers: receiversList
+									})
+								}
+								receivers={receivers}
+							/>
 						</Grid>
 						<Grid container>
 							<ButtonAdapter
