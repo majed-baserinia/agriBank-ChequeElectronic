@@ -55,7 +55,7 @@ export default function HomePage() {
 					/>
 				</Grid>
 			</BoxAdapter>
-			<BoxAdapter muiPaperProps={{ sx: { padding: '16px', minWidth: '25%', borderRadius: '32px' } }}>
+			{/* <BoxAdapter muiPaperProps={{ sx: { padding: '16px', minWidth: '25%', borderRadius: '32px' } }}>
 				<Grid
 					dir={theme.direction}
 					container
@@ -67,7 +67,7 @@ export default function HomePage() {
 						menuTitle={'guide'}
 					/>
 				</Grid>
-			</BoxAdapter>
+			</BoxAdapter> */}
 		</Grid>
 	);
 }

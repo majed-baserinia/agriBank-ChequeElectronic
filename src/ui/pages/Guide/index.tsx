@@ -35,6 +35,7 @@ export default function GuidePage() {
 			{questions.map((q) => {
 				return (
 					<AccordionAdapter
+						key={q.details.key}
 						id="1"
 						details={q.details}
 						summery={q.summery}
