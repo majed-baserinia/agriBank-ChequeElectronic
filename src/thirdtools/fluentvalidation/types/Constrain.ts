@@ -10,5 +10,5 @@
  * @desc Constrains type `T` to only those properties that exist in type `U`
  */
 export type Constrain<T, U> = {
-  [key in keyof T]: key extends keyof U ? T[key] : never;
+	[key in keyof T]: key extends keyof U ? T[key] : never;
 };

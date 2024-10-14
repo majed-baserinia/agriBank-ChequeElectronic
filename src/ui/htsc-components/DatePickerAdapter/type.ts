@@ -4,5 +4,5 @@ export type Props = {
 	error?: boolean;
 	helperText?: string;
 	onChange: (value: string) => void;
-	defaultValue?: string
+	defaultValue?: string;
 };

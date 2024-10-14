@@ -1,13 +1,4 @@
-import {
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogContentText,
-	DialogTitle,
-	Grid,
-	Typography,
-	useTheme
-} from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid, Typography } from '@mui/material';
 import { clearAlert, useAlert } from 'business/stores/AppAlertsStore';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +10,6 @@ import { AppAlert } from './type';
 export default function AppAlerts() {
 	const { alerts } = useAlert();
 	const { t } = useTranslation();
-	const theme = useTheme();
 	const [open, setOpen] = useState(true);
 	const [localAlerts, setLocalAlerts] = useState<AppAlert[]>([]);
 	const capturedAlert = localAlerts[0];
@@ -44,13 +34,14 @@ export default function AppAlerts() {
 
 	return localAlerts.length > 0 ? (
 		<Dialog
-			onClose={(e, reason) => handleClose()}
+			onClose={() => handleClose()}
 			open={open}
 			PaperProps={{
 				sx: { padding: '32px', borderRadius: '24px' }
 			}}
 			maxWidth={'xs'}
 			fullWidth
+			// eslint-disable-next-line no-loss-of-precision
 			sx={{ zIndex: 9999999999999999 }}
 		>
 			<Grid

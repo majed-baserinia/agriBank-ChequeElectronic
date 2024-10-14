@@ -10,7 +10,8 @@ import SvgToIcon from '../SvgToIcon';
 import ChipsAdapter from '../chipsAdapter';
 import { Props } from './type';
 
-export default function Filter<T extends {}>(props: Props<T>) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function Filter<T extends Record<any, unknown>>(props: Props<T>) {
 	const { data, filters, getFilteredData } = props;
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
@@ -39,9 +40,9 @@ export default function Filter<T extends {}>(props: Props<T>) {
 	};
 
 	const handleSubmitFilterButton = () => {
-		let selectedItems = [];
-		let filteredData = [];
-		for (let filter of filtersState) {
+		const selectedItems = [];
+		const filteredData = [];
+		for (const filter of filtersState) {
 			//get selected value
 			const selectedItem = filter.list.find((item) => item.selected)?.value;
 
@@ -109,6 +110,7 @@ export default function Filter<T extends {}>(props: Props<T>) {
 						{inputValue.map((item) => {
 							return (
 								<ChipsAdapter
+									key={item}
 									label={item}
 									onClick={() => {}}
 									icon={<CloseIcon sx={{ width: '20px', height: '20px', margin: '0' }} />}
@@ -132,13 +134,14 @@ export default function Filter<T extends {}>(props: Props<T>) {
 					{filtersState.map((filter) => {
 						return (
 							<Grid
+								key={filter.label}
 								container
 								direction={'column'}
 								gap={'8px'}
 							>
 								<Typography variant="bodySm">{filter.filterTitle}</Typography>
 								<SelectAdapter
-									label={filter.label!}
+									label={filter.label}
 									onChange={(value) => {
 										handleSelectChange(filter.label, value);
 									}}
@@ -146,7 +149,14 @@ export default function Filter<T extends {}>(props: Props<T>) {
 									defaultValue={filter.list.find((item) => item.selected)?.value}
 								>
 									{filter.list.map((item) => {
-										return <MenuItem value={item.value}>{item.key}</MenuItem>;
+										return (
+											<MenuItem
+												key={item.key}
+												value={item.value}
+											>
+												{item.key}
+											</MenuItem>
+										);
 									})}
 								</SelectAdapter>
 							</Grid>

@@ -42,8 +42,7 @@ export default function ChipsAdapter(props: Props) {
 			onDelete={count ? () => {} : undefined}
 			deleteIcon={count ? <CounterIcon count={count} /> : undefined}
 			sx={sx}
-			icon={icon ? <Grid 
-				>{icon}</Grid> : undefined}
+			icon={icon ? <Grid>{icon}</Grid> : undefined}
 		/>
 	);
 }

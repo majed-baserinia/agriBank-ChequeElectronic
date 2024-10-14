@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useCountDownTimer } from 'ui/htsc-components/count-down-timer/useCountDownTimer';
 
 export type Props = {
-	timerInSeconds: {timer: number} | undefined;
+	timerInSeconds: { timer: number } | undefined;
 	onCountDownStarted?: () => void;
 	onCountDownEnded?: () => void;
 };

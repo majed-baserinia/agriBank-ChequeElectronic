@@ -2,7 +2,7 @@ import { SelectProps } from '@mui/material';
 import { ReactNode } from 'react';
 
 export type Props = {
-	label: string;
+	label?: string;
 	helperText?: string;
 	error?: boolean;
 	disabled?: boolean;

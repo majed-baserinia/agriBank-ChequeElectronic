@@ -1,115 +1,108 @@
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  IRequest,
-  IRequestHandler,
-  IResolver,
-  Mediator,
-  mediatorSettings,
-  requestHandler
-} from "@Mediatr/index.js";
-import { Container, inject, injectable } from "inversify";
-import "reflect-metadata";
+import { IRequest, IRequestHandler, IResolver, Mediator, mediatorSettings, requestHandler } from '@Mediatr/index.js';
+import { Container, inject, injectable } from 'inversify';
+import 'reflect-metadata';
 
-describe("Resolver with inversify", () => {
-  beforeEach(() => {
-    mediatorSettings.resolver.clear();
-  });
+describe('Resolver with inversify', () => {
+	beforeEach(() => {
+		mediatorSettings.resolver.clear();
+	});
 
-  test("Should resolve own instances", () => {
-    interface IWarrior {
-      fight(): string;
-    }
+	test('Should resolve own instances', () => {
+		interface IWarrior {
+			fight(): string;
+		}
 
-    const TYPES = {
-      IWarrior: Symbol.for("IWarrior")
-    };
+		const TYPES = {
+			IWarrior: Symbol.for('IWarrior')
+		};
 
-    @injectable()
-    class Ninja implements IWarrior {
-      fight(): string {
-        return "ninja fight";
-      }
-    }
+		@injectable()
+		class Ninja implements IWarrior {
+			fight(): string {
+				return 'ninja fight';
+			}
+		}
 
-    const c = new Container();
-    c.bind<IWarrior>(TYPES.IWarrior).to(Ninja);
+		const c = new Container();
+		c.bind<IWarrior>(TYPES.IWarrior).to(Ninja);
 
-    const ninja = c.get<IWarrior>(TYPES.IWarrior);
-    expect(ninja.fight()).toBe("ninja fight");
-  });
+		const ninja = c.get<IWarrior>(TYPES.IWarrior);
+		expect(ninja.fight()).toBe('ninja fight');
+	});
 
-  test("Should resolve the handler and inject inversify interfaces", async () => {
-    /**
-     *  Arrange
-     */
+	test('Should resolve the handler and inject inversify interfaces', async () => {
+		/**
+		 *  Arrange
+		 */
 
-    interface IWarrior {
-      fight(): string;
-    }
+		interface IWarrior {
+			fight(): string;
+		}
 
-    const TYPES = {
-      IWarrior: Symbol.for("IWarrior")
-    };
+		const TYPES = {
+			IWarrior: Symbol.for('IWarrior')
+		};
 
-    @injectable()
-    class Ninja implements IWarrior {
-      fight(): string {
-        return "ninja fight";
-      }
-    }
+		@injectable()
+		class Ninja implements IWarrior {
+			fight(): string {
+				return 'ninja fight';
+			}
+		}
 
-    const c = new Container();
-    c.bind<IWarrior>(TYPES.IWarrior).to(Ninja);
+		const c = new Container();
+		c.bind<IWarrior>(TYPES.IWarrior).to(Ninja);
 
-    class InversifyResolver implements IResolver {
-      resolveMany<T>(name: string): T[] {
-        throw new Error("Method not implemented.");
-      }
-      remove(name: string): void {
-        c.unbind(name);
-      }
-      clear(): void {
-        c.unbindAll();
-      }
-      resolve<T>(name: string): T {
-        return c.get(name);
-      }
-      add(name: string, instance: Function): void {
-        c.bind(name).to(instance as any);
-      }
-    }
+		class InversifyResolver implements IResolver {
+			resolveMany<T>(name: string): T[] {
+				throw new Error('Method not implemented.');
+			}
+			remove(name: string): void {
+				c.unbind(name);
+			}
+			clear(): void {
+				c.unbindAll();
+			}
+			resolve<T>(name: string): T {
+				return c.get(name);
+			}
+			add(name: string, instance: Function): void {
+				c.bind(name).to(instance as any);
+			}
+		}
 
-    /**
-     *  Act
-     */
+		/**
+		 *  Act
+		 */
 
-    // Settings the resolver with Inversify
-    mediatorSettings.resolver = new InversifyResolver();
+		// Settings the resolver with Inversify
+		mediatorSettings.resolver = new InversifyResolver();
 
-    class Request implements IRequest<number> {
-      public thenumber: number;
+		class Request implements IRequest<number> {
+			public thenumber: number;
 
-      constructor(thenumber: number) {
-        this.thenumber = thenumber;
-      }
-    }
+			constructor(thenumber: number) {
+				this.thenumber = thenumber;
+			}
+		}
 
-    @requestHandler(Request)
-    @injectable()
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    class HandlerRequest implements IRequestHandler<Request, string> {
-      @inject(TYPES.IWarrior)
-      public warrior?: IWarrior;
+		@requestHandler(Request)
+		@injectable()
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		class HandlerRequest implements IRequestHandler<Request, string> {
+			@inject(TYPES.IWarrior)
+			public warrior?: IWarrior;
 
-      public handle(value: Request): Promise<string> {
-        return Promise.resolve(`We has ${value.thenumber} ${this.warrior?.fight()}`);
-      }
-    }
+			public handle(value: Request): Promise<string> {
+				return Promise.resolve(`We has ${value.thenumber} ${this.warrior?.fight()}`);
+			}
+		}
 
-    const mediator = new Mediator();
-    const result = await mediator.send<string>(new Request(99));
+		const mediator = new Mediator();
+		const result = await mediator.send<string>(new Request(99));
 
-    expect(result).toBe("We has 99 ninja fight");
-  });
+		expect(result).toBe('We has 99 ninja fight');
+	});
 });

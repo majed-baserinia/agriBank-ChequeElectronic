@@ -62,12 +62,12 @@ export default function SelectAdapter(props: Props) {
 	};
 
 	const gridStyle = {
-		position: 'absolute',
+		position: 'fixed',
 		top: '0',
 		left: '0',
 		right: '0',
 		bottom: '0',
-		zIndex: '9',
+		zIndex: '99999999999',
 		padding: '16px',
 		height: window.innerHeight + 'px',
 		width: '100%',
@@ -79,13 +79,15 @@ export default function SelectAdapter(props: Props) {
 			backgroundColor: theme.palette.background.paper,
 			height: '100%',
 			minWidth: '100%',
-			boxShadow: 'none'
+			boxShadow: 'none',
+			zIndex: '999999999999'
 		},
 		'& .MuiMenu-paper': {
 			backgroundColor: theme.palette.background.paper,
 			height: '100%',
 			minWidth: '100%',
-			boxShadow: 'none'
+			boxShadow: 'none',
+			zIndex: '999999999999'
 		}
 	};
 
@@ -100,7 +102,7 @@ export default function SelectAdapter(props: Props) {
 				fullWidth
 				size={size}
 			>
-				<InputLabel id="label">{label}</InputLabel>
+				{label ? <InputLabel id="label">{label}</InputLabel> : null}
 				<Select
 					// we need one more rerender to apply the new styles correctly
 					// the key props is for forcing a rerender
@@ -115,16 +117,18 @@ export default function SelectAdapter(props: Props) {
 					onClose={(e) => handleClickedItem(e)}
 					value={selectedValue}
 					label={
-						<>
-							{isRequired ? (
-								<>
-									{label}
-									<span style={{ color: theme.palette.error.main }}> *</span>
-								</>
-							) : (
-								label
-							)}
-						</>
+						label ? (
+							<>
+								{isRequired ? (
+									<>
+										{label}
+										<span style={{ color: theme.palette.error.main }}> *</span>
+									</>
+								) : (
+									label
+								)}
+							</>
+						) : undefined
 					}
 					onChange={(e, child) => handleChange(e, child)}
 					sx={{ '& .MuiSvgIcon-root': { color: theme.palette.grey[400] } }}
@@ -135,6 +139,7 @@ export default function SelectAdapter(props: Props) {
 						renderValue: renderValue ? (option: string) => option : undefined
 					}}
 					MenuProps={{
+						disablePortal: true,
 						dir: theme.direction,
 						sx: matches ? menuStyle : null,
 						PaperProps: {

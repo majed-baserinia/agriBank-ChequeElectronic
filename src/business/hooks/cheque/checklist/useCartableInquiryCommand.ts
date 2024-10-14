@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom';
 const mediator = new Mediator();
 
 export default function useCartableInquiryCommand() {
-	const navigate = useNavigate()
-	
+	const navigate = useNavigate();
+
 	return useMutation<CartableInquiryResponse, ErrorType<CartableInquiryRequest>, CartableInquiryCommand>({
 		mutationFn: (data: CartableInquiryCommand) =>
 			mediator.send<CartableInquiryResponse>(new CartableInquiryCommand(data)),

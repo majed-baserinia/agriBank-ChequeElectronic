@@ -16,7 +16,7 @@ export default function useVerifyOtp() {
 		onSuccess: (data) => {
 			return () => data;
 		},
-		onError: (error, variables) => {
+		onError: (_, variables) => {
 			return () => variables;
 		}
 	});

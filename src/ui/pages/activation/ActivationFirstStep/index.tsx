@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
- 
+
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import RadioButtonAdapter from 'ui/htsc-components/RadioButtonAdapter';
@@ -16,8 +16,8 @@ import Stepper from 'ui/htsc-components/Stepper';
 
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import Loader from 'ui/htsc-components/loader/Loader';
-import { menuList } from '../../HomePage/menuList';
 import { paths } from 'ui/route-config/paths';
+import { menuList } from '../../HomePage/menuList';
 
 export default function ActivationFirstStep() {
 	const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function ActivationFirstStep() {
 		context: FirstStepCommand
 	});
 
-	const submitHandler = (data: FirstStepCommand) => {
+	const submitHandler = (_: FirstStepCommand) => {
 		const usersCustomerNumber = {};
 		mutate(
 			{ ...usersCustomerNumber },
@@ -136,7 +136,7 @@ export default function ActivationFirstStep() {
 			</Grid>
 			{matches ? null : (
 				<Grid
-				item
+					item
 					md={3}
 					dir={theme.direction}
 				>

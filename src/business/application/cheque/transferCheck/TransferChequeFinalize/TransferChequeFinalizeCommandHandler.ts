@@ -7,7 +7,7 @@ import { TransferChequeFinalizeResponse } from 'common/entities/cheque/transferC
 import TransferChequeFinalizeCommand from './TransferChequeFinalizeCommand';
 
 @requestHandler(TransferChequeFinalizeCommand)
-export class  TransferChequeFinalizeCommandHandler
+export class TransferChequeFinalizeCommandHandler
 	implements IRequestHandler<TransferChequeFinalizeCommand, TransferChequeFinalizeResponse>
 {
 	handle(value: TransferChequeFinalizeCommand): Promise<TransferChequeFinalizeResponse> {

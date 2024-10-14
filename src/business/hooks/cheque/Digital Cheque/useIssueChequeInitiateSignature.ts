@@ -2,7 +2,6 @@ import { Mediator } from '@Mediatr/index';
 import { useMutation } from '@tanstack/react-query';
 import IssueChequeInitiateSignatureCommand from 'business/application/cheque/Digital Cheque/Issuechequeinitiatesignature/IssuechequeinitiatesignatureCommand';
 import { ErrorType } from 'common/entities/ErrorType';
-import { GetCheckSheetsResponse } from 'common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse';
 import { IssueChequeInitiateSignatureRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiateSignature/IssueChequeInitiateSignatureRequest';
 import { IssueChequeInitiateSignatureResponse } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiateSignature/IssueChequeInitiateSignatureResponse';
 
@@ -22,7 +21,7 @@ export default function useIssueChequeInitiateSignature() {
 		onSuccess: (data) => {
 			return () => data;
 		},
-		onError: (error, variables) => {
+		onError: (_, variables) => {
 			return () => variables;
 		}
 	});

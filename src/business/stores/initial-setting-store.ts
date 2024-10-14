@@ -4,11 +4,11 @@ import { AuthTokens, clearAuth, saveAuthTokens } from '../infrastructure/auth-se
 export interface InitialSetting {
 	language: string;
 	themeName: string;
-	theme: any;
-	idToken: string | undefined;
-	refreshToken: string | undefined;
+	theme: object;
+	idToken?: string;
+	refreshToken?: string;
 	osType: number;
-	[key: string]: any;
+	[key: string]: unknown;
 }
 
 interface InitialSettingStore {

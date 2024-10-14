@@ -41,12 +41,11 @@ export default function Deactivation() {
 							type: 'warning',
 							messageText: t('deactivationModalText'),
 							hasConfirmAction: true,
-							confirmButtonText: t("confirm"),
+							confirmButtonText: t('confirm'),
 							hasRefuseAction: true,
 							actions: {
 								onRefuse: () => {},
 								onConfirm: () => {
-
 									deactiveCustomer(
 										{ customerNumber: item.customerNumber },
 										{
@@ -55,7 +54,7 @@ export default function Deactivation() {
 													type: 'success',
 													messageText: res.message,
 													hasConfirmAction: true,
-													
+
 													actions: {
 														onCloseModal: () => navigate(paths.Home),
 														onConfirm: () => navigate(paths.Home)
@@ -72,8 +71,7 @@ export default function Deactivation() {
 														onConfirm: () => navigate(paths.Home)
 													}
 												});
-											},
-											
+											}
 										}
 									);
 								},

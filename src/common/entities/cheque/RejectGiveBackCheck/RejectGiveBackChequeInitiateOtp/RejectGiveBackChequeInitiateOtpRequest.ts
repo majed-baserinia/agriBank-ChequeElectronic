@@ -1,4 +1,3 @@
 export interface RejectGiveBackChequeInitiateOtpRequest {
-	transferChequeKey: string
-	
+	transferChequeKey: string;
 }

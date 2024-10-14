@@ -32,7 +32,7 @@ const refreshToken = async (refreshToken: string): Promise<string | undefined> =
 	const authTokens = getAuthTokens();
 	const baseUrl = ApiConfigSingleton.getApiConfig().baseUrl;
 	axiosForLogin.defaults.headers.common['Authorization'] = `Bearer ${authTokens?.idToken}`;
-	const response = await axiosForLogin.post(baseUrl + '/refreshtoken', {
+	const response = await axiosForLogin.post<{ idToken: string; refreshToken: string }>(baseUrl + '/refreshtoken', {
 		refreshToken: refreshToken
 	});
 	const newIdToken = response.data.idToken;
@@ -72,13 +72,13 @@ axiosInstance.interceptors.response.use(
 				const newIdToken = await refreshToken(refreshTokenValue!);
 				axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newIdToken}`;
 				return axiosInstance.request(originalRequest!);
-			} catch (refreshError) {
+			} catch (_) {
 				clearAuth();
 				window.location.href = import.meta.env.BASE_URL;
 				sendPostmessage('tokenIsNotValid', 'true');
 			}
 		} else if (error.response?.status == 400 && error?.response?.data) {
-			throw prepareErrorType(<ErrorType<TResponse>>error?.response?.data);
+			return prepareErrorType(<ErrorType<TResponse>>error?.response?.data);
 		}
 
 		if (error.message === 'Network Error' && error.response?.status !== 500) {
@@ -88,7 +88,7 @@ axiosInstance.interceptors.response.use(
 				hasConfirmAction: true
 			});
 		}
-		return Promise.reject(prepareErrorType(<ErrorType<TResponse>>error?.response?.data));
+		return prepareErrorType(<ErrorType<TResponse>>error?.response?.data);
 	}
 );
 
@@ -117,7 +117,7 @@ class APIClient<TBody, TResponse> {
 			.then((res) => res.data)
 			.catch((error: AxiosError) => {
 				if (error.response?.status == 400) {
-					throw new Error((<any>error?.response?.data).detail || 'Internal Error');
+					throw new Error((<ErrorType<object>>error?.response?.data).detail || 'Internal Error');
 				}
 				throw new Error('Internal Error');
 			});

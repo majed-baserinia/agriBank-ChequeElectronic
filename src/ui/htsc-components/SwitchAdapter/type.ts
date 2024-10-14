@@ -1,5 +1,5 @@
-import { SwitchProps } from "@mui/material";
-import { ChangeEvent } from "react";
+import { SwitchProps } from '@mui/material';
+import { ChangeEvent } from 'react';
 
 export type Props = {
 	type?: 'small' | 'large';
@@ -7,5 +7,5 @@ export type Props = {
 	onChange: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
 	label: string;
 	spaceBetween?: boolean;
-	switchProps?: SwitchProps
+	switchProps?: SwitchProps;
 };

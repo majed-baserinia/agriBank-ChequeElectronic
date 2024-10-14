@@ -20,7 +20,7 @@ export default function NewCheckInfoAdvance(props: Props) {
 	const { t } = useTranslation();
 
 	return (
-		<Grid sx={{ padding: '16px', border: `1px solid ${theme.palette.grey[50]}` }}>
+		<Grid sx={{ padding: '16px', border: `1px solid ${theme.palette.grey[50]}`, borderRadius: '16px' }}>
 			<Grid
 				container
 				direction={'column'}

@@ -7,6 +7,6 @@ export type Props = {
 	label: string;
 	handleResend: () => void;
 	timerInSeconds?: {
-		timer: number
-	}
+		timer: number;
+	};
 };

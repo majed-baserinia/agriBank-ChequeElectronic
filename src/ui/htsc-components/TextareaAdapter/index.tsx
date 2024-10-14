@@ -1,8 +1,7 @@
-import { TextField, Typography, useTheme } from '@mui/material';
+import { TextField, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 
-import { TextareaAdapterProps } from "./type";
-import { use } from 'i18next';
+import { TextareaAdapterProps } from './type';
 
 export default function TextareaAdapter(props: TextareaAdapterProps) {
 	const {
@@ -18,19 +17,17 @@ export default function TextareaAdapter(props: TextareaAdapterProps) {
 		error = false,
 		success = false,
 		helperText,
-        rows = 4
+		rows = 4
 	} = props;
 
 	const theme = useTheme();
 	const [value, setValue] = useState(defaultValue);
 	const [shrink, setShrink] = useState(defaultValue ? true : false);
 
-
 	useEffect(() => {
-		if(defaultValue){
-
+		if (defaultValue) {
 			setValue(defaultValue);
-			setShrink(true)
+			setShrink(true);
 		}
 	}, [defaultValue]);
 

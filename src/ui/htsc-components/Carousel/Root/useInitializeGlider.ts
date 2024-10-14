@@ -1,6 +1,6 @@
 import Glide from '@glidejs/glide';
 import { RefObject, useEffect, useState } from 'react';
-import { addEventListener, Callback, GlideEvents } from 'ui/htsc-components/Carousel/events';
+import { Callback, GlideEvents, addEventListener } from 'ui/htsc-components/Carousel/events';
 import { GlideOptions } from 'ui/htsc-components/Carousel/options';
 
 export function useInitializeGlider(element: RefObject<HTMLElement>, options: GlideOptions & GlideEvents) {
@@ -11,6 +11,7 @@ export function useInitializeGlider(element: RefObject<HTMLElement>, options: Gl
 
 		const events = Object.entries(options).filter(([key, _]) => {
 			return key.startsWith('on');
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		}) as any as [keyof GlideEvents, Callback][];
 
 		events.forEach(([key, value]) => {

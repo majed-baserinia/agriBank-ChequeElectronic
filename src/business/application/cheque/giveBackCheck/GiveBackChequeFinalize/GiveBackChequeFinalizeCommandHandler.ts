@@ -2,9 +2,9 @@ import { IRequestHandler, requestHandler } from '@Mediatr/index';
 import APIClient from 'business/infrastructure/api-client';
 
 import { GiveBackChequeFinalize } from 'business/infrastructure/end-points';
-import GiveBackChequeFinalizeCommand from './GiveBackChequeFinalizeCommand';
-import { GiveBackChequeFinalizeResponse } from 'common/entities/cheque/GivebackCheck/GiveBackChequeFinalize/GiveBackChequeFinalizeResponse';
 import { GiveBackChequeFinalizeRequest } from 'common/entities/cheque/GivebackCheck/GiveBackChequeFinalize/GiveBackChequeFinalizeRequest';
+import { GiveBackChequeFinalizeResponse } from 'common/entities/cheque/GivebackCheck/GiveBackChequeFinalize/GiveBackChequeFinalizeResponse';
+import GiveBackChequeFinalizeCommand from './GiveBackChequeFinalizeCommand';
 
 @requestHandler(GiveBackChequeFinalizeCommand)
 export class GiveBackChequeFinalizeCommandHandler

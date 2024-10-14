@@ -11,7 +11,7 @@ const mediator = new Mediator();
 
 export default function useGetReasonCodes() {
 	const navigate = useNavigate();
-	return useQuery<GetCodeResponse, ErrorType<{}>, GetCodeResponse>({
+	return useQuery<GetCodeResponse, ErrorType<object>, GetCodeResponse>({
 		queryKey: ['reasonsCode'],
 		queryFn: () => mediator.send<GetCodeResponse>(new GetCodesQuery()),
 		staleTime: 0, //ms('30m')

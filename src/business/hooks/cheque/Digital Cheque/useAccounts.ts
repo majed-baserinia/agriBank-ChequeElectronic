@@ -11,7 +11,7 @@ const mediator = new Mediator();
 
 const useAccounts = () => {
 	const navigate = useNavigate();
-	return useQuery<CurrentAccountResponse[], ErrorType<{}>, CurrentAccountResponse[], QueryKey>({
+	return useQuery<CurrentAccountResponse[], ErrorType<object>, CurrentAccountResponse[], QueryKey>({
 		queryKey: ['currentAccouns'],
 		queryFn: () => mediator.send<CurrentAccountResponse[]>(new CurrentAccountsQuery()),
 		staleTime: 0, //ms('30m')

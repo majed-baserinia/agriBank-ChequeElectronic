@@ -1,6 +1,6 @@
 import { IRequest } from '@Mediatr/index';
 
-export default class CheckInfoFormValidatorCommand implements IRequest<{}> {
+export default class CheckInfoFormValidatorCommand implements IRequest<object> {
 	date: Date;
 	checkAmount: string;
 	reason: { name: string; value: string };

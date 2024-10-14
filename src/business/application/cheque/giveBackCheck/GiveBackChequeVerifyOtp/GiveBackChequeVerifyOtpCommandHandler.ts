@@ -2,9 +2,9 @@ import { IRequestHandler, requestHandler } from '@Mediatr/index';
 import APIClient from 'business/infrastructure/api-client';
 
 import { GiveBackChequeVerifyOtp } from 'business/infrastructure/end-points';
-import GiveBackChequeVerifyOtpCommand from './GiveBackChequeVerifyOtpCommand';
-import { GiveBackChequeVerifyOtpResponse } from 'common/entities/cheque/GivebackCheck/GiveBackChequeVerifyOtp/GiveBackChequeVerifyOtpResponse';
 import { GiveBackChequeVerifyOtpRequest } from 'common/entities/cheque/GivebackCheck/GiveBackChequeVerifyOtp/GiveBackChequeVerifyOtpRequest';
+import { GiveBackChequeVerifyOtpResponse } from 'common/entities/cheque/GivebackCheck/GiveBackChequeVerifyOtp/GiveBackChequeVerifyOtpResponse';
+import GiveBackChequeVerifyOtpCommand from './GiveBackChequeVerifyOtpCommand';
 
 @requestHandler(GiveBackChequeVerifyOtpCommand)
 export class GiveBackChequeVerifyOtpCommandHandler

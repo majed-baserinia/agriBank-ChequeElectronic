@@ -2,10 +2,10 @@ import type Glide from '@glidejs/glide';
 import { Theme, useTheme } from '@mui/material';
 import React, { useRef } from 'react';
 import OptionsContext from 'ui/htsc-components/Carousel/Context/OptionsContext';
-import { GlideEvents } from 'ui/htsc-components/Carousel/events';
-import { GlideOptions } from 'ui/htsc-components/Carousel/options';
 import { useInitializeGlider } from 'ui/htsc-components/Carousel/Root/useInitializeGlider';
 import Track from 'ui/htsc-components/Carousel/Track/Track';
+import { GlideEvents } from 'ui/htsc-components/Carousel/events';
+import { GlideOptions } from 'ui/htsc-components/Carousel/options';
 import styles from './styles.module.css';
 
 export type Props = GlideOptions &
@@ -17,7 +17,7 @@ export type Props = GlideOptions &
 export default function Root({ className, setDefaultOptions = true, children, ...options }: Props) {
 	const rootRef = useRef<HTMLDivElement>(null);
 	const theme = useTheme();
-	const { glide } = useInitializeGlider(rootRef, getGliderOptions(theme, options, setDefaultOptions));
+	useInitializeGlider(rootRef, getGliderOptions(theme, options, setDefaultOptions));
 
 	if (options.focusActiveSlide?.enabled) {
 		className += ` ${styles['focus-center']}`;

@@ -15,7 +15,7 @@ export default function AddForm(props: AddFormProps) {
 	const { setOpen, setReceivers, sayad } = props;
 	const theme = useTheme();
 	const { t } = useTranslation();
-	const { data: inqueriedData, isLoading: loadingIquiryName, mutate: inqueryRecieverName } = useRecieverNameInquiry();
+	const { isLoading: loadingIquiryName, mutate: inqueryRecieverName } = useRecieverNameInquiry();
 	const [tab, setTab] = useState<'personal' | 'corporate'>('personal');
 	const [checkedForeigner, setCheckedForeigner] = useState(false);
 

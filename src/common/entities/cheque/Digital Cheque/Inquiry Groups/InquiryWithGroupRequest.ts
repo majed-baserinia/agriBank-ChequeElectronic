@@ -1,3 +1,3 @@
-export interface InquiryWithGroupRequest{
-    issueChequeKey:string;
+export interface InquiryWithGroupRequest {
+	issueChequeKey: string;
 }

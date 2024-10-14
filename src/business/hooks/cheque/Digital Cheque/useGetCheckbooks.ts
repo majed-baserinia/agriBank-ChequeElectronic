@@ -21,7 +21,7 @@ export default function useGetCheckbooks() {
 		onSuccess: (data) => {
 			return () => data;
 		},
-		onError: (err, variables) => {
+		onError: (err) => {
 			pushAlert({
 				type: 'error',
 				messageText: err.detail,

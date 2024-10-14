@@ -7,7 +7,7 @@ import { AccountsQueryResponse } from 'common/entities/cheque/cashCheck/Accounts
 const mediator = new Mediator();
 
 const useAccountsQuery = () =>
-	useQuery<AccountsQueryResponse, ErrorType<{}>, AccountsQueryResponse>({
+	useQuery<AccountsQueryResponse, ErrorType<object>, AccountsQueryResponse>({
 		queryKey: ['accounts'],
 		queryFn: () => mediator.send<AccountsQueryResponse>(new AccountsQuery()),
 		staleTime: 0, //ms('30m')

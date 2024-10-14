@@ -15,7 +15,6 @@ export default function AccordionAdapter(props: Props) {
 
 	return (
 		<Accordion
-        
 			disableGutters
 			expanded={expanded}
 			onChange={(e) => onChange?.(e, id)}
@@ -28,7 +27,6 @@ export default function AccordionAdapter(props: Props) {
 		>
 			<AccordionSummary
 				expandIcon={<ExpandMoreIcon />}
-                
 				aria-controls={`${id}-content`}
 				id={`${id}-header`}
 			>

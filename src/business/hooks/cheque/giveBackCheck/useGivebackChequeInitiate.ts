@@ -24,6 +24,6 @@ export default function useGivebackChequeInitiate() {
 		},
 		onError: (err) => {
 			pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
-		},
+		}
 	});
 }

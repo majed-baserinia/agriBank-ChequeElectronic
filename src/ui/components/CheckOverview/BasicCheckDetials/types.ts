@@ -1,4 +1,4 @@
-export type Props =  {
+export type Props = {
 	sayadNo?: number;
 	amount?: number;
 	dueDate?: string;
@@ -8,4 +8,4 @@ export type Props =  {
 	description?: string;
 	cashStatus?: string;
 	transferStatus?: string;
-}
+};

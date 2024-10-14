@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import type {
-  BehaviorMappings,
-  NotificationMappings
-} from "@Mediatr/models/dispatcher/mappings.js";
+import type { BehaviorMappings, NotificationMappings } from '@Mediatr/models/dispatcher/mappings.js';
 
 export type OrderMapping<TData = {}> = TData & {
-  order?: number;
+	order?: number;
 };
 
 /**
@@ -18,6 +15,6 @@ export type OrderMapping<TData = {}> = TData & {
  * @interface IDispatcher
  */
 export default interface IDispatcher {
-  get notifications(): NotificationMappings;
-  get behaviors(): BehaviorMappings;
+	get notifications(): NotificationMappings;
+	get behaviors(): BehaviorMappings;
 }

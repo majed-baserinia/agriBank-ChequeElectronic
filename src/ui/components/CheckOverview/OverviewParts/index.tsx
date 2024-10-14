@@ -69,7 +69,7 @@ const SignerComp = (props: SignerData) => {
 	const { customerNumber } = props;
 	return (
 		<>
-			<Typography variant="bodyXs">{t("codeOrId")}</Typography>
+			<Typography variant="bodyXs">{t('codeOrId')}</Typography>
 			<Typography variant="bodyXs">{customerNumber}</Typography>
 		</>
 	);
@@ -88,7 +88,7 @@ const ReceiverComp = (props: ReceiverData) => {
 
 	return (
 		<>
-			<Typography variant="bodyXs">{t("codeOrId")}</Typography>
+			<Typography variant="bodyXs">{t('codeOrId')}</Typography>
 			<Typography variant="bodyXs">{nationalNo}</Typography>
 			{shahabNo && (
 				<>
@@ -104,7 +104,7 @@ const HolderComponent = (props: HolderData) => {
 	const { nationalNo } = props;
 	return (
 		<>
-			<Typography variant="bodyXs">{t("codeOrId")}</Typography>
+			<Typography variant="bodyXs">{t('codeOrId')}</Typography>
 			<Typography variant="bodyXs">{nationalNo}</Typography>
 		</>
 	);

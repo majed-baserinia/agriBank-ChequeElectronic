@@ -7,7 +7,8 @@ type Props = {
 	check: Check;
 };
 export default function CheckInfoBox(props: Props) {
-	const { seriesNo, sayadNo, amount, chequeStatusDescription, dueDate, reason, serialNo, description, reasonDescription } = props.check;
+	const { seriesNo, sayadNo, amount, chequeStatusDescription, dueDate, serialNo, description, reasonDescription } =
+		props.check;
 	const theme = useTheme();
 	const { t } = useTranslation();
 

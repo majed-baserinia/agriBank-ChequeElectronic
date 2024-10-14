@@ -23,6 +23,7 @@ type MappedEvents = {
 	[K in DefaultEvents as MappedEvent<K>]: K;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Callback = (glide: Glide, ...args: any) => void;
 
 export type GlideEvents = {
@@ -46,7 +47,7 @@ const MAPPED_EVENTS: { [K in DefaultEvents as K]: MappedEvent<K> } = {
 };
 
 export function mappedEventToGlideEvent(name: string): DefaultEvents {
-	const originalEventName = Object.entries(MAPPED_EVENTS).find(([key, value]) => value == name);
+	const originalEventName = Object.entries(MAPPED_EVENTS).find(([_, value]) => value == name);
 	if (!originalEventName) {
 		throw new Error(`cannot map "${name}" to a glidejs event`);
 	}
@@ -54,7 +55,9 @@ export function mappedEventToGlideEvent(name: string): DefaultEvents {
 }
 
 export function addEventListener(instance: Glide, name: string, callback: Callback) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	instance.on(mappedEventToGlideEvent(name), (...args: any) => {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		callback(instance, ...args);
 	});
 }

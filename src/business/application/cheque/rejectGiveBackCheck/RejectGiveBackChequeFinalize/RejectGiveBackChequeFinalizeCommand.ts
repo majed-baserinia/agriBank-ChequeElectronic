@@ -3,10 +3,8 @@ import { RejectGiveBackChequeFinalizeResponse } from 'common/entities/cheque/Rej
 
 export default class RejectGiveBackChequeFinalizeCommand implements IRequest<RejectGiveBackChequeFinalizeResponse> {
 	transferChequeKey: string;
-	
 
 	constructor(formData: RejectGiveBackChequeFinalizeCommand) {
 		this.transferChequeKey = formData.transferChequeKey;
-		
 	}
 }

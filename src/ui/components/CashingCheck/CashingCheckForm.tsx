@@ -35,7 +35,7 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 						name="Creditor_Account"
 						render={({ field }) => (
 							<SelectAdapter
-								onChange={(selectedValue) => {									
+								onChange={(selectedValue) => {
 									field.onChange(selectedValue);
 								}}
 								defaultValue={field.value}
@@ -76,8 +76,9 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 															color={theme.palette.grey[200]}
 														>
 															{!item.isShared
-																? `${item.owners[0]?.firstName} ${item.owners[0]
-																		?.lastName} ${t('curentAccountP')}`
+																? `${item.owners[0]?.firstName} ${
+																		item.owners[0]?.lastName
+																	} ${t('curentAccountP')}`
 																: t('sharedAccountP')}
 														</Typography>
 

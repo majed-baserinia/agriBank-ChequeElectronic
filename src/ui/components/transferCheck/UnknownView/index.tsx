@@ -60,7 +60,7 @@ export default function UnknownView({ checkData }: { checkData: InquiryTransferS
 							hasTitle
 							checkData={{
 								amount: checkData.amount.toString(),
-								description: checkData.description!,
+								description: checkData.description,
 								date: checkData.dueDate,
 								sayad: checkData.sayadId,
 								reason: checkData.reasonDescription,

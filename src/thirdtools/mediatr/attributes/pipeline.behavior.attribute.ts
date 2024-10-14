@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import { mediatorSettings } from "@Mediatr/index.js";
-import type { IPipelineBehaviorClass } from "@Mediatr/interfaces/ipipeline.behavior.js";
+import { mediatorSettings } from '@Mediatr/index.js';
+import type { IPipelineBehaviorClass } from '@Mediatr/interfaces/ipipeline.behavior.js';
 
 /**
  * Decorate the pipelineBehavior with this attribute
@@ -9,11 +9,11 @@ import type { IPipelineBehaviorClass } from "@Mediatr/interfaces/ipipeline.behav
  * @param value The request type
  */
 const pipelineBehavior = () => {
-  return (target: Function): void => {
-    mediatorSettings.dispatcher.behaviors.add({
-      behavior: target as IPipelineBehaviorClass
-    });
-  };
+	return (target: Function): void => {
+		mediatorSettings.dispatcher.behaviors.add({
+			behavior: target as IPipelineBehaviorClass
+		});
+	};
 };
 
 export default pipelineBehavior;

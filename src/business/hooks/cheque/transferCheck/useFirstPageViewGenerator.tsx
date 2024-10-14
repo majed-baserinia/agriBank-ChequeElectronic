@@ -14,18 +14,23 @@ export default function useFirstPageViewGenerator() {
 	const { data: inqueryStatusResponse, mutate: inqueryStatus } = useInquiryTransferStatus();
 
 	const [view, setView] = useState<ReactNode>();
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		if (selectedCheck) {
 			inqueryStatus(
 				{ sayadNo: Number(selectedCheck.dataFromList?.sayadNo), chequeHolderNationalCode: '' },
 				{
-					onError(error, variables, context) {
+					onError() {
 						// we should show the first view here
-						setView(<FirstPersonView checkData={inqueryStatusResponse} />);
+						setView(
+							<FirstPersonView
+								checkData={inqueryStatusResponse}
+								setLoading={setLoading}
+							/>
+						);
 					},
-					onSuccess(data, variables, context) {
+					onSuccess(data) {
 						addNewCartableData({ selectedCheck: { ...selectedCheck, iquiriedData: data } });
 
 						//check if ther is receivers on the response object and if it is,
@@ -38,7 +43,12 @@ export default function useFirstPageViewGenerator() {
 								/>
 							);
 						} else {
-							setView(<FirstPersonView checkData={inqueryStatusResponse} />);
+							setView(
+								<FirstPersonView
+									checkData={inqueryStatusResponse}
+									setLoading={setLoading}
+								/>
+							);
 						}
 					}
 				}

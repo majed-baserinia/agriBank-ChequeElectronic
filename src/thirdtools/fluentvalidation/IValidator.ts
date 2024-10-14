@@ -1,5 +1,5 @@
-import { ValidationErrors } from "@Fluentvalidator/ValidationErrors";
+import { ValidationErrors } from '@Fluentvalidator/ValidationErrors';
 
 export interface IValidator<TModel> {
-  validate: (model: TModel) => ValidationErrors<TModel>;
+	validate: (model: TModel) => ValidationErrors<TModel>;
 }

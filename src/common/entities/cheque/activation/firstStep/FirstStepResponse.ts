@@ -1,3 +1,3 @@
-export default interface FirstStepResponse{
-    activationKey  :string;
- }
+export default interface FirstStepResponse {
+	activationKey: string;
+}

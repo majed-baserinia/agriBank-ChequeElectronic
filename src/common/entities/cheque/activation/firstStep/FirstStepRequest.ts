@@ -1,3 +1,3 @@
 export default interface FirstStepRequest {
-  CustomerNumber: number;
+	CustomerNumber: number;
 }

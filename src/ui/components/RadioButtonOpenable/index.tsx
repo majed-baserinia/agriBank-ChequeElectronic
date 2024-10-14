@@ -100,6 +100,7 @@ export default function RadioButtonOpenable(props: Props) {
 					{groupParts.map((part, index) => {
 						return (
 							<Grid
+								key={part}
 								direction={i18n.dir() === 'rtl' ? 'row' : 'row-reverse'}
 								sx={{ marginBottom: '4px' }}
 								container
@@ -138,7 +139,7 @@ export default function RadioButtonOpenable(props: Props) {
 						type="small"
 						label={t('noSignatureArrangement')}
 						checked={isOrder}
-						onChange={(e, checked) => {
+						onChange={(_, checked) => {
 							setIsOrder(checked);
 						}}
 					/>

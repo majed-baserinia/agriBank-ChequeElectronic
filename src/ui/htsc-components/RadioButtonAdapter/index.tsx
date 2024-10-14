@@ -13,7 +13,7 @@ export default function RadioButtonAdapter(props: Props) {
 				borderRadius: '16px',
 				marginRight: 'unset',
 				marginLeft: 'unset',
-				width:"100%"
+				width: '100%'
 			}}
 			disabled={disabled}
 			value={value}

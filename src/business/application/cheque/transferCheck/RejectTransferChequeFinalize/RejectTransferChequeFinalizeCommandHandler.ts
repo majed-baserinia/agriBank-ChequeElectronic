@@ -2,9 +2,9 @@ import { IRequestHandler, requestHandler } from '@Mediatr/index';
 import APIClient from 'business/infrastructure/api-client';
 
 import { RejectTransferChequeFinalize } from 'business/infrastructure/end-points';
-import RejectTransferChequeFinalizeCommand from './RejectTransferChequeFinalizeCommand';
-import { RejectTransferChequeFinalizeResponse } from 'common/entities/cheque/transferCheck/RejectTransferChequeFinalize/RejectTransferChequeFinalizeResponse';
 import { RejectTransferChequeFinalizeRequest } from 'common/entities/cheque/transferCheck/RejectTransferChequeFinalize/RejectTransferChequeFinalizeRequest';
+import { RejectTransferChequeFinalizeResponse } from 'common/entities/cheque/transferCheck/RejectTransferChequeFinalize/RejectTransferChequeFinalizeResponse';
+import RejectTransferChequeFinalizeCommand from './RejectTransferChequeFinalizeCommand';
 
 @requestHandler(RejectTransferChequeFinalizeCommand)
 export class RejectTransferChequeFinalizeCommandHandler

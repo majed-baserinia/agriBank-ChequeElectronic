@@ -10,8 +10,8 @@ import { paths } from 'ui/route-config/paths';
 const mediator = new Mediator();
 
 const useGetAllRelatedCustomers = (serviceName: string) => {
-	const navigate = useNavigate()
-	return useQuery<GetAllRelatedCustomersResponse, ErrorType<{}>, GetAllRelatedCustomersResponse>({
+	const navigate = useNavigate();
+	return useQuery<GetAllRelatedCustomersResponse, ErrorType<object>, GetAllRelatedCustomersResponse>({
 		queryKey: ['GetAllRelatedCustomers'],
 		queryFn: () => mediator.send<GetAllRelatedCustomersResponse>(new GetAllRelatedCustomersQuery(serviceName)),
 		staleTime: 0, //ms('30m')

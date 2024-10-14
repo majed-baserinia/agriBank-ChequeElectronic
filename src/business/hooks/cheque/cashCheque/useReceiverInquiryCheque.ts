@@ -11,7 +11,7 @@ import { paths } from 'ui/route-config/paths';
 const mediator = new Mediator();
 
 export default function useReceiverInquiryCheque() {
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	return useMutation<
 		ReceiverInquiryChequeResponse,
 		ErrorType<ReceiverInquiryChequeRequest>,
@@ -25,22 +25,20 @@ export default function useReceiverInquiryCheque() {
 		onSuccess: (data) => {
 			return () => data;
 		},
-		onError: (error, variables) => {
-			
-				pushAlert({
-					type: 'error',
-					messageText: error.detail,
-					hasConfirmAction: true,
-					actions: {
-						onConfirm: () => {
-							navigate(paths.Home);
-						},
-						onCloseModal: () => {
-							navigate(paths.Home);
-						}
+		onError: (error) => {
+			pushAlert({
+				type: 'error',
+				messageText: error.detail,
+				hasConfirmAction: true,
+				actions: {
+					onConfirm: () => {
+						navigate(paths.Home);
+					},
+					onCloseModal: () => {
+						navigate(paths.Home);
 					}
-				});
-		
+				}
+			});
 		}
 	});
 }

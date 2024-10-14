@@ -6,7 +6,7 @@ import AccountsQuery from './AccountsQuery';
 
 @requestHandler(AccountsQuery)
 export class AccountsQueryHandler implements IRequestHandler<AccountsQuery, AccountsQueryResponse> {
-	handle(value: AccountsQuery): Promise<AccountsQueryResponse> {
+	handle(): Promise<AccountsQueryResponse> {
 		const apiClient = new APIClient<null, AccountsQueryResponse>(Accounts);
 		return apiClient.getAll({});
 	}

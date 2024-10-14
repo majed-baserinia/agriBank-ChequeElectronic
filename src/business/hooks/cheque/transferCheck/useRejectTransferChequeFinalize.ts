@@ -21,7 +21,7 @@ export default function useRejectTransferChequeFinalize() {
 		onSuccess: (data) => {
 			return () => data;
 		},
-		onError: (error, variables) => {
+		onError: (_, variables) => {
 			return () => variables;
 		}
 	});

@@ -1,12 +1,8 @@
-
-
 export type Props<T extends Record<any, unknown>> = {
-    data: T[];
+	data: T[];
 	filters: FilterType<T>[];
-    getFilteredData: (filteredData: T[])=>void
+	getFilteredData: (filteredData: T[]) => void;
 };
-
-
 
 export type DropDownItem = { key: string; value: string; selected: boolean };
 

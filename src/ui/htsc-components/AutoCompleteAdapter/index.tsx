@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import {
 	Autocomplete,
@@ -9,7 +10,7 @@ import {
 	useMediaQuery,
 	useTheme
 } from '@mui/material';
-import { forwardRef, SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { SyntheticEvent, forwardRef, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RenderInput from './RenderInput';
 import { Props } from './types';
@@ -48,7 +49,9 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 
 	useEffect(() => {
 		//logic for "go back" button on browser to prevent
-		matches && window.addEventListener('popstate', handlePopState);
+		if (matches) {
+			window.addEventListener('popstate', handlePopState);
+		}
 
 		return () => {
 			window.removeEventListener('popstate', handlePopState);
@@ -74,7 +77,7 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 		};
 	};
 
-	const onChangeHandler = (event: SyntheticEvent<Element, Event>, newValue: string | T | null) => {
+	const onChangeHandler = (_: SyntheticEvent<Element, Event>, newValue: string | T | null) => {
 		onChange(newValue);
 		setValue(newValue);
 
@@ -88,7 +91,7 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 
 	const onInputChangeHandler = (event: SyntheticEvent, value: string, reason: AutocompleteInputChangeReason) => {
 		const target = event?.target as HTMLInputElement;
-		if (reason === 'clear' || target?.value! === '') {
+		if (reason === 'clear' || target?.value === '') {
 			setValue(null);
 			onChange(null);
 			setInputValue('');
@@ -141,11 +144,15 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 				getOptionLabel={getOptionLabel}
 				isOptionEqualToValue={isOptionEqualToValueFunction}
 				onOpen={() => {
-					matches && history.pushState(true, 'inputOpen');
+					if (matches) {
+						history.pushState(true, 'inputOpen');
+					}
 					setOpen(true);
 				}}
 				onClose={() => {
-					!hasConfirmButton ? setOpen(false) : null;
+					if (!hasConfirmButton) {
+						setOpen(false);
+					}
 				}}
 				renderOption={renderOption}
 				PopperComponent={(props) => (
@@ -180,7 +187,9 @@ export default function AutoCompleteAdapter<T extends Record<any, unknown>>(prop
 							width: '100%'
 						}}
 						onClick={() => {
-							matches && history.back();
+							if (matches) {
+								history.back();
+							}
 							setOpen(false);
 						}}
 						variant="contained"

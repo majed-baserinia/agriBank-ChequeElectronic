@@ -1,8 +1,8 @@
-import { OnDragEndResponder } from "react-beautiful-dnd";
+import { OnDragEndResponder } from 'react-beautiful-dnd';
 
 export type Item = {
 	id: string;
-	text: any;
+	text: unknown;
 };
 
 export type DraggableListProps = {

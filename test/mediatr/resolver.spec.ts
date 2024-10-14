@@ -1,5 +1,5 @@
-import { mediatorSettings } from "@Mediatr/index.js";
-import Resolver from "@Mediatr/models/resolver.js";
+import { mediatorSettings } from '@Mediatr/index.js';
+import Resolver from '@Mediatr/models/resolver.js';
 
 /**
  * the anonymous function is required because expect(x).toThrow()
@@ -10,76 +10,76 @@ import Resolver from "@Mediatr/models/resolver.js";
  * https://stackoverflow.com/questions/46042613/how-to-test-the-type-of-a-thrown-exception-in-jest
  */
 
-describe("The internal resolver", () => {
-  test("The resolver is already instantiated at startup", () => {
-    expect(mediatorSettings.resolver).not.toBeUndefined();
-  });
+describe('The internal resolver', () => {
+	test('The resolver is already instantiated at startup', () => {
+		expect(mediatorSettings.resolver).not.toBeUndefined();
+	});
 
-  test("Should add a new instance to the resolver", () => {
-    const r = new Resolver();
+	test('Should add a new instance to the resolver', () => {
+		const r = new Resolver();
 
-    const fx = (): string => {
-      return "foo";
-    };
+		const fx = (): string => {
+			return 'foo';
+		};
 
-    r.add("k1", fx);
-  });
+		r.add('k1', fx);
+	});
 
-  test("Should add an existing instance", () => {
-    const r = new Resolver();
+	test('Should add an existing instance', () => {
+		const r = new Resolver();
 
-    const fx = (): string => {
-      return "foo";
-    };
-    r.add("k1", fx);
-    r.add("k1", fx);
-  });
+		const fx = (): string => {
+			return 'foo';
+		};
+		r.add('k1', fx);
+		r.add('k1', fx);
+	});
 
-  test("Should get an existing instance", () => {
-    const r = new Resolver();
+	test('Should get an existing instance', () => {
+		const r = new Resolver();
 
-    const fx = class Request {
-      name?: string;
-    };
-    r.add("k1", fx);
+		const fx = class Request {
+			name?: string;
+		};
+		r.add('k1', fx);
 
-    const rfx = r.resolve("k1");
-    expect(rfx).not.toBeUndefined();
-  });
+		const rfx = r.resolve('k1');
+		expect(rfx).not.toBeUndefined();
+	});
 
-  test("Should remove an existing instance", () => {
-    const r = new Resolver();
+	test('Should remove an existing instance', () => {
+		const r = new Resolver();
 
-    const fx = class Request {
-      name?: string;
-    };
+		const fx = class Request {
+			name?: string;
+		};
 
-    r.add("k1", fx);
-    r.add("k2", fx);
-    r.add("k3", fx);
+		r.add('k1', fx);
+		r.add('k2', fx);
+		r.add('k3', fx);
 
-    r.remove("k1");
+		r.remove('k1');
 
-    const f = () => r.resolve("k1");
-    expect(f).toThrowError();
-    expect(r.resolve("k2")).not.toBeUndefined();
-  });
+		const f = () => r.resolve('k1');
+		expect(f).toThrowError();
+		expect(r.resolve('k2')).not.toBeUndefined();
+	});
 
-  test("Should clear the resolver", () => {
-    const r = new Resolver();
+	test('Should clear the resolver', () => {
+		const r = new Resolver();
 
-    const fx = (): string => {
-      return "foo";
-    };
+		const fx = (): string => {
+			return 'foo';
+		};
 
-    r.add("k1", fx);
-    r.add("k2", fx);
+		r.add('k1', fx);
+		r.add('k2', fx);
 
-    r.clear();
+		r.clear();
 
-    const f1 = () => r.resolve("k1");
-    const f2 = () => r.resolve("k2");
-    expect(f1).toThrow();
-    expect(f2).toThrow();
-  });
+		const f1 = () => r.resolve('k1');
+		const f2 = () => r.resolve('k2');
+		expect(f1).toThrow();
+		expect(f2).toThrow();
+	});
 });

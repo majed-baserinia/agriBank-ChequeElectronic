@@ -3,7 +3,6 @@ import infoIcon from 'assets/icon/info-circle.svg';
 import TablerMoneybag from 'assets/icon/menu/TablerMoneybag.svg';
 import giveBackCheckIcon from 'assets/icon/menu/giveBackCheckIcon.svg';
 import rejectGiveBack from 'assets/icon/menu/rejectGiveBack.svg';
-import rejectTransfer from 'assets/icon/menu/rejectTransfer.svg';
 import transferCheck from 'assets/icon/menu/transfer-check.svg';
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
@@ -26,7 +25,6 @@ export default function BottomSheetActionButton({ checkData }: { checkData: Chec
 				variant="contained"
 				onClick={() => {
 					setOpen(!open);
-					// MARK: this also maybe needs to be fixed
 					addNewCartableData({ selectedCheck: { ...selectedCheck, dataFromList: checkData } });
 				}}
 				muiButtonProps={{
@@ -83,7 +81,7 @@ export const checkActionsMenuList = [
 				alt="transferCheck"
 			/>
 		),
-		routeTo:   paths.cartable.Transfer
+		routeTo: paths.cartable.Transfer
 	},
 	{
 		id: '2',
@@ -94,7 +92,7 @@ export const checkActionsMenuList = [
 				alt="CashingCheck"
 			/>
 		),
-		routeTo:   paths.cartable.Cashing
+		routeTo: paths.cartable.Cashing
 	},
 	// {
 	// 	id: '3',
@@ -116,19 +114,19 @@ export const checkActionsMenuList = [
 				alt="list check"
 			/>
 		),
-		routeTo:   paths.cartable.GiveBackCheckInitiate
+		routeTo: paths.cartable.GiveBackCheckInitiate
 	},
-	{
-		id: '3',
-		title: 'rejectTransferCheck',
-		icon: (
-			<SvgToIcon
-				icon={rejectTransfer}
-				alt="list check"
-			/>
-		),
-		routeTo:   paths.cartable.Transfer
-	},
+	// {
+	// 	id: '3',
+	// 	title: 'rejectTransferCheck',
+	// 	icon: (
+	// 		<SvgToIcon
+	// 			icon={rejectTransfer}
+	// 			alt="list check"
+	// 		/>
+	// 	),
+	// 	routeTo:   paths.cartable.Transfer
+	// },
 	{
 		id: '3',
 		title: 'rejectGiveBack',
@@ -138,6 +136,6 @@ export const checkActionsMenuList = [
 				alt="list check"
 			/>
 		),
-		routeTo:   paths.cartable.RejectGiveBackCheckInitiate
+		routeTo: paths.cartable.RejectGiveBackCheckInitiate
 	}
 ];

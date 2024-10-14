@@ -1,9 +1,8 @@
-import { Grid, SxProps, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { Props } from './types';
 
-
 export default function OverviewItem(props: Props) {
-	const { title, value,sx } = props;
+	const { title, value, sx } = props;
 	return (
 		<Grid
 			container

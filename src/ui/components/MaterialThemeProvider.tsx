@@ -1,9 +1,10 @@
 import createCache from '@emotion/cache';
 import { CacheProvider } from '@emotion/react';
-import { ButtonProps, CssBaseline, TextFieldProps, ThemeProvider, createTheme } from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { ReactNode, useMemo } from 'react';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
+
 import useInitialSettingStore from '../../business/stores/initial-setting-store';
 
 interface Props {
@@ -13,8 +14,6 @@ interface Props {
 const MaterialThemeProvider = ({ children }: Props) => {
 	const settings = useInitialSettingStore((s) => s.settings);
 
-
-	
 	const themeTemplate = createTheme({
 		...settings.theme,
 		direction: settings.language === 'fa-IR' ? 'rtl' : 'ltr',
@@ -111,7 +110,9 @@ const MaterialThemeProvider = ({ children }: Props) => {
 				},
 				variants: [
 					{
-						props: (props: Partial<ButtonProps>) => props.variant === 'text',
+						props: {
+							variant: 'text'
+						},
 						style: (props) => {
 							return {
 								'&:focus': {
@@ -122,7 +123,9 @@ const MaterialThemeProvider = ({ children }: Props) => {
 						}
 					},
 					{
-						props: (props: Partial<ButtonProps>) => props.variant === 'outlined',
+						props: {
+							variant: 'outlined'
+						},
 						style: (props) => {
 							return {
 								fontSize: '14px',
@@ -152,7 +155,9 @@ const MaterialThemeProvider = ({ children }: Props) => {
 
 				variants: [
 					{
-						props: (props: Partial<TextFieldProps>) => props.variant === 'outlined',
+						props: {
+							variant: 'outlined'
+						},
 						style: (props) => {
 							return {
 								'& .MuiOutlinedInput-root': {
@@ -189,8 +194,6 @@ const MaterialThemeProvider = ({ children }: Props) => {
 			}
 		}
 	});
-
-	
 
 	const emotionCache = useMemo(() => {
 		if (settings.language === 'fa-IR') {

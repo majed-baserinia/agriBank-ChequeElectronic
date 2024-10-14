@@ -21,7 +21,7 @@ export default function useGetChecksheets() {
 		onSuccess: (data) => {
 			return () => data;
 		},
-		onError: (err, variables) => {
+		onError: (err) => {
 			pushAlert({
 				type: 'error',
 				messageText: err.detail,

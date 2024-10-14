@@ -14,55 +14,55 @@ interface Props {
 }
 
 export default function MenuItem(props: Props) {
-	const {onClick, icon, title, subtitle, routeTo } = props;
+	const { onClick, icon, title, subtitle, routeTo } = props;
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 
 	return (
-		
-			<Grid
-				container
-				justifyContent={'space-between'}
-				alignItems={'center'}
-				minWidth={"290px"}
-				sx={{ padding: matches ? '16px 0' : '24px 0', cursor: 'pointer', overflow: 'hidden' }}
-				onClick={(e) => {
-					routeTo ? navigate(routeTo) : null
-					onClick?.()
-				}}
-			>
-				<Grid>
-					<Grid
-						container
-						gap={'8px'}
-						alignItems={'center'}
-						justifyContent={'center'}
-					>
-						<Grid item> {icon ? icon : null}</Grid>
-						<Grid>
+		<Grid
+			container
+			justifyContent={'space-between'}
+			alignItems={'center'}
+			minWidth={'290px'}
+			sx={{ padding: matches ? '16px 0' : '24px 0', cursor: 'pointer', overflow: 'hidden' }}
+			onClick={() => {
+				if (routeTo) {
+					navigate(routeTo);
+				}
+				onClick?.();
+			}}
+		>
+			<Grid>
+				<Grid
+					container
+					gap={'8px'}
+					alignItems={'center'}
+					justifyContent={'center'}
+				>
+					<Grid item> {icon ? icon : null}</Grid>
+					<Grid>
+						<Typography
+							variant="bodyMd"
+							fontWeight={'medium'}
+							noWrap
+						>
+							{t(title, title)}
+						</Typography>
+						{subtitle ? (
 							<Typography
-								variant="bodyMd"
+								variant="bodyXs"
 								fontWeight={'medium'}
-								noWrap 
+								sx={{ color: theme.palette.text.secondary, marginTop: '8px' }}
 							>
-								{t(title, title)}
+								{t(subtitle, subtitle)}
 							</Typography>
-							{subtitle ? (
-								<Typography
-									variant="bodyXs"
-									fontWeight={'medium'}
-									sx={{ color: theme.palette.text.secondary, marginTop: "8px" }}
-								>
-									{t(subtitle, subtitle)}
-								</Typography>
-							) : null}
-						</Grid>
+						) : null}
 					</Grid>
 				</Grid>
-				<Grid>{theme.direction == 'rtl' ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}</Grid>
 			</Grid>
-		
+			<Grid>{theme.direction == 'rtl' ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}</Grid>
+		</Grid>
 	);
 }

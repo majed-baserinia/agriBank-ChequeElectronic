@@ -56,9 +56,9 @@ export default function DraggableList(props: Props) {
 							<Draggable
 								draggableId={item.id.toString()}
 								index={index}
-								key={item.text}
+								key={item.text as string}
 							>
-								{(provided, snapshot) => (
+								{(provided, _) => (
 									<ListItem
 										ref={provided.innerRef}
 										{...provided.draggableProps}
@@ -96,7 +96,7 @@ export default function DraggableList(props: Props) {
 													gap={'8px'}
 												>
 													<DragHandleIcon />
-													<Typography variant="bodySm">{item.text}</Typography>
+													<Typography variant="bodySm">{item.text as string}</Typography>
 												</Grid>
 											}
 										/>

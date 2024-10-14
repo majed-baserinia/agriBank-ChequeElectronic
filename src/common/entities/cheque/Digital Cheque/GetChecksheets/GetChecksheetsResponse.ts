@@ -18,4 +18,4 @@ export interface CheckSheet {
 	sayadChequebookType: string;
 	isUsed: boolean;
 }
- export type GetCheckSheetsResponse  = CheckSheet[]
+export type GetCheckSheetsResponse = CheckSheet[];

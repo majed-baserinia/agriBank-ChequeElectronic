@@ -1,7 +1,7 @@
 import { IRequestHandler, requestHandler } from '@Mediatr/index';
 import APIClient from 'business/infrastructure/api-client';
 
-import { getChecksheets, issuechequeinitiate } from 'business/infrastructure/end-points';
+import { issuechequeinitiate } from 'business/infrastructure/end-points';
 import { IssueChequeInitiateRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest';
 import { IssueChequeInitiateResponse } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateResponse';
 import IssueChequeInitiateCommand from './IssueChequeInitiateCommand';
@@ -23,4 +23,3 @@ export class IssueChequeInitiateCommandHandler
 		});
 	}
 }
-

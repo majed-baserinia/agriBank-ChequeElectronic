@@ -56,7 +56,7 @@ export default function SecondOrMoreView({ checkData, setLoading }: Props) {
 				onError: (err) => pushAlert({ type: 'error', hasConfirmAction: true, messageText: err.detail }),
 				onSuccess: (res) => {
 					addNewCartableData({ otpTransferRequirments: res, transferAction: 'confirm' });
-					navigate(  paths.cartable.OtpTransferConfirmation);
+					navigate(paths.cartable.OtpTransferConfirmation);
 				}
 			});
 
@@ -65,15 +65,24 @@ export default function SecondOrMoreView({ checkData, setLoading }: Props) {
 				onError: (err) => pushAlert({ type: 'error', hasConfirmAction: true, messageText: err.detail }),
 				onSuccess: (res) => {
 					addNewCartableData({ otpTransferRequirments: res, transferAction: 'reject' });
-					navigate(  paths.cartable.OtpTransferConfirmation);
+					navigate(paths.cartable.OtpTransferConfirmation);
 				}
 			});
 	};
 
 	return (
-		<BoxAdapter fullWidth={matches}>
+		<BoxAdapter
+			fullWidth={matches}
+			muiPaperProps={{
+				sx: {
+					minWidth: '25%',
+					borderRadius: { md: '32px', xs: 0 },
+					padding: '16px'
+				}
+			}}
+		>
 			<Grid
-				minHeight={matches ? 'calc(100vh - 64px)' : 'calc(100vh - 192px)'}
+				minHeight={matches ? 'calc(100vh - 32px)' : 'calc(100vh - 192px)'}
 				container
 				direction={'column'}
 				wrap="nowrap"
@@ -97,7 +106,7 @@ export default function SecondOrMoreView({ checkData, setLoading }: Props) {
 							hasTitle
 							checkData={{
 								amount: checkData.amount.toString(),
-								description: checkData.description!,
+								description: checkData.description,
 								date: checkData.dueDate,
 								sayad: checkData.sayadId,
 								reason: checkData.reasonDescription,

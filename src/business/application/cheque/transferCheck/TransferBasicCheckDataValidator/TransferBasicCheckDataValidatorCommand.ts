@@ -1,6 +1,6 @@
 import { IRequest } from '@Mediatr/index';
 
-export default class TransferBasicCheckDataValidatorCommand implements IRequest<{}> {
+export default class TransferBasicCheckDataValidatorCommand implements IRequest<object> {
 	reason: { value: string; name: string };
 	description: string;
 	toIban: string;

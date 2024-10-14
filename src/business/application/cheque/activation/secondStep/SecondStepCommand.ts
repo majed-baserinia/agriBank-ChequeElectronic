@@ -1,10 +1,10 @@
-import { IRequest } from "@Mediatr/index";
-import SignChakadCustomerRequest from "common/entities/cheque/activation/secondStep/SecondStepRequest";
+import { IRequest } from '@Mediatr/index';
+import SignChakadCustomerRequest from 'common/entities/cheque/activation/secondStep/SecondStepRequest';
 //VITE_APP_INITIAL_CHAKAD
 export default class SecondStepCommand implements IRequest<SignChakadCustomerRequest> {
-  activationKey: string;
+	activationKey: string;
 
-  constructor(SecondStepCommand: SecondStepCommand) {
-    this.activationKey = SecondStepCommand?.activationKey;
-  }
+	constructor(SecondStepCommand: SecondStepCommand) {
+		this.activationKey = SecondStepCommand?.activationKey;
+	}
 }

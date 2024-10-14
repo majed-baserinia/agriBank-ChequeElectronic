@@ -1,6 +1,6 @@
 import { IRequest } from '@Mediatr/index';
 
-export default class AddReceiversformValidationCommand implements IRequest<{}> {
+export default class AddReceiversformValidationCommand implements IRequest<object> {
 	name: string;
 	shahabNo: string;
 	nationalNo: string;

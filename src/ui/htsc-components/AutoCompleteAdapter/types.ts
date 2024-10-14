@@ -1,7 +1,8 @@
-import { ButtonProps } from "@mui/material";
-import { HTMLAttributes, MutableRefObject, ReactNode } from "react";
+import { ButtonProps } from '@mui/material';
+import { HTMLAttributes, MutableRefObject, ReactNode } from 'react';
 
-export type Props<T extends Record<any, unknown>> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Props<T extends Record<any, any>> = {
 	options?: T[];
 	label: string;
 	error?: boolean;
@@ -17,7 +18,6 @@ export type Props<T extends Record<any, unknown>> = {
 	valueToShowToInput: (option: T) => { text: string; icon?: ReactNode };
 	isOptionEqualToValue: (option: T, value: T) => boolean;
 };
-
 
 export type RenderInputProps = {
 	error?: boolean;

@@ -1,7 +1,7 @@
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 
-import useTransferChequeFinalize from './useTransferChequeFinalize';
 import useRejectTransferChequeFinalize from './useRejectTransferChequeFinalize';
+import useTransferChequeFinalize from './useTransferChequeFinalize';
 
 export default function useDetectFinalizeTransfer() {
 	const { transferAction } = useCartableChecklistData();
@@ -11,5 +11,5 @@ export default function useDetectFinalizeTransfer() {
 	if (transferAction === 'reject') {
 		return useRejectTransferChequeFinalize;
 	}
-    return useTransferChequeFinalize;
+	return useTransferChequeFinalize;
 }

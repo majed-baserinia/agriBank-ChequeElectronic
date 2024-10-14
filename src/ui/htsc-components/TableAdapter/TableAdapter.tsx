@@ -5,23 +5,24 @@ import TableBody from '@mui/material/TableBody';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
-import { ChangeEvent, ReactNode, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Props } from './type';
 
-export default function TableAdapter<TColumnNames extends string>({ columns, rowsData }: Props<TColumnNames>) {	
+export default function TableAdapter<TColumnNames extends string>({ columns, rowsData }: Props<TColumnNames>) {
 	const { t } = useTranslation();
+	const rowsPerPage = useRef(50);
 	const [page, setPage] = useState(0);
-	const [rowsPerPage, setRowsPerPage] = useState(10);
+	//const [rowsPerPage, setRowsPerPage] = useState(10);
 
-	const handleChangePage = (event: unknown, newPage: number) => {
+	const handleChangePage = (_: unknown, newPage: number) => {
 		setPage(newPage);
 	};
 
-	const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
-		setRowsPerPage(+event.target.value);
-		setPage(0);
-	};
+	// const handleChangeRowsPerPage = (event: ChangeEvent<HTMLInputElement>) => {
+	// 	setRowsPerPage(+event.target.value);
+	// 	setPage(0);
+	// };
 
 	return (
 		<Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -49,26 +50,28 @@ export default function TableAdapter<TColumnNames extends string>({ columns, row
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rowsData?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-							return (
-								<TableRow
-									tabIndex={-1}
-									key={index}
-								>
-									{columns.map((column, index) => {
-										const value = row[column.id];
-										return (
-											<TableCell
-												key={index}
-												align={column.align}
-											>
-												<Typography variant="bodyMd">{value as ReactNode}</Typography>
-											</TableCell>
-										);
-									})}
-								</TableRow>
-							);
-						})}
+						{rowsData
+							?.slice(page * rowsPerPage.current, page * rowsPerPage.current + rowsPerPage.current)
+							.map((row, index) => {
+								return (
+									<TableRow
+										tabIndex={-1}
+										key={index}
+									>
+										{columns.map((column, index) => {
+											const value = row[column.id];
+											return (
+												<TableCell
+													key={index}
+													align={column.align}
+												>
+													<Typography variant="bodyMd">{value}</Typography>
+												</TableCell>
+											);
+										})}
+									</TableRow>
+								);
+							})}
 					</TableBody>
 				</Table>
 				{!rowsData ? (
@@ -82,15 +85,16 @@ export default function TableAdapter<TColumnNames extends string>({ columns, row
 					</Grid>
 				) : null}
 			</TableContainer>
-			{rowsData && rowsData.length > 10 ? (
+			{rowsData && rowsData.length > 1 ? (
 				<TablePagination
-					rowsPerPageOptions={[10]}
+					rowsPerPageOptions={[rowsPerPage.current]}
 					component="div"
 					count={rowsData.length}
-					rowsPerPage={rowsPerPage}
+					rowsPerPage={rowsPerPage.current}
 					page={page}
 					onPageChange={handleChangePage}
-					onRowsPerPageChange={handleChangeRowsPerPage}
+					labelDisplayedRows={() => ''}
+					//	onRowsPerPageChange={handleChangeRowsPerPage}
 				/>
 			) : null}
 		</Paper>

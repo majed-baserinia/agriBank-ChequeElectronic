@@ -6,7 +6,7 @@ import GetCodesQuery from './GetCodesQuery';
 
 @requestHandler(GetCodesQuery)
 export class GetCodesQueryHandler implements IRequestHandler<GetCodesQuery, GetCodeResponse> {
-	handle(value: GetCodesQuery): Promise<GetCodeResponse> {
+	handle(): Promise<GetCodeResponse> {
 		const apiClient = new APIClient<null, GetCodeResponse>(getCodes);
 		return apiClient.getAll({});
 	}

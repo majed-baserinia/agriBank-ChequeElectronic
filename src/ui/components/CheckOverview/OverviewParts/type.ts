@@ -10,7 +10,7 @@ export type ReceiverData = {
 	//customerType: 1 | 2 | 3 | 4;
 };
 
-export interface HolderData  {
+export interface HolderData {
 	name: string;
 	nationalNo: string;
 	customerType: 1 | 2 | 3 | 4;
@@ -18,7 +18,7 @@ export interface HolderData  {
 	lastActionDate: string;
 	acceptTransfer: 0 | 1 | 2;
 	acceptTransferDescription: string;
-};
+}
 
 export type Props =
 	| {

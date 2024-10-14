@@ -5,9 +5,8 @@ export default function ChipsWrapperForSelect(props: { children: ReactNode[] }) 
 	return (
 		<div
 			className="clickedNotClose"
-			style={{ margin: '5px', display: 'flex', gap: '8px', flexWrap:'wrap' }}
+			style={{ margin: '5px', display: 'flex', gap: '8px', flexWrap: 'wrap' }}
 		>
-		
 			{children}
 		</div>
 	);

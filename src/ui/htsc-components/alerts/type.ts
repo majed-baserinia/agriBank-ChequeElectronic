@@ -7,7 +7,7 @@ export type AppAlert = {
 	confirmButtonText?: string;
 	hasContinueAction?: boolean;
 	hasRefuseAction?: boolean;
-	actions?: AlertActions
+	actions?: AlertActions;
 	overrideActions?: ReactNode;
 };
 
@@ -15,10 +15,9 @@ export type props = {
 	type: 'success' | 'info' | 'warning' | 'error';
 };
 
-
 type AlertActions = {
-	onRefuse?: () => void; 
-	onCloseModal?: () => void; 
-	onConfirm?: () => void; 
-	onContinue?: () => void 
+	onRefuse?: () => void;
+	onCloseModal?: () => void;
+	onConfirm?: () => void;
+	onContinue?: () => void;
 };

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Droppable, DroppableProps } from 'react-beautiful-dnd';
 
+// eslint-disable-next-line @typescript-eslint/unbound-method
 export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
 	const [enabled, setEnabled] = useState(false);
 

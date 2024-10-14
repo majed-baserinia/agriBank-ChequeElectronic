@@ -1,67 +1,61 @@
-import { ValueValidationResult } from "@Fluentvalidator/ValueValidationResult";
-import { AsyncValueValidator } from "@Fluentvalidator/valueValidator/AsyncValueValidator";
-import { hasError } from "@Fluentvalidator/valueValidator/ValueValidator";
-import { AsyncValueValidatorBuilder } from "./AsyncValueValidatorBuilder";
-import { ValueTransformer } from "./ValueTransformer";
+import { ValueValidationResult } from '@Fluentvalidator/ValueValidationResult';
+import { AsyncValueValidator } from '@Fluentvalidator/valueValidator/AsyncValueValidator';
+import { hasError } from '@Fluentvalidator/valueValidator/ValueValidator';
+import { AsyncValueValidatorBuilder } from './AsyncValueValidatorBuilder';
+import { ValueTransformer } from './ValueTransformer';
 
 export class AsyncArrayValueValidatorBuilder<
-  TModel,
-  TPropertyName extends keyof TModel,
-  TValue extends Array<TEachValue> & TModel[TPropertyName],
-  TEachValue,
-  TEachTransformedValue
+	TModel,
+	TPropertyName extends keyof TModel,
+	TValue extends Array<TEachValue> & TModel[TPropertyName],
+	TEachValue,
+	TEachTransformedValue
 > {
-  private eachAsyncValueValidatorBuilder: AsyncValueValidatorBuilder<
-    TModel,
-    TValue[0] & TEachValue,
-    TEachTransformedValue
-  >;
+	private eachAsyncValueValidatorBuilder: AsyncValueValidatorBuilder<
+		TModel,
+		TValue[0] & TEachValue,
+		TEachTransformedValue
+	>;
 
-  private propertyName: string;
+	private propertyName: string;
 
-  constructor(
-    rebuildValidateAsync: () => void,
-    propertyName: string,
-    transformValue: ValueTransformer<TEachValue, TEachTransformedValue>
-  ) {
-    this.eachAsyncValueValidatorBuilder = new AsyncValueValidatorBuilder<
-      TModel,
-      TValue[0] & TEachValue,
-      TEachTransformedValue
-    >(rebuildValidateAsync, transformValue);
+	constructor(
+		rebuildValidateAsync: () => void,
+		propertyName: string,
+		transformValue: ValueTransformer<TEachValue, TEachTransformedValue>
+	) {
+		this.eachAsyncValueValidatorBuilder = new AsyncValueValidatorBuilder<
+			TModel,
+			TValue[0] & TEachValue,
+			TEachTransformedValue
+		>(rebuildValidateAsync, transformValue);
 
-    this.propertyName = propertyName;
-  }
+		this.propertyName = propertyName;
+	}
 
-  public build = (): AsyncValueValidator<
-    TModel,
-    TValue,
-    Array<TEachTransformedValue>
-  > => {
-    return async (value: TValue, model: TModel) => {
-      if (model[this.propertyName as TPropertyName] == null) {
-        return null;
-      }
+	public build = (): AsyncValueValidator<TModel, TValue, Array<TEachTransformedValue>> => {
+		return async (value: TValue, model: TModel) => {
+			if (model[this.propertyName as TPropertyName] == null) {
+				return null;
+			}
 
-      const asyncValueValidator = this.eachAsyncValueValidatorBuilder.build();
+			const asyncValueValidator = this.eachAsyncValueValidatorBuilder.build();
 
-      const errors = [];
+			const errors = [];
 
-      for (const element of value) {
-        const errorOrNull = await asyncValueValidator(element, model);
-        const valueValidationResult = hasError(errorOrNull) ? errorOrNull : null;
-        errors.push(valueValidationResult);
-      }
+			for (const element of value) {
+				const errorOrNull = await asyncValueValidator(element, model);
+				const valueValidationResult = hasError(errorOrNull) ? errorOrNull : null;
+				errors.push(valueValidationResult);
+			}
 
-      return (
-        hasError<Array<TEachTransformedValue>>(
-          errors as ValueValidationResult<Array<TEachTransformedValue>>
-        )
-          ? errors
-          : null
-      ) as ValueValidationResult<Array<TEachTransformedValue>>;
-    };
-  };
+			return (
+				hasError<Array<TEachTransformedValue>>(errors as ValueValidationResult<Array<TEachTransformedValue>>)
+					? errors
+					: null
+			) as ValueValidationResult<Array<TEachTransformedValue>>;
+		};
+	};
 
-  public getAllRules = () => this.eachAsyncValueValidatorBuilder.getAllRules();
+	public getAllRules = () => this.eachAsyncValueValidatorBuilder.getAllRules();
 }

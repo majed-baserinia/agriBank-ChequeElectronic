@@ -6,16 +6,14 @@
  * @template T
  */
 export default interface INotificationHandler<T> {
-  /**
-   * The notification handler called on T event
-   *
-   * @param {T} notification The notification param
-   * @returns {Promise<void>}
-   * @memberof INotificationHandler
-   */
-  handle(notification: T): Promise<void>;
+	/**
+	 * The notification handler called on T event
+	 *
+	 * @param {T} notification The notification param
+	 * @returns {Promise<void>}
+	 * @memberof INotificationHandler
+	 */
+	handle(notification: T): Promise<void>;
 }
 
-export type INotificationHandlerClass<T> = new (
-  ...args: unknown[]
-) => INotificationHandler<T>;
+export type INotificationHandlerClass<T> = new (...args: unknown[]) => INotificationHandler<T>;

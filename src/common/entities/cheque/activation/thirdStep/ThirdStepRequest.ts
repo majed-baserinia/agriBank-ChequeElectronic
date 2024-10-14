@@ -1,3 +1,3 @@
 export default interface ThirdStepRequest {
-  ActivationKey: string;
+	ActivationKey: string;
 }

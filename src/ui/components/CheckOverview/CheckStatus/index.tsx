@@ -1,8 +1,8 @@
 import { Grid, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import ChipStatusAdapter from 'ui/htsc-components/ChipStatusAdapter';
 import OverviewItem from '../OverviewItem';
 import { Props } from './types';
-import ChipStatusAdapter from 'ui/htsc-components/ChipStatusAdapter';
 
 export default function CheckStatus(props: Props) {
 	const { checkStatus, checkGuaranteeStatus, checkBlockingStatus } = props;
