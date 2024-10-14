@@ -56,7 +56,7 @@ export default function BottomSheetSelect<T extends { value: string; name: strin
 					MenuProps={{
 						sx: { display: isMatched ? 'none' : 'unset' }
 					}}
-					onChange={(e, el) => {}}
+					onChange={() => {}}
 					open={open}
 					onOpen={() => setOpen(true)}
 					onClose={() => setOpen(false)}
@@ -87,7 +87,11 @@ export default function BottomSheetSelect<T extends { value: string; name: strin
 					onClose={() => setOpen(false)}
 					snapPoints={[450, 0]}
 				>
-					<Sheet.Container>
+					<Sheet.Container
+						style={{
+							backgroundColor: theme.palette.background.paper
+						}}
+					>
 						<Sheet.Header />
 						<Sheet.Content>
 							{
