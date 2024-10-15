@@ -5,10 +5,12 @@ export default class GetChecksheetsCommand implements IRequest<GetCheckSheetsRes
 	accountNumber: string;
 	startChequeNo: string;
 	endChequeNo: string;
+	pageNo: number;
 
-	constructor(GetChecksheetsCommand: GetChecksheetsCommand) {
-		this.accountNumber = GetChecksheetsCommand.accountNumber;
-		this.startChequeNo = GetChecksheetsCommand.startChequeNo;
-		this.endChequeNo = GetChecksheetsCommand.endChequeNo;
+	constructor(input: GetChecksheetsCommand) {
+		this.accountNumber = input.accountNumber;
+		this.startChequeNo = input.startChequeNo;
+		this.endChequeNo = input.endChequeNo;
+		this.pageNo = input.pageNo;
 	}
 }

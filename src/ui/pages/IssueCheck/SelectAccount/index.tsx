@@ -205,7 +205,7 @@ export default function SelectAccount() {
 													<MenuItem
 														key={index}
 														value={sheet.sayadNo}
-														onClick={(e) => {
+														onClick={() => {
 															setSelectedChecksheet(sheet);
 														}}
 														sx={{
@@ -267,11 +267,12 @@ export default function SelectAccount() {
 												<MenuItem
 													key={index}
 													value={checkbook.chequeTo}
-													onClick={(e) => {
+													onClick={() => {
 														const selectedCheckbook = {
 															accountNumber: selectedAccountNumber,
 															startChequeNo: checkbook.chequeFrom,
-															endChequeNo: checkbook.chequeTo
+															endChequeNo: checkbook.chequeTo,
+															pageNo: 1
 														};
 														setSelectedCheckbook(checkbook.chequeTo);
 														getChecksheets(selectedCheckbook);

@@ -13,7 +13,8 @@ export class GetChecksheetsCommandHandler implements IRequestHandler<GetCheckshe
 		return apiClient.post(<GetCheckSheetsRequest>{
 			accountNumber: value.accountNumber,
 			startChequeNo: value.startChequeNo,
-			endChequeNo: value.endChequeNo
+			endChequeNo: value.endChequeNo,
+			pageNo: value.pageNo
 		});
 	}
 }
