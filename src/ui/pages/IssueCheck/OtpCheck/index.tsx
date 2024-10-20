@@ -5,7 +5,7 @@ import CheckInitiateOtpCommand from 'business/application/cheque/Digital Cheque/
 import VerifyOtpCommand from 'business/application/cheque/Digital Cheque/Verify Otp/VerifyOtpCommand';
 import useCheckInitiateOtp from 'business/hooks/cheque/Digital Cheque/useCheckInitiateOtp';
 import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +27,7 @@ export default function OtpCheck() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+	const [otpLifeTime, setOtpLifeTime] = useState(0);
 	const { setNewDataToWizard, addReceiverPage } = useIssueCheckWizardData((s) => s);
 	usePostMessage({ callback: readOtp, message: { type: 'GetOTP', OTPLen: '8', ReadMode: 'UserConsent' } });
 
@@ -51,6 +52,12 @@ export default function OtpCheck() {
 			setValue('otpCode', e.data.OTP);
 		}
 	}
+
+	useEffect(() => {
+		if (CheckInitiateOtpData) {
+			setOtpLifeTime(CheckInitiateOtpData.lifeTime);
+		}
+	}, [CheckInitiateOtpData]);
 
 	useEffect(() => {
 		CheckInitiateOtpMutate(
@@ -211,7 +218,7 @@ export default function OtpCheck() {
 											helperText={formState?.errors?.otpCode?.message}
 											label={t('activationCodeOtp')}
 											maxLength={CheckInitiateOtpData?.codeLength}
-											timerInSeconds={{ timer: CheckInitiateOtpData!.lifeTime }}
+											timerInSeconds={{ timer: otpLifeTime }}
 											handleResend={handleSendAgain}
 										/>
 									)}

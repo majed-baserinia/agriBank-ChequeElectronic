@@ -137,7 +137,6 @@ export default function Cashing() {
 								variant="contained"
 								size="medium"
 								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
-								forwardIcon
 								onClick={methods.handleSubmit(onSubmit)}
 							>
 								{t('confirm')}

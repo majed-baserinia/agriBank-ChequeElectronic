@@ -29,6 +29,7 @@ export default function GiveBackCheckOTP() {
 	const navigate = useNavigate();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const [sendAgain, setSendAgain] = useState(false);
+	const [otpLifeTime, setOtpLifeTime] = useState<number>(0);
 	const { giveBackChequeInitiateResponse } = useCartableChecklistData();
 
 	const { mutate: initiateOtp, data: initiateOtpRes, isLoading: initLoading } = useGiveBackChequeInitiateOtp();
@@ -91,6 +92,12 @@ export default function GiveBackCheckOTP() {
 			);
 		}
 	};
+
+	useEffect(() => {
+		if (initiateOtpRes) {
+			setOtpLifeTime(initiateOtpRes.lifeTime);
+		}
+	}, [initiateOtpRes]);
 
 	useEffect(() => {
 		if (giveBackChequeInitiateResponse?.transferChequeKey) {
@@ -181,7 +188,7 @@ export default function GiveBackCheckOTP() {
 											defaultValue={field.value}
 											label={t('activationCodeOtp')}
 											maxLength={initiateOtpRes?.codeLength}
-											timerInSeconds={{ timer: initiateOtpRes!.lifeTime }}
+											timerInSeconds={{ timer: otpLifeTime }}
 											onChange={(value) => field.onChange(value)}
 											handleResend={() => setSendAgain(!sendAgain)}
 											error={!!formState?.errors?.otpCode}

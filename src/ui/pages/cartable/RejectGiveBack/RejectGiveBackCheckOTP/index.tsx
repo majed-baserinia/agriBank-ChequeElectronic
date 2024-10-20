@@ -29,6 +29,7 @@ export default function RejectGiveBackCheckOTP() {
 	const navigate = useNavigate();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const [sendAgain, setSendAgain] = useState(false);
+	const [otpLifeTime, setOtpLifeTime] = useState<number>(0);
 	const { RejectGiveBackChequeInitiateResponse } = useCartableChecklistData();
 
 	const { mutate: initiateOtp, data: initiateOtpRes, isLoading: initLoading } = useRejectGiveBackChequeInitiateOtp();
@@ -47,6 +48,12 @@ export default function RejectGiveBackCheckOTP() {
 		resolver: (values, context, options) => fluentValidationResolver(values, context, options),
 		context: RejectGiveBackChequeVerifyOtpCommand
 	});
+
+	useEffect(() => {
+		if (initiateOtpRes) {
+			setOtpLifeTime(initiateOtpRes.lifeTime);
+		}
+	}, [initiateOtpRes]);
 
 	useEffect(() => {
 		if (RejectGiveBackChequeInitiateResponse?.transferChequeKey) {
@@ -179,7 +186,7 @@ export default function RejectGiveBackCheckOTP() {
 											defaultValue={field.value}
 											label={t('activationCodeOtp')}
 											maxLength={initiateOtpRes?.codeLength}
-											timerInSeconds={{ timer: initiateOtpRes!.lifeTime }}
+											timerInSeconds={{ timer: otpLifeTime }}
 											onChange={(value) => field.onChange(value)}
 											handleResend={() => setSendAgain(!sendAgain)}
 											error={!!formState?.errors?.otpCode}

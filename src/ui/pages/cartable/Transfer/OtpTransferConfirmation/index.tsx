@@ -10,7 +10,7 @@ import usePostMessage from 'business/hooks/postMessage/usePostMessage';
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 import { TransferChequeVerifyOtpResponse } from 'common/entities/cheque/transferCheck/TransferChequeVerifyOtp/TransferChequeVerifyOtpResponse';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +30,7 @@ export default function OtpTransferConfirmation() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-
+	const [otpLifetime, setOtpLifeTime] = useState<number>(0);
 	const { otpTransferRequirments, addNewCartableData, transferAction } = useCartableChecklistData();
 
 	usePostMessage({ callback: readOtp, message: { type: 'GetOTP', OTPLen: '8', ReadMode: 'UserConsent' } });
@@ -58,6 +58,15 @@ export default function OtpTransferConfirmation() {
 		resolver: (values, context, options) => resolver(values, context, options),
 		context: TransferChequeVerifyOtpCommand
 	});
+
+	useEffect(() => {
+		if (InitiateRejectOtpRes) {
+			setOtpLifeTime(InitiateRejectOtpRes.lifeTime);
+		}
+		if (InitiateTransferOtpRes) {
+			setOtpLifeTime(InitiateTransferOtpRes.lifeTime);
+		}
+	}, [InitiateRejectOtpRes, InitiateTransferOtpRes]);
 
 	useEffect(() => {
 		initiateOtpHandler();
@@ -191,15 +200,9 @@ export default function OtpTransferConfirmation() {
 										<Otp
 											defaultValue={field.value}
 											label={t('activationCodeOtp')}
-											maxLength={
-												InitiateRejectOtpRes?.codeLength
-													? InitiateRejectOtpRes?.codeLength
-													: InitiateTransferOtpRes?.codeLength
-											}
+											maxLength={InitiateTransferOtpRes?.codeLength}
 											timerInSeconds={{
-												timer: InitiateRejectOtpRes?.lifeTime
-													? InitiateRejectOtpRes?.lifeTime
-													: InitiateTransferOtpRes!.lifeTime
+												timer: otpLifetime
 											}}
 											onChange={(value) => field.onChange(value)}
 											handleResend={initiateOtpHandler}
