@@ -43,7 +43,10 @@ export default function Stepper(props: Props) {
 								) : index === active ? (
 									activeIconRnderer(index + 1)
 								) : (
-									<span className="flex size-8 flex-shrink-0  items-center justify-center rounded-full bg-gray-100 font-medium">
+									<span
+										className="flex size-8 flex-shrink-0  items-center justify-center rounded-full font-medium"
+										style={{ backgroundColor: theme.palette.grey[50] }}
+									>
 										<span className="text-base">
 											<Typography variant="bodySm">{index + 1}</Typography>
 										</span>
