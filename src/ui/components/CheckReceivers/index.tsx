@@ -51,7 +51,11 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 				>
 					<Sheet.Container>
 						<Sheet.Header />
-						<Sheet.Content>
+						<Sheet.Content
+							style={{
+								backgroundColor: theme.palette.background.paper
+							}}
+						>
 							<AddForm
 								sayad={sayad}
 								setOpen={setOpen}
