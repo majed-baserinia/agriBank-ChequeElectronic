@@ -62,7 +62,6 @@ export default function GiveBackCheckOTP() {
 						pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
 					},
 					onSuccess: (_) => {
-						// 後で修正する
 
 						finalizeGiveBack(
 							{ transferChequeKey: giveBackChequeInitiateResponse.transferChequeKey },
