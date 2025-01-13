@@ -72,6 +72,10 @@ export default function CheckItemCard({ check }: { check: Check }) {
 					title={t('date')}
 					value={check?.dueDate}
 				/>
+				<OverviewItem
+					title={t('lockStatus')}
+					value={check?.locked ? t("has-lock") : t("no-lock")}
+				/>
 			</Grid>
 			<Grid
 				container

@@ -262,5 +262,7 @@
 	"settlementDate": "settlementDate",
 	"checkType": "Check Type",
 	"bankCode": "Bank Code",
-	"somethingIsWrong": "Somthing is wrong"
+	"somethingIsWrong": "Somthing is wrong",
+	"has-lock": "exists",
+	"no-lock": "no lock"
 }

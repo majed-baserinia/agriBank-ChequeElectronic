@@ -262,5 +262,7 @@
 	"settlementDate": "تاریخ وصول",
 	"checkType": "نوع چک",
 	"bankCode": "کد بانک",
-	"somethingIsWrong": "مشکلی پیش آمده است لطفا مجدد تلاش کنید"
+	"somethingIsWrong": "مشکلی پیش آمده است لطفا مجدد تلاش کنید",
+	"has-lock": "قفل است",
+	"no-lock": "قفل نیست"
 }

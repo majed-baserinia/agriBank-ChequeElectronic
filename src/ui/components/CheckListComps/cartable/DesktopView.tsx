@@ -16,6 +16,7 @@ export default function DesktopView({ list }: { list?: Check[] }) {
 	const [checkRows, setCheckRows] = useState<rowType>();
 	const { addNewCartableData, selectedCheck } = useCartableChecklistData((store) => store);
 
+
 	useEffect(() => {
 		const rows = list?.map((check) => {
 			return {
@@ -31,6 +32,7 @@ export default function DesktopView({ list }: { list?: Check[] }) {
 				amount: formatAmount(check.amount.toString()),
 				reason: check.reasonDescription,
 				date: check.dueDate,
+				lockStatus:check?.locked ? t("has-lock") : t("no-lock"),
 				action: (
 					<ButtonAdapter
 						size="small"
@@ -58,6 +60,7 @@ export default function DesktopView({ list }: { list?: Check[] }) {
 				{ id: 'amount', label: 'amount', minWidth: 70 },
 				{ id: 'reason', label: 'reason', minWidth: 70 },
 				{ id: 'date', label: 'date', minWidth: 70 },
+				{ id: 'lockStatus', label: 'lockStatus', minWidth: 70 },
 				{ id: 'action', label: '', minWidth: 70, align: 'right' }
 			]}
 			rowsData={checkRows}
