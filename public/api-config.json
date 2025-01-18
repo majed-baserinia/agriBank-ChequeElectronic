@@ -1,5 +1,4 @@
 {
 	"apiBaseUrl": "http://10.0.189.141:31100",
-	"ThemeRoute": "http://10.0.189.141:31100/cdn/themes/"
-
+	"ThemeRoute": "https://cdn-tst.bki.ir/cdn/themes/"
 }
