@@ -46,7 +46,7 @@ export default function SecondOrMoreView({ checkData, setLoading }: Props) {
 			customerNumber: 0,
 			description: checkData.description,
 			reason: checkData.reason,
-			sayadNo: Number(checkData.sayadId),
+			sayadNo: checkData.sayadId,
 			toIban: '',
 			receivers: checkData.receivers
 		};

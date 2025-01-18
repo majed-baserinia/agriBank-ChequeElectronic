@@ -4,7 +4,7 @@ export interface RejectGiveBackChequeVerifyOtpResponse {
 }
 
 type TransferChequeOverView = {
-	sayadNo: number;
+	sayadNo: string;
 	description: string;
 	toIban: string;
 	signers: Signers[];

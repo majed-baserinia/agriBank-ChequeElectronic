@@ -3,7 +3,7 @@ import { RejectGivebackChequeInitiateResponse } from 'common/entities/cheque/Rej
 
 export default class RejectGivebackChequeInitiateCommand implements IRequest<RejectGivebackChequeInitiateResponse> {
 	customerNumber: number;
-	sayadNo: number;
+	sayadNo: string;
 	description: string;
 	toIban?: string;
 

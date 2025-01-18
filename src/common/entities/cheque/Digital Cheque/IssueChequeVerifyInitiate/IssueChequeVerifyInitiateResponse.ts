@@ -5,7 +5,7 @@ export interface IssueChequeVerifyInitiateResponse {
 }
 
 export interface issueChequeOverView {
-	sayadNo: number;
+	sayadNo: string;
 	seri: string;
 	serial: string;
 	amount: number;

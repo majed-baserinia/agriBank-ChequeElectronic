@@ -1,4 +1,4 @@
 export interface InquiryTransferStatusRequest {
-	sayadNo: number;
+	sayadNo: string;
 	chequeHolderNationalCode: string;
 }

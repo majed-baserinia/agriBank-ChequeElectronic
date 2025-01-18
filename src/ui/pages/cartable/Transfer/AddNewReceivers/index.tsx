@@ -33,7 +33,7 @@ export default function AddNewReceivers() {
 					reason: basicCheckData.reason.value,
 					receivers: receivers,
 					customerNumber: 0,
-					sayadNo: Number(selectedCheck?.dataFromList?.sayadNo)
+					sayadNo: selectedCheck?.dataFromList?.sayadNo ?? ""
 				},
 				{
 					onError: (err) => {

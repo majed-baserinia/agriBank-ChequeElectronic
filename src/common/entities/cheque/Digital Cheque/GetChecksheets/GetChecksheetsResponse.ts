@@ -14,7 +14,7 @@ export interface CheckSheet {
 	postTime: string;
 	traceNo: string;
 	blackLSTDate: string;
-	sayadNo: number;
+	sayadNo: string;
 	sayadChequebookType: string;
 	isUsed: boolean;
 }

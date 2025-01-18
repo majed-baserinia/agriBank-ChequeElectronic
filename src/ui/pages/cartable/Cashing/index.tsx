@@ -45,7 +45,7 @@ export default function Cashing() {
 			//TODO: maybe show a error modal
 			navigate(paths.Home);
 		} else {
-			inquiryCheckData({ sayadNo: Number(selectedCheck.dataFromList?.sayadNo) });
+			inquiryCheckData({ sayadNo: selectedCheck.dataFromList?.sayadNo ?? "" });
 		}
 	}, []);
 
@@ -54,7 +54,7 @@ export default function Cashing() {
 			...data,
 			bearerInfo: null,
 			CustomerNo: 0,
-			Sayad: Number(selectedCheck!.dataFromList?.sayadNo)
+			Sayad: selectedCheck!.dataFromList?.sayadNo ?? ""
 		});
 	};
 	return (

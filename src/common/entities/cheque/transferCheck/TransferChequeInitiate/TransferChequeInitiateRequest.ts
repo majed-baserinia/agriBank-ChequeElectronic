@@ -1,6 +1,6 @@
 export interface TransferChequeInitiateRequest {
 	customerNumber: number;
-	sayadNo: number;
+	sayadNo: string;
 	description: string;
 	reason: string;
 	toIban: string;

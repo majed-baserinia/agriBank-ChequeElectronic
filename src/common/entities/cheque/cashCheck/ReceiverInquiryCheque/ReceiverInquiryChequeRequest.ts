@@ -1,3 +1,3 @@
 export interface ReceiverInquiryChequeRequest {
-	sayadNo: number;
+	sayadNo: string;
 }

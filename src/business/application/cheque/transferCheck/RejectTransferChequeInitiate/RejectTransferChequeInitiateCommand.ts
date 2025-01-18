@@ -4,7 +4,7 @@ import { TransferChequeInitiateResponse } from 'common/entities/cheque/transferC
 
 export default class RejectTransferChequeInitiateCommand implements IRequest<TransferChequeInitiateResponse> {
 	customerNumber: number;
-	sayadNo: number;
+	sayadNo: string;
 	description: string;
 	reason: string;
 	toIban?: string;

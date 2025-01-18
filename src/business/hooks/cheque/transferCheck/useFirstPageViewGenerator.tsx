@@ -19,7 +19,7 @@ export default function useFirstPageViewGenerator() {
 	useEffect(() => {
 		if (selectedCheck) {
 			inqueryStatus(
-				{ sayadNo: Number(selectedCheck.dataFromList?.sayadNo), chequeHolderNationalCode: '' },
+				{ sayadNo: selectedCheck.dataFromList?.sayadNo ?? "", chequeHolderNationalCode: '' },
 				{
 					onError() {
 						// we should show the first view here

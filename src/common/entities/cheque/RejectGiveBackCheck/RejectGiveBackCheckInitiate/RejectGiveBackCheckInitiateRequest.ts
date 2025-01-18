@@ -1,6 +1,6 @@
 export interface RejectGivebackChequeInitiateRequest {
 	customerNumber: number;
-	sayadNo: number;
+	sayadNo: string;
 	description: string;
 	toIban: string;
 }

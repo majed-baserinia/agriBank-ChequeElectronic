@@ -39,7 +39,7 @@ export default function RejectGiveBackCheckInitiate() {
 	useEffect(() => {
 		if (selectedCheck) {
 			inquiryCheckData(
-				{ sayadNo: Number(selectedCheck?.dataFromList?.sayadNo) },
+				{ sayadNo: selectedCheck?.dataFromList?.sayadNo ?? "" },
 				{
 					onSuccess: () =>
 						addNewCartableData({ selectedCheck: { ...selectedCheck, iquiriedData: checkData } })
@@ -55,7 +55,7 @@ export default function RejectGiveBackCheckInitiate() {
 				{
 					...data,
 					customerNumber: 0,
-					sayadNo: Number(selectedCheck.dataFromList.sayadNo),
+					sayadNo: selectedCheck.dataFromList.sayadNo,
 					toIban: ''
 				},
 				{

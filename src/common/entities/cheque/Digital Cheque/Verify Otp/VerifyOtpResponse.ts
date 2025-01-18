@@ -5,7 +5,7 @@ export interface VerifyOtpResponse {
 }
 
 export interface IssueChequeOverView {
-	sayadNo: number;
+	sayadNo: string;
 	seri: string;
 	serial: string;
 	amount: number;

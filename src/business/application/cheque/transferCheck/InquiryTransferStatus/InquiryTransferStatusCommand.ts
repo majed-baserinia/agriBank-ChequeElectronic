@@ -2,7 +2,7 @@ import { IRequest } from '@Mediatr/index';
 import { InquiryTransferStatusRespone } from 'common/entities/cheque/transferCheck/InquiryTransferStatus/InquiryTransferStatusResponse';
 
 export default class InquiryTransferStatusCommand implements IRequest<InquiryTransferStatusRespone> {
-	sayadNo: number;
+	sayadNo: string;
 	chequeHolderNationalCode: string;
 
 	constructor(input: InquiryTransferStatusCommand) {

@@ -3,7 +3,7 @@ import { ChakavakPutEChequeResponse } from 'common/entities/cheque/cashCheck/Cha
 
 export default class ChakavakPutEChequeCommand implements IRequest<ChakavakPutEChequeResponse> {
 	CustomerNo: number;
-	Sayad: number;
+	Sayad: string;
 	SettlementDate: string;
 	Creditor_Account: string;
 	InstrId: string;

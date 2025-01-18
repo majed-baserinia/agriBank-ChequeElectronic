@@ -3,7 +3,7 @@ export interface CartableInquiryResponse {
 }
 
 export interface Check {
-	sayadNo: number;
+	sayadNo: string;
 	serialNo: string;
 	seriesNo: string;
 	fromIban: string;

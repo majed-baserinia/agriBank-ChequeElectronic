@@ -1,5 +1,5 @@
 export interface IssueChequeInitiateRequest {
-	sayadNo: number;
+	sayadNo: string;
 	amount: number;
 	dueDate: string;
 	description: string;

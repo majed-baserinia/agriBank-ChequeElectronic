@@ -3,7 +3,7 @@ import { RecieverRequest } from 'common/entities/cheque/Digital Cheque/IssueCheq
 import { IssueChequeInitiateResponse } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateResponse';
 
 export default class IssueChequeInitiateCommand implements IRequest<IssueChequeInitiateResponse> {
-	sayadNo: number;
+	sayadNo: string;
 	amount: number;
 	dueDate: string;
 	description: string;

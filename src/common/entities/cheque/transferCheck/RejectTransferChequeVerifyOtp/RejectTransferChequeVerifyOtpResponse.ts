@@ -4,7 +4,7 @@ export interface RejectTransferChequeVerifyOtpResponse {
 	transferChequeKey: string;
 	needInquiryWithDrawalGroup: boolean;
 	transferChequeOverView: {
-		sayadNo: number;
+		sayadNo: string;
 		reason: string;
 		description: string;
 		toIban: string;
