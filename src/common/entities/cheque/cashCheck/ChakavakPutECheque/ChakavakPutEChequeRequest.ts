@@ -1,6 +1,6 @@
 export interface ChakavakPutEChequeRequest {
 	CustomerNo: number;
-	Sayad: number;
+	Sayad: string;
 	SettlementDate: string;
 	Creditor_Account: string;
 	InstrId: string;

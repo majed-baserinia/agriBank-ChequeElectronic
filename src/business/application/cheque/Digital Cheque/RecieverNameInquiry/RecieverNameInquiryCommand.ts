@@ -2,7 +2,7 @@ import { IRequest } from '@Mediatr/index';
 import { RecieverNameInquiryResponse } from 'common/entities/cheque/Digital Cheque/RecieverNameInquiry/RecieverNameInquiryResponse';
 
 export default class RecieverNameInquiryCommand implements IRequest<RecieverNameInquiryResponse> {
-	SayadId: number;
+	SayadId: string;
 	IdType: number;
 	IdCode: string;
 

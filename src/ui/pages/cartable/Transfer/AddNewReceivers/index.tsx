@@ -96,7 +96,7 @@ export default function AddNewReceivers() {
 							) : null}
 							<Typography variant="bodyMd">{t('addNewReceiversText')}</Typography>
 							<CheckReceivers
-								sayad={Number(selectedCheck!.dataFromList!.sayadNo)}
+								sayad={selectedCheck!.dataFromList!.sayadNo}
 								onRceiversChange={(receiversList) =>
 									addNewCartableData({
 										receivers: receiversList

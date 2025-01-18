@@ -1,5 +1,5 @@
 export interface RecieverNameInquiryRequest {
-	SayadId: number;
+	SayadId: string;
 	IdType: number;
 	IdCode: string;
 }

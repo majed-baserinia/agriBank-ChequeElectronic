@@ -3,12 +3,12 @@ import { SetStateAction } from 'react';
 
 export type CheckReceiversProps = {
 	onRceiversChange: (recievers: RecieverRequest[]) => void;
-	sayad: number;
+	sayad: string;
 	receivers?: RecieverRequest[];
 };
 
 export type AddFormProps = {
-	sayad: number;
+	sayad: string;
 	setReceivers: (value: SetStateAction<RecieverRequest[]>) => void;
 	setOpen: (value: SetStateAction<boolean>) => void;
 };
