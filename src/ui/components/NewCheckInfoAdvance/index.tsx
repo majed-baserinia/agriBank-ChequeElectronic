@@ -4,18 +4,17 @@ import OverviewItem from '../CheckOverview/OverviewItem';
 
 type Props = {
 	checkData: {
-		lockStatus: string;
+		lockStatus?: string;
 		sharedStatus?: string;
 		settlementDate?: string;
 		dueDate: string;
 		checkType: string;
 		branchCode: string;
-		bankCode: string;
 	};
 };
 export default function NewCheckInfoAdvance(props: Props) {
 	const { checkData } = props;
-	const { lockStatus, sharedStatus, settlementDate, dueDate, checkType, branchCode, bankCode } = checkData;
+	const { lockStatus, sharedStatus, settlementDate, dueDate, checkType, branchCode } = checkData;
 	const theme = useTheme();
 	const { t } = useTranslation();
 
@@ -27,10 +26,10 @@ export default function NewCheckInfoAdvance(props: Props) {
 				gap={'16px'}
 				sx={{ margin: '0 8px' }}
 			>
-				<OverviewItem
+				{lockStatus && 	<OverviewItem
 					title={t('lockStatus')}
-					value={lockStatus}
-				/>
+					value={lockStatus}/>
+				}
 				{sharedStatus ? (
 					<OverviewItem
 						title={t('sharedStatus')}
@@ -54,10 +53,6 @@ export default function NewCheckInfoAdvance(props: Props) {
 				<OverviewItem
 					title={t('branchCode')}
 					value={branchCode}
-				/>
-				<OverviewItem
-					title={t('bankCode')}
-					value={bankCode}
 				/>
 			</Grid>
 		</Grid>

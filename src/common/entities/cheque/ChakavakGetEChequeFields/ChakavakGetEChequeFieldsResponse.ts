@@ -13,10 +13,6 @@ export interface ChakavakGetEChequeFieldsResponse {
 }
 
 interface EChequeGeneralInfoDto {
-	pichakStatus: string; //وضعیت چک در پیچک
-	pichakStatusDescription: string; //وضعیت چک در پیچک
-	lockStatus: string; //وضعیت قفل چک
-	lockStatusDescription: string; //وضعیت قفل چک
 	npcstrn: string; //شناسه رهگیری سامانه چکهای برگشتی
 	customerReject: boolean; //برگشت به مشتری
 	descDeposit: string; //شرح سند

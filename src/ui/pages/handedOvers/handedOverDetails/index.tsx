@@ -114,18 +114,16 @@ export default function HandedOverDetails() {
 										//reason: overviewData.generalInfo.,
 										serie: overviewData.generalInfo.seri,
 										serial: overviewData.generalInfo.serial,
-										checkStatus: overviewData.generalInfo.pichakStatusDescription
 									}}
 								/>
 							) : null}
 							{detailsPage && overviewData ? (
 								<NewCheckInfoAdvance
 									checkData={{
-										bankCode: detailsPage.check.bankCode.toString(),
 										branchCode: detailsPage.check.bankBranch,
 										checkType: detailsPage.check.chqStatusDesc,
 										dueDate: detailsPage.check.chequeDate,
-										lockStatus: overviewData.generalInfo.lockStatusDescription
+			
 										//sharedStatus: detailsPage?.check.sharedDescription!
 									}}
 								/>

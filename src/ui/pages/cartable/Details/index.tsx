@@ -68,7 +68,6 @@ export default function Details() {
 
 									<NewCheckInfoAdvance
 										checkData={{
-											bankCode: selectedCheck.dataFromList!.bankCode,
 											branchCode: selectedCheck.dataFromList!.branchCode,
 											checkType: selectedCheck.dataFromList!.chequeTypeDescription,
 											dueDate: selectedCheck.dataFromList!.dueDate,
