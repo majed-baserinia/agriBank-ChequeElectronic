@@ -78,6 +78,7 @@
 		"@typescript-eslint/eslint-plugin": "^6.7.0",
 		"@typescript-eslint/parser": "^6.7.0",
 		"@vitejs/plugin-react": "^4.0.1",
+		"@agribank/prettier-config": "^0.0.6",
 		"autoprefixer": "^10.4.14",
 		"copyfiles": "^2.4.1",
 		"eslint": "^8.57.0",
