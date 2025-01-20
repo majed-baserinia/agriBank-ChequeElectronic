@@ -162,7 +162,7 @@ export default function SelectAccount() {
 														>
 															<Typography
 																variant="bodyXs"
-																color={theme.palette.grey[200]}
+																color={theme.palette.text["secondary"]}
 															>
 																{!item.isShared
 																	? `${item.owners[0]?.firstName} ${
