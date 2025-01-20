@@ -1,36 +1,37 @@
-import { Grid, MenuItem, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import Menu from 'ui/components/Menu';
+import { Box, Grid, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import Menu from "ui/components/Menu";
 
-import BoxAdapter from 'ui/htsc-components/BoxAdapter';
-import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
-import SelectAdapter from 'ui/htsc-components/SelectAdapter';
-import Stepper from 'ui/htsc-components/Stepper';
+import BoxAdapter from "ui/htsc-components/BoxAdapter";
+import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
+import SelectAdapter from "ui/htsc-components/SelectAdapter";
+import Stepper from "ui/htsc-components/Stepper";
 
-import keshavarzi from 'assets/icon/Banks/Color/Keshavarzi.svg';
-import useAccounts from 'business/hooks/cheque/Digital Cheque/useAccounts';
-import useGetCheckbooks from 'business/hooks/cheque/Digital Cheque/useGetCheckbooks';
-import useGetChecksheets from 'business/hooks/cheque/Digital Cheque/useGetChecksheets';
-import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
-import { CheckSheet } from 'common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse';
-import { useEffect, useState } from 'react';
-import Loader from 'ui/htsc-components/loader/Loader';
-import { paths } from 'ui/route-config/paths';
-import { menuList } from '../../HomePage/menuList';
+import keshavarzi from "assets/icon/Banks/Color/Keshavarzi.svg";
+import useAccounts from "business/hooks/cheque/Digital Cheque/useAccounts";
+import useGetCheckbooks from "business/hooks/cheque/Digital Cheque/useGetCheckbooks";
+import useGetChecksheets from "business/hooks/cheque/Digital Cheque/useGetChecksheets";
+import { useIssueCheckWizardData } from "business/stores/issueCheck/useIssueCheckWizardData";
+import { CheckSheet } from "common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse";
+import { useEffect, useMemo, useState } from "react";
+import ChipsAdapter from "ui/htsc-components/chipsAdapter";
+import Loader from "ui/htsc-components/loader/Loader";
+import { paths } from "ui/route-config/paths";
+import { menuList } from "../../HomePage/menuList";
 
 export default function SelectAccount() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.down('md'));
+	const matches = useMediaQuery(theme.breakpoints.down("md"));
 	const { setNewDataToWizard, selectCheckPage } = useIssueCheckWizardData((store) => store);
 
 	const { data: AccountData, isLoading } = useAccounts();
 	const { data: checkbooks, mutate: getCheckbooks } = useGetCheckbooks();
 	const { data: checksheets, mutate: getChecksheets } = useGetChecksheets();
 
-	const [selectedAccountNumber, setSelectedAccountNumber] = useState('');
+	const [selectedAccountNumber, setSelectedAccountNumber] = useState("");
 	const [selectedCheckbook, setSelectedCheckbook] = useState<string>();
 	const [selectedChecksheet, setSelectedChecksheet] = useState<CheckSheet>();
 
@@ -57,12 +58,24 @@ export default function SelectAccount() {
 		navigate(paths.IssueCheck.CheckInfoPath);
 	};
 
+	const sortedChequeSheets = useMemo(() => {
+		return checksheets?.toSorted((a, b) => {
+			if (a.isUsed && !b.isUsed) {
+				return 1;
+			}
+			if ((a.isUsed && b.isUsed) || (!a.isUsed && !b.isUsed)) {
+				return 0;
+			}
+			return -1;
+		});
+	}, [checksheets]);
+
 	return (
 		<Grid
 			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
-			justifyContent={'center'}
-			gap={'24px'}
+			sx={{ padding: matches ? "0" : "64px 0" }}
+			justifyContent={"center"}
+			gap={"24px"}
 			dir={theme.direction}
 		>
 			<Grid
@@ -72,35 +85,35 @@ export default function SelectAccount() {
 			>
 				<BoxAdapter fullWidth={matches}>
 					<Grid
-						minHeight={matches ? 'calc(100vh - 64px)' : 'calc(100vh - 192px)'}
+						minHeight={matches ? "calc(100vh - 64px)" : "calc(100vh - 192px)"}
 						container
-						direction={'column'}
-						justifyContent={'space-between'}
+						direction={"column"}
+						justifyContent={"space-between"}
 						wrap="nowrap"
 					>
 						<Grid>
 							{!matches ? (
 								<Stepper
 									list={[
-										t('selectCheck'),
-										t('checkInfo'),
-										t('recivers'),
-										t('issueSignature'),
-										t('end')
+										t("selectCheck"),
+										t("checkInfo"),
+										t("recivers"),
+										t("issueSignature"),
+										t("end")
 									]}
 									active={0}
 								/>
 							) : null}
 							<Typography
 								variant="bodyMd"
-								sx={{ marginBottom: '16px' }}
+								sx={{ marginBottom: "16px" }}
 							>
-								{t('selectAaccountText')}
+								{t("selectAaccountText")}
 							</Typography>
 							<Grid
 								container
-								spacing={'24px'}
-								direction={'row'}
+								spacing={"24px"}
+								direction={"row"}
 							>
 								<Grid
 									item
@@ -116,7 +129,7 @@ export default function SelectAccount() {
 											setSelectedAccountNumber(selectedValue);
 											getCheckbooks({ accountNumber: selectedValue });
 										}}
-										label={t('accountsList')}
+										label={t("accountsList")}
 										renderValue
 										defaultValue={selectedAccountNumber}
 									>
@@ -124,28 +137,28 @@ export default function SelectAccount() {
 											return (
 												<MenuItem
 													key={index}
-													style={{ margin: '10px 0' }}
+													style={{ margin: "10px 0" }}
 													value={item.accountNumber}
 												>
 													<Grid
 														container
-														justifyContent={'center'}
+														justifyContent={"center"}
 														alignItems="Center"
-														gap={'5px'}
+														gap={"5px"}
 														wrap="nowrap"
 													>
-														<Grid sx={{ height: '30px', width: '30px' }}>
+														<Grid sx={{ height: "30px", width: "30px" }}>
 															<img
-																style={{ width: '100%', height: '100%' }}
+																style={{ width: "100%", height: "100%" }}
 																src={keshavarzi}
-																alt={'icon'}
+																alt={"icon"}
 															/>
 														</Grid>
 														<Grid
 															container
-															direction={'column'}
+															direction={"column"}
 															alignItems="flex-start"
-															gap={'5px'}
+															gap={"5px"}
 														>
 															<Typography
 																variant="bodyXs"
@@ -154,13 +167,11 @@ export default function SelectAccount() {
 																{!item.isShared
 																	? `${item.owners[0]?.firstName} ${
 																			item.owners[0]?.lastName
-																		} ${t('curentAccountP')}`
-																	: t('sharedAccountP')}
+																		} ${t("curentAccountP")}`
+																	: t("sharedAccountP")}
 															</Typography>
 
-															<Typography variant="bodyMd">
-																{item.accountNumber}
-															</Typography>
+															<Typography variant="bodyMd">{item.accountNumber}</Typography>
 														</Grid>
 													</Grid>
 												</MenuItem>
@@ -180,7 +191,7 @@ export default function SelectAccount() {
 									<SelectAdapter
 										disabled={!selectedCheckbook}
 										onChange={() => {}}
-										label={t('checkSheet')}
+										label={t("checkSheet")}
 										defaultValue={selectedChecksheet?.sayadNo.toString() ?? undefined}
 										renderValue
 									>
@@ -199,50 +210,61 @@ export default function SelectAccount() {
 												onClick={(e) => {}}
 											/>
 										</ChipWrapperForSelect> */}
-										{checksheets?.map((sheet, index) => {
-											if (!sheet.isUsed) {
-												return (
-													<MenuItem
-														key={index}
-														value={sheet.sayadNo}
-														onClick={() => {
-															setSelectedChecksheet(sheet);
-														}}
-														sx={{
-															border: `1px solid ${theme.palette.grey[50]}`,
-															borderRadius: '16px',
-															marginTop: '16px',
-															'&:hover': {
-																backgroundColor: 'unset',
-																border: `2px solid ${theme.palette.primary.main}`
-															}
-														}}
+										{sortedChequeSheets?.map((sheet) => {
+											return (
+												<MenuItem
+													key={sheet.sayadNo}
+													value={sheet.sayadNo}
+													onClick={() => {
+														setSelectedChecksheet(sheet);
+													}}
+													sx={{
+														border: `1px solid ${theme.palette.grey[50]}`,
+														borderRadius: "16px",
+														marginTop: "16px",
+														"&:hover": {
+															backgroundColor: "unset",
+															border: `2px solid ${theme.palette.primary.main}`
+														}
+													}}
+												>
+													<Grid
+														container
+														flexDirection={"row"}
+														flexWrap={"nowrap"}
 													>
 														<Grid
 															container
-															direction={'column'}
-															justifyContent={'center'}
-															spacing={'8px'}
-															sx={{ padding: '16px' }}
-															gap={'8px'}
+															direction={"column"}
+															justifyContent={"center"}
+															spacing={"8px"}
+															sx={{ padding: "16px" }}
+															gap={"8px"}
 														>
 															<Typography
 																variant="bodyMd"
-																fontWeight={'bold'}
+																fontWeight={"bold"}
 															>
-																{t('sayadNumber')}:{sheet.sayadNo}
+																{t("sayadNumber")}:{sheet.sayadNo}
 															</Typography>
 															<Typography
 																variant="bodyXs"
-																fontWeight={'medium'}
+																fontWeight={"medium"}
 															>
-																{t('serieAndSerial')}: {sheet.chequeFrom} |
-																{sheet.chequeTo}
+																{t("serieAndSerial")}: {sheet.chequeFrom} |{sheet.chequeTo}
 															</Typography>
 														</Grid>
-													</MenuItem>
-												);
-											} else return;
+														{sheet.isUsed && (
+															<Box>
+																<ChipsAdapter
+																	label={t("issuedCheck")}
+																	color="error"
+																/>
+															</Box>
+														)}
+													</Grid>
+												</MenuItem>
+											);
 										})}
 									</SelectAdapter>
 								</Grid>
@@ -258,7 +280,7 @@ export default function SelectAccount() {
 									<SelectAdapter
 										disabled={!selectedAccountNumber}
 										onChange={() => {}}
-										label={t('checkbook')}
+										label={t("checkbook")}
 										defaultValue={selectedCheckbook ?? undefined}
 										renderValue
 									>
@@ -279,33 +301,33 @@ export default function SelectAccount() {
 													}}
 													sx={{
 														border: `1px solid ${theme.palette.grey[50]}`,
-														borderRadius: '16px',
-														marginTop: '16px',
-														'&:hover': {
-															backgroundColor: 'unset',
+														borderRadius: "16px",
+														marginTop: "16px",
+														"&:hover": {
+															backgroundColor: "unset",
 															border: `2px solid ${theme.palette.primary.main}`
 														}
 													}}
 												>
 													<Grid
 														container
-														direction={'column'}
-														justifyContent={'center'}
-														spacing={'8px'}
-														sx={{ padding: '16px' }}
-														gap={'8px'}
+														direction={"column"}
+														justifyContent={"center"}
+														spacing={"8px"}
+														sx={{ padding: "16px" }}
+														gap={"8px"}
 													>
 														<Typography
 															variant="bodyMd"
-															fontWeight={'bold'}
+															fontWeight={"bold"}
 														>
-															{t('checkbookNumber')}:{checkbook.chequeTo}
+															{t("checkbookNumber")}:{checkbook.chequeTo}
 														</Typography>
 														<Typography
 															variant="bodyXs"
-															fontWeight={'medium'}
+															fontWeight={"medium"}
 														>
-															{t('issueDate')}:{checkbook.issueDate}
+															{t("issueDate")}:{checkbook.issueDate}
 														</Typography>
 													</Grid>
 												</MenuItem>
@@ -320,12 +342,12 @@ export default function SelectAccount() {
 							<ButtonAdapter
 								variant="contained"
 								size="medium"
-								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+								muiButtonProps={{ sx: { width: "100%", marginTop: "16px" } }}
 								forwardIcon
 								onClick={() => handleNextStep()}
 								disabled={!selectedChecksheet}
 							>
-								{t('continue')}
+								{t("continue")}
 							</ButtonAdapter>
 						</Grid>
 					</Grid>
