@@ -1,38 +1,41 @@
-import { Grid, useMediaQuery, useTheme } from '@mui/material';
-import useChakavakGetEChequeFields from 'business/hooks/cheque/ChakavakGetEChequeFields/useChakavakGetEChequeFields';
-import useChakavakUnLockCheque from 'business/hooks/cheque/ChakavakUnLockCheque/useChakavakUnLockCheque';
-import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useHandedOversData } from 'business/stores/handedOverChecks/useHandedOversStore';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import { checkActionsMenuList } from 'ui/components/CheckListComps/cartable/BottomSheetActionButton';
-import PersonsList from 'ui/components/CheckOverview/PersonsList';
-import Menu from 'ui/components/Menu';
-import NewCheckInfoAdvance from 'ui/components/NewCheckInfoAdvance';
-import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import useChakavakGetEChequeFields from "business/hooks/cheque/ChakavakGetEChequeFields/useChakavakGetEChequeFields";
+import useChakavakUnLockCheque from "business/hooks/cheque/ChakavakUnLockCheque/useChakavakUnLockCheque";
+import { pushAlert } from "business/stores/AppAlertsStore";
+import { useHandedOversData } from "business/stores/handedOverChecks/useHandedOversStore";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import { checkActionsMenuList } from "ui/components/CheckListComps/cartable/BottomSheetActionButton";
+import PersonsList from "ui/components/CheckOverview/PersonsList";
+import Menu from "ui/components/Menu";
+import NewCheckInfoAdvance from "ui/components/NewCheckInfoAdvance";
+import NewCheckInfoBasics from "ui/components/NewCheckInfoBasics";
 
-import BoxAdapter from 'ui/htsc-components/BoxAdapter';
-import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
-import Loader from 'ui/htsc-components/loader/Loader';
-import { paths } from 'ui/route-config/paths';
+import BoxAdapter from "ui/htsc-components/BoxAdapter";
+import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
+import Loader from "ui/htsc-components/loader/Loader";
+import { paths } from "ui/route-config/paths";
 
 export default function HandedOverDetails() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.down('md'));
+	const matches = useMediaQuery(theme.breakpoints.down("md"));
 	const { data: overviewData, mutate: getCheckDetails, isLoading } = useChakavakGetEChequeFields();
 	const { mutate: unlock, isLoading: loadingUnlock } = useChakavakUnLockCheque();
 	const { detailsPage } = useHandedOversData((store) => store);
 
 	useEffect(() => {
 		if (detailsPage?.check) {
-			getCheckDetails({ CustomerNo: detailsPage?.check.customerNumber, Id: detailsPage?.check.clearId });
+			getCheckDetails({
+				CustomerNo: detailsPage?.check.customerNumber,
+				Id: detailsPage?.check.clearId
+			});
 		} else {
 			pushAlert({
-				type: 'error',
-				messageText: t('somethingIsWrong'),
+				type: "error",
+				messageText: t("somethingIsWrong"),
 				hasConfirmAction: true,
 				actions: {
 					onCloseModal: () => navigate(paths.Home),
@@ -48,14 +51,14 @@ export default function HandedOverDetails() {
 			{
 				onError: (err) => {
 					pushAlert({
-						type: 'error',
+						type: "error",
 						messageText: err.detail,
 						hasConfirmAction: true
 					});
 				},
 				onSuccess: (res) => {
 					pushAlert({
-						type: 'success',
+						type: "success",
 						messageText: res.message,
 						hasConfirmAction: true,
 						actions: {
@@ -71,9 +74,9 @@ export default function HandedOverDetails() {
 	return (
 		<Grid
 			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
-			justifyContent={'center'}
-			gap={'24px'}
+			sx={{ padding: matches ? "0" : "64px 0" }}
+			justifyContent={"center"}
+			gap={"24px"}
 			dir={theme.direction}
 		>
 			<Grid
@@ -85,23 +88,23 @@ export default function HandedOverDetails() {
 					fullWidth={matches}
 					muiPaperProps={{
 						sx: {
-							minWidth: '25%',
-							borderRadius: matches ? 0 : '32px',
-							padding: '16px'
+							minWidth: "25%",
+							borderRadius: matches ? 0 : "32px",
+							padding: "16px"
 						}
 					}}
 				>
 					<Grid
-						minHeight={matches ? 'calc(100vh - 32px)' : 'calc(100vh - 192px)'}
+						minHeight={matches ? "calc(100vh - 32px)" : "calc(100vh - 192px)"}
 						container
-						direction={'column'}
-						justifyContent={'space-between'}
+						direction={"column"}
+						justifyContent={"space-between"}
 						wrap="nowrap"
 					>
 						<Grid
 							container
-							direction={'column'}
-							gap={'8px'}
+							direction={"column"}
+							gap={"8px"}
 						>
 							{overviewData ? (
 								<NewCheckInfoBasics
@@ -113,7 +116,7 @@ export default function HandedOverDetails() {
 										sayad: overviewData.generalInfo.sayad.toString(),
 										//reason: overviewData.generalInfo.,
 										serie: overviewData.generalInfo.seri,
-										serial: overviewData.generalInfo.serial,
+										serial: overviewData.generalInfo.serial
 									}}
 								/>
 							) : null}
@@ -121,9 +124,8 @@ export default function HandedOverDetails() {
 								<NewCheckInfoAdvance
 									checkData={{
 										branchCode: detailsPage.check.bankBranch,
-										checkType: detailsPage.check.chqStatusDesc,
-										dueDate: detailsPage.check.chequeDate,
-			
+										chequeStatus: detailsPage.check.chqStatusDesc,
+										dueDate: detailsPage.check.chequeDate
 										//sharedStatus: detailsPage?.check.sharedDescription!
 									}}
 								/>
@@ -140,7 +142,7 @@ export default function HandedOverDetails() {
 									]}
 									signers={[
 										{
-											groupNumber: '',
+											groupNumber: "",
 											withdrawalGroups: [
 												{
 													customerNumber: Number(overviewData.debtorInfo.debtorIdentifier),
@@ -157,11 +159,11 @@ export default function HandedOverDetails() {
 							<ButtonAdapter
 								variant="outlined"
 								size="medium"
-								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+								muiButtonProps={{ sx: { width: "100%", marginTop: "16px" } }}
 								forwardIcon
 								onClick={() => submitHandler()}
 							>
-								{t('cancellationOfCashability')}
+								{t("cancellationOfCashability")}
 							</ButtonAdapter>
 						</Grid>
 					</Grid>
