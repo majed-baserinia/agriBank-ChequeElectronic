@@ -128,7 +128,7 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 						render={({ field }) => (
 							<DatePickerAdapter
 								label={`${t("receiptDate")} ${t("(optional)")} `}
-								onChange={(date) => {
+								onChange={(date: any) => {
 									field.onChange(date?.toString());
 								}}
 								defaultValue={field.value}
