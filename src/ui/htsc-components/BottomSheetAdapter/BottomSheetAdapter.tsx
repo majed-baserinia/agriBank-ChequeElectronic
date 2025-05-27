@@ -12,6 +12,7 @@ export default function BottomSheetAdapter(props: Props) {
 			onClose={() => setOpen(false)}
 			snapPoints={snapPoints}
 		>
+			<Sheet.Backdrop onTap={() => setOpen(false)} />
 			<Sheet.Container
 				style={{
 					backgroundColor: theme.palette.background.paper
@@ -20,7 +21,6 @@ export default function BottomSheetAdapter(props: Props) {
 				<Sheet.Header />
 				<Sheet.Content>{children}</Sheet.Content>
 			</Sheet.Container>
-			<Sheet.Backdrop />
 		</Sheet>
 	);
 }

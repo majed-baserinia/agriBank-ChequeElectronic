@@ -49,6 +49,7 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 					onClose={() => setOpen(false)}
 					snapPoints={[450, 0]}
 				>
+					<Sheet.Backdrop onTap={() => setOpen(false)} />
 					<Sheet.Container>
 						<Sheet.Header />
 						<Sheet.Content
@@ -63,7 +64,6 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 							/>
 						</Sheet.Content>
 					</Sheet.Container>
-					<Sheet.Backdrop />
 				</Sheet>
 			) : (
 				<Dialog
