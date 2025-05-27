@@ -56,10 +56,13 @@ export default function InputAdapter(props: InputAdapterProps) {
 					alt="success"
 				/>
 			) : error ? (
-				<SvgToIcon
-					icon={alertIcon}
-					alt="error"
-				/>
+				<>
+					{endIcon}
+					<SvgToIcon
+						icon={alertIcon}
+						alt="error"
+					/>
+				</>
 			) : (
 				endIcon
 			)
