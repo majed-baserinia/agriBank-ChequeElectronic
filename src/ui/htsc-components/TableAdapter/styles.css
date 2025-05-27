@@ -1,0 +1,29 @@
+.moving-text-container {
+	overflow: hidden;
+}
+
+.moving-text-moveRightToLeft {
+	white-space: nowrap;
+	animation: moveRightToLeft 10s linear infinite;
+}
+.moving-text-moveleftToRight {
+	white-space: nowrap;
+	animation: moveleftToRight 10s linear infinite;
+}
+
+@keyframes moveRightToLeft {
+	0% {
+		transform: translateX(100%); /* Start from the right side */
+	}
+	100% {
+		transform: translateX(-20%); /* Move to the left side */
+	}
+}
+@keyframes moveleftToRight {
+	0% {
+		transform: translateX(-20%); /* Start from the left side */
+	}
+	100% {
+		transform: translateX(100%); /* Move to the right side */
+	}
+}

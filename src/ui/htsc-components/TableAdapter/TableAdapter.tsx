@@ -8,6 +8,8 @@ import TablePagination from '@mui/material/TablePagination';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Props } from './type';
+import './styles.css';
+
 
 export default function TableAdapter<TColumnNames extends string>({ columns, rowsData }: Props<TColumnNames>) {
 	const { t } = useTranslation();
@@ -25,8 +27,10 @@ export default function TableAdapter<TColumnNames extends string>({ columns, row
 	// };
 
 	return (
-		<Paper sx={{ width: '100%', overflow: 'hidden' }}>
-			<TableContainer sx={{ maxHeight: 590 }}>
+		<Paper sx={{ width: '100%', overflow: 'scroll' }}>
+			<TableContainer
+			// sx={{ maxHeight: 590, overflow: 'scroll' }}
+			>
 				<Table
 					stickyHeader
 					aria-label="sticky table"
@@ -37,7 +41,7 @@ export default function TableAdapter<TColumnNames extends string>({ columns, row
 								<TableCell
 									key={index}
 									align={column.align}
-									style={{ minWidth: column.minWidth }}
+									style={{ maxWidth: "fit-content" }}
 								>
 									<Typography
 										variant="bodyMd"
@@ -64,6 +68,8 @@ export default function TableAdapter<TColumnNames extends string>({ columns, row
 												<TableCell
 													key={index}
 													align={column.align}
+													sx={{ maxWidth: "100px", width: "fit-content" }}
+													className='moving-text-container'
 												>
 													<Typography variant="bodyMd">{value}</Typography>
 												</TableCell>
@@ -94,7 +100,7 @@ export default function TableAdapter<TColumnNames extends string>({ columns, row
 					page={page}
 					onPageChange={handleChangePage}
 					labelDisplayedRows={() => ''}
-					//	onRowsPerPageChange={handleChangeRowsPerPage}
+				//	onRowsPerPageChange={handleChangeRowsPerPage}
 				/>
 			) : null}
 		</Paper>
