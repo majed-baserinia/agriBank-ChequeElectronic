@@ -6,6 +6,7 @@ import CheckInfo from 'ui/pages/IssueCheck/CheckInfo';
 import OtpCheck from 'ui/pages/IssueCheck/OtpCheck';
 import OverView from 'ui/pages/IssueCheck/OverView';
 import SelectAccount from 'ui/pages/IssueCheck/SelectAccount';
+import PersonalType from 'ui/pages/IssueCheck/PersonalType';
 import SignatureGroup from 'ui/pages/IssueCheck/SignatureGroup';
 import SignatureRegistration from 'ui/pages/IssueCheck/SignatureRegistration';
 import ActivationFirstStep from 'ui/pages/activation/ActivationFirstStep';
@@ -21,6 +22,7 @@ import RejectGiveBackCheckInitiate from 'ui/pages/cartable/RejectGiveBack/Reject
 import RejectGiveBackCheckOTP from 'ui/pages/cartable/RejectGiveBack/RejectGiveBackCheckOTP';
 import SelectList from 'ui/pages/cartable/SelectList';
 import AddNewReceivers from 'ui/pages/cartable/Transfer/AddNewReceivers';
+import ChequeReceiptPreview from 'ui/pages/IssueCheck/ChequeReceiptPreview';
 import CheckNewInfo from 'ui/pages/cartable/Transfer/CheckNewInfo';
 import OtpTransferConfirmation from 'ui/pages/cartable/Transfer/OtpTransferConfirmation';
 import TransferOverView from 'ui/pages/cartable/Transfer/TransferOverView';
@@ -50,6 +52,10 @@ const router = createBrowserRouter([
 				element: <ActivationSecondStep />
 			},
 			{
+				path: paths.IssueCheck.PersonalTypePath,
+				element: <PersonalType />
+			},
+			{
 				path: paths.IssueCheck.SelectAccountPath,
 				element: <SelectAccount />
 			},
@@ -60,6 +66,10 @@ const router = createBrowserRouter([
 			{
 				path: paths.IssueCheck.addReceiversPath,
 				element: <AddReceivers />
+			},
+			{
+				path: paths.IssueCheck.ChequeReceiptPreview,
+				element: <ChequeReceiptPreview />
 			},
 			{
 				path: paths.IssueCheck.SignatureRegistrationPath,

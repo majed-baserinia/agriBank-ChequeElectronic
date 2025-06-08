@@ -7,9 +7,11 @@ export const paths = {
 
 	Deactivation: '/cheque/Deactivation',
 	IssueCheck: {
+		PersonalTypePath: '/cheque/Issue/PersonalType',
 		SelectAccountPath: '/cheque/Issue/SelectAccount',
 		CheckInfoPath: '/cheque/Issue/CheckInfo',
 		addReceiversPath: '/cheque/Issue/addReceivers',
+		ChequeReceiptPreview: '/cheque/Issue/ChequeReceiptPreview',
 		SignatureRegistrationPath: '/cheque/Issue/SignatureRegistration',
 		SignatureGroupPath: '/cheque/Issue/SignatureGroup',
 		OverViewPath: '/cheque/Issue/OverView',
