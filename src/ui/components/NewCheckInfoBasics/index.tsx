@@ -22,6 +22,7 @@ export default function NewCheckInfoBasics(props: Props) {
 			{hasTitle ? (
 				<Typography
 					marginBottom={12}
+					variant='bodyMd'
 					textAlign={'center'}
 				>
 					{t('checkDetail')}
@@ -40,7 +41,7 @@ export default function NewCheckInfoBasics(props: Props) {
 						alignItems={'center'}
 					>
 						<Typography
-							variant="bodySm"
+							variant="bodyMd"
 							fontWeight={'medium'}
 						>
 							{t('checkStatus')}
@@ -59,16 +60,16 @@ export default function NewCheckInfoBasics(props: Props) {
 					value={sayad}
 				/>
 				<OverviewItem
+					title={t('serieAndSerial')}
+					value={`${serie}/${serial}`}
+				/>
+				<OverviewItem
 					title={t('amountR')}
 					value={formatAmount(amount)}
 				/>
 				<OverviewItem
 					title={t('dueDate')}
 					value={date}
-				/>
-				<OverviewItem
-					title={t('serieAndSerial')}
-					value={`${serie}/${serial}`}
 				/>
 				{sheba ? (
 					<OverviewItem
@@ -82,20 +83,20 @@ export default function NewCheckInfoBasics(props: Props) {
 						value={reason}
 					/>
 				) : null}
-				<Grid
+				{/* <Grid
 					container
 					direction={'column'}
 					gap={'8px'}
 					sx={{ marginBottom: '8px', marginTop: '8px' }}
 				>
 					<Typography
-						variant="bodySm"
+						variant="bodyMd"
 						fontWeight={'medium'}
 					>
 						{t('description')}
 					</Typography>
-					<Typography variant="bodySm">{description}</Typography>
-				</Grid>
+					<Typography variant="bodyMd">{description}</Typography>
+				</Grid> */}
 			</Grid>
 		</Grid>
 	);

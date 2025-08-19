@@ -15,7 +15,8 @@ export const paths = {
 		SignatureRegistrationPath: '/cheque/Issue/SignatureRegistration',
 		SignatureGroupPath: '/cheque/Issue/SignatureGroup',
 		OverViewPath: '/cheque/Issue/OverView',
-		OtpCheckPath: '/cheque/Issue/OtpCheck'
+		OtpCheckPath: '/cheque/Issue/OtpCheck',
+		FinalReceipt: '/cheque/Issue/FinalReceipt'
 	},
 	cartable: {
 		SelectList: '/cheque/cartable/SelectList',

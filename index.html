@@ -1,91 +1,81 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href="/keshavarzi.svg"
-    />
-    <!-- Bootstrap CSS -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta
-      name="viewport"
-      content="initial-scale=1.0, maximum-scale=1.0"
-    />
-    <style>
-      .buorg-buttons {
-        display: none !important;
-      }
-    </style>
-    <title>چکاد</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script>
-      var textMessage;
-      var en =
-        "Dear customer, to enhance security, increase speed, and have a better experience, it is necessary to upgrade your device's browser. ({brow_name})";
-      var fa =
-        "مشتری گرامی برای بهبود امنیت، افزایش سرعت، تجربه بهتر، جهت استفاده از این خدمت لازم است مرورگر دستگاه خود را ارتقا دهید. ({brow_name})";
+<html lang="en" class="w-full h-full">
 
-      function getQueryStringParams() {
-        var queryString = window.location.search.substring(1);
-        var queryParams = {};
-        var paramPairs = queryString.split("&");
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/keshavarzi.svg" />
+  <!-- Bootstrap CSS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0" />
+  <style>
+    .buorg-buttons {
+      display: none !important;
+    }
+  </style>
+  <title>چکاد</title>
+</head>
 
-        for (var i = 0; i < paramPairs.length; i++) {
-          var pair = paramPairs[i].split("=");
-          var key = decodeURIComponent(pair[0]);
-          var value = decodeURIComponent(pair[1] || "");
+<body class="w-full h-full">
+  <div id="root" class="w-full h-full"></div>
+  <script>
+    var textMessage;
+    var en =
+      "Dear customer, to enhance security, increase speed, and have a better experience, it is necessary to upgrade your device's browser. ({brow_name})";
+    var fa =
+      "مشتری گرامی برای بهبود امنیت، افزایش سرعت، تجربه بهتر، جهت استفاده از این خدمت لازم است مرورگر دستگاه خود را ارتقا دهید. ({brow_name})";
 
-          queryParams[key] = value;
-        }
+    function getQueryStringParams() {
+      var queryString = window.location.search.substring(1);
+      var queryParams = {};
+      var paramPairs = queryString.split("&");
 
-        return queryParams;
+      for (var i = 0; i < paramPairs.length; i++) {
+        var pair = paramPairs[i].split("=");
+        var key = decodeURIComponent(pair[0]);
+        var value = decodeURIComponent(pair[1] || "");
+
+        queryParams[key] = value;
       }
 
-      var queryParams = getQueryStringParams();
-      var language = queryParams["Lang"];
+      return queryParams;
+    }
 
-      if (language == "en") {
-        textMessage = en;
-      } else if (language == "fa") {
-        textMessage = fa;
-      } else {
-        textMessage = fa;
-      }
-      var $buoop = {
-        required: { e: 100, f: 95, o: 100, s: 13, c: 95 },
-        insecure: true,
-        api: 2024.02,
-        no_permanent_hide: true,
+    var queryParams = getQueryStringParams();
+    var language = queryParams["Lang"];
 
-        text: {
-          msg: " ",
-          insecure: " ",
-          msgmore: textMessage
-        },
-        noclose: true
-      };
-      function $buo_f() {
-        var e = document.createElement("script");
-        e.src = "/browserUpdate.js";
-        document.body.appendChild(e);
-      }
-      try {
-        document.addEventListener("DOMContentLoaded", $buo_f, false);
-      } catch (e) {
-        window.attachEvent("onload", $buo_f);
-      }
-    </script>
+    if (language == "en") {
+      textMessage = en;
+    } else if (language == "fa") {
+      textMessage = fa;
+    } else {
+      textMessage = fa;
+    }
+    var $buoop = {
+      required: { e: 100, f: 95, o: 100, s: 13, c: 95 },
+      insecure: true,
+      api: 2024.02,
+      no_permanent_hide: true,
 
-    <script
-      type="module"
-      src="/src/main.tsx"
-    ></script>
-  </body>
+      text: {
+        msg: " ",
+        insecure: " ",
+        msgmore: textMessage
+      },
+      noclose: true
+    };
+    function $buo_f() {
+      var e = document.createElement("script");
+      e.src = "/browserUpdate.js";
+      document.body.appendChild(e);
+    }
+    try {
+      document.addEventListener("DOMContentLoaded", $buo_f, false);
+    } catch (e) {
+      window.attachEvent("onload", $buo_f);
+    }
+  </script>
+
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

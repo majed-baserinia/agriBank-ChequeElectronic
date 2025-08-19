@@ -1,4 +1,7 @@
 {
 	"apiBaseUrl": "https://dgbankmb-pilot.bki.ir",
-	"ThemeRoute": "https://cdn-tst.bki.ir/cdn/themes/"
+	"ThemeRoute": "https://cdn-tst.bki.ir/cdn/themes/",
+	"_apiBaseUrlTest": "https://digitalbanking-tst.bki.ir",
+	"_apiBaseUrlPilot": "https://dgbankmb-pilot.bki.ir",
+	"_apiBaseUrlProduction": "https://digitalbanking.bki.ir"
 }

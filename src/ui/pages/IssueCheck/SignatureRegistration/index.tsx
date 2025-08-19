@@ -2,7 +2,6 @@ import { Grid, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import Menu from 'ui/components/Menu';
 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
@@ -15,9 +14,8 @@ import useIssueChequeInitiateSignature from 'business/hooks/cheque/Digital Chequ
 import useIssueChequeVerifyInitiate from 'business/hooks/cheque/Digital Cheque/useIssueChequeVerifyInitiate';
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from 'ui/route-config/paths';
-import { menuList } from '../../HomePage/menuList';
 
 export default function SignatureRegistration() {
 	const theme = useTheme();
@@ -25,6 +23,8 @@ export default function SignatureRegistration() {
 	const { t } = useTranslation();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { addReceiverPage, setNewDataToWizard } = useIssueCheckWizardData((store) => store);
+	const store = useIssueCheckWizardData((store) => store)
+	console.log(store)
 
 	const { mutate: issueChequeInitiateSignature, isLoading: initiateLoading } = useIssueChequeInitiateSignature();
 	const { mutate: issueChequeVerifyInitiate, isLoading } = useIssueChequeVerifyInitiate();
@@ -97,96 +97,99 @@ export default function SignatureRegistration() {
 	// 		});
 	// 	}
 	// }, [selectedSigniture]);
+	useLoadingHandler(initiateLoading || isLoading);
 
 	return (
 		<Grid
-			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
+			// container
+			// sx={{ padding: matches ? '0' : '64px 0' }}
+			display={'flex'}
+			minHeight={"100%"}
+			height={"100%"}
 			justifyContent={'center'}
 			gap={'24px'}
 			dir={theme.direction}
 		>
-			<Grid
-				item
-				xs={12}
-				md={8}
-			>
-				<BoxAdapter fullWidth={matches}>
-					<Grid
-						minHeight={matches ? 'calc(100vh - 64px)' : 'calc(100vh - 192px)'}
-						container
-						direction={'column'}
-						justifyContent={'space-between'}
-						wrap="nowrap"
-					>
-						<Grid>
-							{!matches ? (
-								<Stepper
-									list={[
-										t('selectCheck'),
-										t('checkInfo'),
-										t('recivers'),
-										t('issueSignature'),
-										t('end')
-									]}
-									active={3}
-								/>
-							) : null}
 
-							<Grid
-								container
-								flexWrap={'nowrap'}
-								gap={'8px'}
+			<BoxAdapter fullWidth={matches}>
+				<Grid
+					// minHeight={matches ? 'calc(100vh - 64px)' : 'calc(100vh - 192px)'}
+					// container
+					display={"flex"}
+					minHeight={"100%"}
+					height={"100%"}
+					direction={'column'}
+					justifyContent={'space-between'}
+					wrap="nowrap"
+				>
+					<Grid>
+						{/* {!matches ? (
+							<Stepper
+								list={[
+									t('selectCheck'),
+									t('checkInfo'),
+									t('recivers'),
+									t('issueSignature'),
+									t('end')
+								]}
+								active={3}
+							/>
+						) : null} */}
+
+						<Grid
+							container
+							flexWrap={'nowrap'}
+							gap={'8px'}
+						>
+							<SvgToIcon
+								icon={infoIcon}
+								alt="info"
+							/>
+							<Typography
+								variant="bodyMd"
+								sx={{ marginBottom: '8px' }}
 							>
-								<SvgToIcon
-									icon={infoIcon}
-									alt="info"
-								/>
-								<Typography
-									variant="bodyMd"
-									sx={{ marginBottom: '8px' }}
-								>
-									{t('activationSecondStepText')}
-								</Typography>
-							</Grid>
-							<Grid
-								container
-								alignItems={'baseline'}
-							>
-								<Typography
-									variant="bodySm"
-									sx={{ margin: '0 24px' }}
-								>
-									{t('dontRecieveMessage')}
-								</Typography>
-								<ButtonAdapter
-									endIcon={
-										<SvgToIcon
-											icon={sendAaginIcon}
-											alt="send again"
-										/>
-									}
-									onClick={handleIssueChequeInitiateSignature}
-								>
-									{t('sendAgain')}
-								</ButtonAdapter>
-							</Grid>
+								{t('activationSecondStepText')}
+							</Typography>
 						</Grid>
-						<Grid container>
-							<ButtonAdapter
-								variant="contained"
-								size="medium"
-								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
-								//onClick={() => setOpenModal(true)}
-								onClick={() => handleSubmitToNextLevel()}
+						<Grid
+							container
+							alignItems={'baseline'}
+						>
+							<Typography
+								variant="bodySm"
+								sx={{ margin: '0 24px' }}
 							>
-								{t('FinalSignatureRegistration')}
+								{t('dontRecieveMessage')}
+							</Typography>
+							<ButtonAdapter
+								endIcon={
+									<SvgToIcon
+										icon={sendAaginIcon}
+										alt="send again"
+									/>
+								}
+								onClick={handleIssueChequeInitiateSignature}
+							>
+								{t('sendAgain')}
 							</ButtonAdapter>
 						</Grid>
 					</Grid>
-				</BoxAdapter>
-			</Grid>
-			{matches ? null : (
+					<Grid container>
+						<ButtonAdapter
+							variant="contained"
+							size="medium"
+							muiButtonProps={{ sx: { width: "100%", marginTop: "16px", minHeight: "48px" } }}
+							//onClick={() => setOpenModal(true)}
+							onClick={() => handleSubmitToNextLevel()}
+						>
+							{t('FinalSignatureRegistration')}
+						</ButtonAdapter>
+					</Grid>
+				</Grid>
+			</BoxAdapter>
+
+			{/* {matches ? null : (
 				<Grid
 					item
 					md={3}
@@ -203,7 +206,7 @@ export default function SignatureRegistration() {
 						/>{' '}
 					</BoxAdapter>
 				</Grid>
-			)}
+			)} */}
 			{/* <ModalOrBottomSheet
 				breackpoint="sm"
 				snapPoints={[400, 0]}
@@ -212,7 +215,7 @@ export default function SignatureRegistration() {
 			>
 				<SelectSignature setSelectedSigniture={setSelectedSigniture} />
 			</ModalOrBottomSheet> */}
-			<Loader showLoader={initiateLoading || isLoading} />
+			{/* <Loader showLoader={initiateLoading || isLoading} /> */}
 		</Grid>
 	);
 }

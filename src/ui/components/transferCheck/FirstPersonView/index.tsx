@@ -81,7 +81,7 @@ export default function FirstPersonView({
 					direction={'column'}
 					gap={'16px'}
 				>
-					{!matches ? (
+					{/* {!matches ? (
 						// TODO: check if selected compony or homself acocunt and add one more step if it is compony
 						<Stepper
 							list={[
@@ -93,7 +93,7 @@ export default function FirstPersonView({
 							]}
 							active={0}
 						/>
-					) : null}
+					) : null} */}
 
 					<NewCheckInfoBasics
 						hasTitle
@@ -132,9 +132,9 @@ export default function FirstPersonView({
 										isPendingtoGetReasons || isError
 											? []
 											: reasonCodes.map((reason) => ({
-													value: reason.reasonCode,
-													name: reason.description
-												}))
+												value: reason.reasonCode,
+												name: reason.description
+											}))
 									}
 									onChange={(item) => {
 										field.onChange(item);

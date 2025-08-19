@@ -25,5 +25,9 @@ export class CheckInfoFormValidatorCommandValidator extends Validator<CheckInfoF
 			.withMessage(i18next.t('maxlengthdescription').toString());
 
 		this.ruleFor('reason').notNull().withMessage(i18next.t('reason_MUST_HAVE_A_VALUE').toString());
+
+		this.ruleFor('recieverIban')
+			.matches(/^$|^[0-9]{24}$/)
+			.withMessage(i18next.t('lengthShaba').toString());
 	}
 }

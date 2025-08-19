@@ -6,16 +6,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import ChipStatusAdapter from 'ui/htsc-components/ChipStatusAdapter';
-import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import OverviewItem from '../../CheckOverview/OverviewItem';
 import BottomSheetActionButton from './BottomSheetActionButton';
+import { useLoadingHandler } from "@agribank/ui/components/Loader";
 
 export default function CheckItemCard({ check }: { check: Check }) {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const theme = useTheme();
 	const { addNewCartableData, selectedCheck } = useCartableChecklistData();
+
+	useLoadingHandler(!check);
 
 	return (
 		<Grid
@@ -33,7 +35,6 @@ export default function CheckItemCard({ check }: { check: Check }) {
 			gap={'16px'}
 			wrap="nowrap"
 		>
-			<Loader showLoader={!check} />
 			<Grid
 				container
 				item

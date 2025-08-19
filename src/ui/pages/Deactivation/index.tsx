@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Menu from 'ui/components/Menu';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from 'ui/route-config/paths';
 
 type MenuItems = {
@@ -44,7 +44,7 @@ export default function Deactivation() {
 							confirmButtonText: t('confirm'),
 							hasRefuseAction: true,
 							actions: {
-								onRefuse: () => {},
+								onRefuse: () => { },
 								onConfirm: () => {
 									deactiveCustomer(
 										{ customerNumber: item.customerNumber },
@@ -75,7 +75,7 @@ export default function Deactivation() {
 										}
 									);
 								},
-								onCloseModal: () => {}
+								onCloseModal: () => { }
 							}
 						});
 					}
@@ -87,6 +87,8 @@ export default function Deactivation() {
 			}
 		}
 	}, [listItems]);
+
+	useLoadingHandler(isLoading || deactiveLoading);
 
 	return (
 		<Grid sx={{ padding: matches ? '0' : '64px' }}>
@@ -125,7 +127,7 @@ export default function Deactivation() {
 					</Grid>
 				</Grid>
 			</BoxAdapter>
-			<Loader showLoader={isLoading || deactiveLoading} />
+			{/* <Loader showLoader={isLoading || deactiveLoading} /> */}
 		</Grid>
 	);
 }

@@ -9,16 +9,26 @@ interface Props {
 	icon?: ReactNode;
 	title: string;
 	subtitle?: string;
+	miniSubtitle?: string;
 	routeTo?: string;
 	onClick?: () => void;
 }
 
 export default function MenuItem(props: Props) {
-	const { onClick, icon, title, subtitle, routeTo } = props;
+	const { onClick, icon, title, subtitle, routeTo, miniSubtitle } = props;
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+
+
+	const handleClick = () => {
+		onClick?.();
+		if (routeTo) {
+			navigate(routeTo);
+		}
+	};
+
 
 	return (
 		<Grid
@@ -27,12 +37,7 @@ export default function MenuItem(props: Props) {
 			alignItems={'center'}
 			minWidth={'290px'}
 			sx={{ padding: matches ? '16px 0' : '24px 0', cursor: 'pointer', overflow: 'hidden' }}
-			onClick={() => {
-				if (routeTo) {
-					navigate(routeTo);
-				}
-				onClick?.();
-			}}
+			onClick={handleClick}
 		>
 			<Grid>
 				<Grid
@@ -44,7 +49,7 @@ export default function MenuItem(props: Props) {
 					<Grid item> {icon ? icon : null}</Grid>
 					<Grid>
 						<Typography
-							variant="bodyMd"
+							variant="bodyLg"
 							fontWeight={'medium'}
 							noWrap
 						>
@@ -52,17 +57,26 @@ export default function MenuItem(props: Props) {
 						</Typography>
 						{subtitle ? (
 							<Typography
-								variant="bodyXs"
+								variant="bodySm"
 								fontWeight={'medium'}
 								sx={{ color: theme.palette.text.secondary, marginTop: '8px' }}
 							>
 								{t(subtitle, subtitle)}
 							</Typography>
 						) : null}
+						{miniSubtitle ? (
+							<Typography
+								variant="bodySm"
+								fontWeight={'medium'}
+								sx={{ color: theme.palette.text.secondary, marginTop: '8px' }}
+							>
+								{t(miniSubtitle, miniSubtitle)}
+							</Typography>
+						) : null}
 					</Grid>
 				</Grid>
 			</Grid>
 			<Grid>{theme.direction == 'rtl' ? <ArrowBackIosNewIcon /> : <ArrowForwardIosIcon />}</Grid>
-		</Grid>
+		</Grid >
 	);
 }

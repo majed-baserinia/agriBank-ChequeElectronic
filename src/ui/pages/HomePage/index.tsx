@@ -1,7 +1,6 @@
 import { Grid, useMediaQuery, useTheme } from '@mui/material';
 import Menu from 'ui/components/Menu';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
-import BreadcrumbsAdapter from 'ui/htsc-components/BreadcrumbsAdapter';
 
 import { menuList } from './menuList';
 
@@ -29,7 +28,7 @@ export default function HomePage() {
 			sx={{ minHeight: 'calc(100% - 128px)', padding: matches ? '8px' : '64px' }}
 		>
 			<BoxAdapter muiPaperProps={{ sx: { padding: '16px', minWidth: '25%', borderRadius: '32px' } }}>
-				<BreadcrumbsAdapter breadcrumbs={breadcrumbs} />
+				{/* <BreadcrumbsAdapter breadcrumbs={breadcrumbs} /> */}
 				<Grid
 					dir={theme.direction}
 					container
@@ -42,7 +41,7 @@ export default function HomePage() {
 					/>
 				</Grid>
 			</BoxAdapter>
-			<BoxAdapter muiPaperProps={{ sx: { padding: '16px', minWidth: '25%', borderRadius: '32px' } }}>
+			{/* <BoxAdapter muiPaperProps={{ sx: { padding: '16px', minWidth: '25%', borderRadius: '32px' } }}>
 				<Grid
 					dir={theme.direction}
 					container
@@ -54,7 +53,7 @@ export default function HomePage() {
 						menuTitle={'menuTitleManagement'}
 					/>
 				</Grid>
-			</BoxAdapter>
+			</BoxAdapter> */}
 			{/* <BoxAdapter muiPaperProps={{ sx: { padding: '16px', minWidth: '25%', borderRadius: '32px' } }}>
 				<Grid
 					dir={theme.direction}

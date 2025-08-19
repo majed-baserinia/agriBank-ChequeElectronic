@@ -1,4 +1,5 @@
-import { Switch, SwitchProps, styled } from '@mui/material';
+import { Switch, SwitchProps } from '@mui/material';
+import styled from '@mui/styled-engine-sc';
 
 export const SmallSwitch = styled((props: SwitchProps) => (
 	<Switch

@@ -5,17 +5,7 @@
 	--rmdp-today-teal: #54a195;
 	--rmdp-hover-teal: #005145;
 	--rmdp-deselect-teal: #338e81;
-	/* --main-blue: #90caf9;
-	--main-white: #fff;
-	--main-grey: rgba(255, 255, 255, 0.23);
-	--main-dark-grey: #121212;
-	--main-ease: cubic-bezier(0.65, 0.05, 0.36, 1); */
 }
-
-/* .primary .rmdp-wrapper {
-	border: 1px solid var(--rmdp-secondary-teal);
-	box-shadow: 0 0 5px var(--rmdp-secondary-teal);
-} */
 
 .primary .rmdp-panel-body li {
 	background-color: var(--rmdp-primary-teal);
@@ -93,21 +83,11 @@
 .rmdp-input {
 	border: 1px solid #c5c5c5;
 	border-radius: 8px;
-	height: 48px !important;
+	height: 56px !important;
 	width: 100%;
 	padding: 4px 12px;
 }
-/* .rmdp-input {
-	color: var(--main-white);
-	height: 4rem;
-	outline: 1px solid var(--main-grey);
-	border-radius: 5px;
-	border: none;
-	background-color: var(--main-dark-grey);
-	padding-left: 20px;
-	font-size: 20px;
-	transition: 0.1s var(--main-ease);
-} */
+
 input::placeholder {
 	font-size: 16px;
 	color: #828282;
@@ -116,15 +96,15 @@ input::placeholder {
 input.datepickerInput {
 	border: 1px solid #c5c5c5;
 	border-radius: 8px;
-	height: 48px !important;
+	height: 56px !important;
 	width: 100%;
 	padding: 4px 12px;
 }
-input.datepickerInput:hover{
+input.datepickerInput:hover {
 	border: 1px solid #828282;
 }
 
-input.datepickerInput:focus{
+input.datepickerInput:focus {
 	outline: none;
 	border: 2px solid var(--rmdp-deselect-teal);
 }
@@ -132,7 +112,7 @@ input.datepickerInput:focus{
 input.error {
 	border: 2px solid red;
 	border-radius: 8px;
-	height: 48px !important;
+	height: 56px !important;
 	width: 100%;
 	padding: 4px 12px;
 }
@@ -150,20 +130,24 @@ input.error {
 	border-radius: 8px;
 }
 
-.rmdp-calendar:has(.rmdp-header + div .rmdp-month-picker[style*='display: flex'])
+.rmdp-calendar:has(.rmdp-header + div .rmdp-month-picker[style*="display: flex"])
 	.rmdp-header
 	div
 	.rmdp-header-values
 	:first-child {
 	background-color: var(--rmdp-deselect-teal);
 	color: white;
+	position: relative;
+	z-index: 10;
 }
 
-.rmdp-calendar:has(.rmdp-header + div .rmdp-year-picker[style*='display: block'])
+.rmdp-calendar:has(.rmdp-header + div .rmdp-year-picker[style*="display: block"])
 	.rmdp-header
 	div
 	.rmdp-header-values
 	:last-child {
 	background-color: var(--rmdp-deselect-teal);
 	color: white;
+	position: relative;
+	z-index: 10;
 }

@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 // https://vitejs.dev/config/
 export default defineConfig({
 	build: {
-		sourcemap: true // Enable source maps for production builds
+		sourcemap: false // Enable source maps for production builds
 	},
 
 	plugins: [react(), tsconfigPaths()],

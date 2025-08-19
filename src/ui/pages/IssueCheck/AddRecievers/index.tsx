@@ -7,13 +7,10 @@ import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
 
-import useIssueChequeInitiate from 'business/hooks/cheque/Digital Cheque/useIssueChequeInitiate';
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
-import { IssueChequeInitiateRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest';
 import { useEffect } from 'react';
 import CheckReceivers from 'ui/components/CheckReceivers';
-import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
 
@@ -22,10 +19,7 @@ export default function AddReceivers() {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage } = useIssueCheckWizardData(
-		(store) => store
-	);
-	const { isLoading, mutate: issueChequeInitiate } = useIssueChequeInitiate();
+	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage } = useIssueCheckWizardData((store) => store);
 
 	useEffect(() => {
 		if (!selectCheckPage) {
@@ -48,121 +42,56 @@ export default function AddReceivers() {
 	}, []);
 
 	const handleSubmitToNextLevel = () => {
-		// Check if all necessary steps and data exist
-		if (!selectCheckPage || !checkInfoPage) {
-			return null;
-		}
-		if (addReceiverPage) {
-			const preparedData: IssueChequeInitiateRequest = {
-				sayadNo: selectCheckPage.checkData.sayadNo,
-				amount: Number(checkInfoPage.checkAmount),
-				dueDate: checkInfoPage.date.toString(),
-				description: checkInfoPage.description,
-				reason: checkInfoPage.reason.value,
-				recievers: addReceiverPage.receivers!
-			};
-
-			issueChequeInitiate(preparedData, {
-				onError: (err) => {
-					//TODO: navigate the user if need to
-					pushAlert({
-						type: 'error',
-						hasConfirmAction: true,
-						messageText: err.detail
-					});
-				},
-				onSuccess: (res) => {
-					//save the data
-					setNewDataToWizard({
-						addReceiverPage: {
-							...addReceiverPage,
-							signitureRequirementData: {
-								issueChequeKey: res.issueChequeKey,
-								isSingleSignatureLegal: res.isSingleSignatureLegal
-							}
-						}
-					});
-
-					//check the res and navigate based on it
-					if (res.isNeedOtp) {
-						navigate(paths.IssueCheck.OtpCheckPath);
-					} else {
-						navigate(paths.IssueCheck.SignatureRegistrationPath);
-					}
-				}
-			});
-		}
+		navigate(paths.IssueCheck.ChequeReceiptPreview);
 	};
 
 	return (
-		<Grid
-			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
-			justifyContent={'center'}
-			gap={'24px'}
-			dir={theme.direction}
-		>
-			<Grid
-				item
-				xs={12}
-				md={8}
-			>
+		<div className='h-full' dir={theme.direction}>
+			<div className='h-full'>
 				<BoxAdapter fullWidth={matches}>
-					<Grid
-						minHeight={matches ? 'calc(100vh - 64px)' : 'calc(100vh - 192px)'}
-						container
-						direction={'column'}
-						justifyContent={'space-between'}
-						wrap="nowrap"
+					<div className='h-full'>
+						{/* {!matches ? (
+							// TODO: check if selected compony or homself acocunt and add one more step if it is compony
+							<Stepper
+								list={[
+									t('selectCheck'),
+									t('checkInfo'),
+									t('recivers'),
+									t('issueSignature'),
+									t('end')
+								]}
+								active={2}
+							/>
+						) : null} */}
+						<Typography variant="bodyMd">{t('addReceiversText')}</Typography>
+						{selectCheckPage && (
+							<CheckReceivers
+								sayad={selectCheckPage.checkData.sayadNo}
+								onRceiversChange={(receiversList) =>
+									setNewDataToWizard({
+										addReceiverPage: { ...addReceiverPage, receivers: receiversList }
+									})
+								}
+								receivers={addReceiverPage?.receivers}
+							/>
+						)}
+					</div>
+					<ButtonAdapter
+						variant="contained"
+						size="medium"
+						disabled={addReceiverPage?.receivers?.length == 0}
+						muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+						forwardIcon
+						onClick={() => handleSubmitToNextLevel()}
 					>
-						<Grid
-							container
-							direction={'column'}
-							gap={'16px'}
-						>
-							{!matches ? (
-								// TODO: check if selected compony or homself acocunt and add one more step if it is compony
-								<Stepper
-									list={[
-										t('selectCheck'),
-										t('checkInfo'),
-										t('recivers'),
-										t('issueSignature'),
-										t('end')
-									]}
-									active={2}
-								/>
-							) : null}
-							<Typography variant="bodyMd">{t('addReceiversText')}</Typography>
-							{selectCheckPage ? (
-								<CheckReceivers
-									sayad={selectCheckPage.checkData.sayadNo}
-									onRceiversChange={(receiversList) =>
-										setNewDataToWizard({
-											addReceiverPage: { ...addReceiverPage, receivers: receiversList }
-										})
-									}
-									receivers={addReceiverPage?.receivers}
-								/>
-							) : null}
-						</Grid>
-						<Grid container>
-							<ButtonAdapter
-								variant="contained"
-								size="medium"
-								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
-								forwardIcon
-								onClick={() => handleSubmitToNextLevel()}
-							>
-								{t('continue')}
-							</ButtonAdapter>
-						</Grid>
-					</Grid>
-					<Loader showLoader={isLoading} />
-				</BoxAdapter>
-			</Grid>
+						{t('continue')}
+					</ButtonAdapter>
 
-			{matches ? null : (
+				</BoxAdapter>
+
+			</div>
+
+			{/* {matches ? null : (
 				<Grid
 					item
 					md={3}
@@ -179,7 +108,7 @@ export default function AddReceivers() {
 						/>
 					</BoxAdapter>
 				</Grid>
-			)}
-		</Grid>
+			)} */}
+		</div>
 	);
 }

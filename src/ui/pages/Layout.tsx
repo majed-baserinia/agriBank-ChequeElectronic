@@ -1,21 +1,30 @@
 import useInitPostMessage from 'business/hooks/postMessage/useInitPostMessage';
 import { changeLanguage } from 'i18next';
 import { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import MaterialThemeProvider from 'ui/components/MaterialThemeProvider';
 import AppAlerts from 'ui/htsc-components/alerts/AppAlerts';
-import Loader from 'ui/htsc-components/loader/Loader';
+// import Loader from 'ui/htsc-components/loader/Loader';
 import themeInitializer from 'ui/theme-config/baseTheme';
 
 import ApiConfigSingleton from '../../business/stores/api-config-singleton';
 import useInitialSettingStore from '../../business/stores/initial-setting-store';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
+
+
+import { useLocation, Outlet } from 'react-router-dom';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
+import { usePostMessageRaw } from '@agribank/post-message';
 
 const Layout = () => {
 	const { readyToLoad } = useInitPostMessage();
-
+	// console.log("readyToLoad", readyToLoad)
 	const { settings, setSettings } = useInitialSettingStore((s) => s);
 	const [configReady, seConfigReady] = useState(false);
+
+	const location = useLocation();
+	console.log('Current route:', location.pathname);
+	// console.log('store:', useIssueCheckWizardData((store) => store));
 
 	const GlobalStyle = createGlobalStyle`
       html, body {
@@ -55,32 +64,33 @@ const Layout = () => {
 			alert("can't initiate");
 		}
 	};
-
 	useEffect(() => {
-		if (readyToLoad) {
-			void getConfig();
-		}
+		void getConfig();
 	}, [readyToLoad]);
 
-	return (
-		<>
-			<GlobalStyle />
+	// usePostMessageRaw({
+	// 	// message: ()=>{return }$
+	// 	callback: (e: any) => {
+	// 		alert(JSON.stringify(e.data))
+	// 	}
+	// });
 
+	if (!readyToLoad) {
+		return settings?.theme?.palette ? < MaterialThemeProvider >
+			<Loader.Controlled showLoader />
+		</MaterialThemeProvider >
+			: <></>
+	}
+	return (
+		settings?.theme?.palette ? <div className='w-full h-full'>
 			<MaterialThemeProvider>
-				<>
-					<AppAlerts />
-					{configReady ? (
-						<div>
-							{/* <div className="content-star xl:w-2/4 m-auto grid grid-rows-1 gap-y-4 p-7 md:w-3/4 lg:w-3/5"> */}
-							<Outlet />
-							{/* </div> */}
-						</div>
-					) : (
-						<Loader showLoader></Loader>
-					)}
-				</>
-			</MaterialThemeProvider>
-		</>
+				<GlobalStyle />
+				<Loader.UnControlled />
+				<AppAlerts />
+				<Outlet />
+			</MaterialThemeProvider >
+		</div>
+			: <></>
 	);
 };
 

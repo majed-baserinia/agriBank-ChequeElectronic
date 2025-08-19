@@ -15,7 +15,7 @@ import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 
 import { menuList } from 'ui/pages/HomePage/menuList';
 import { paths } from 'ui/route-config/paths';
@@ -57,94 +57,94 @@ export default function Cashing() {
 			Sayad: selectedCheck!.dataFromList?.sayadNo ?? ""
 		});
 	};
+
+
+	useLoadingHandler(isLoading || accountsDataLoading || isLoadingSubmit);
+
 	return (
 		<Grid
-			container
-			sx={{ padding: { xs: '0', md: '64px 0' } }}
+			// container
+			// sx={{ padding: matches ? '0' : '64px 0' }}
+			display={'flex'}
+			minHeight={"100%"}
 			justifyContent={'center'}
 			gap={'24px'}
 			dir={theme.direction}
 		>
-			<Grid
-				item
-				xs={12}
-				md={8}
+			<BoxAdapter
+				fullWidth={matches}
+				muiPaperProps={{
+					sx: {
+						minWidth: '25%',
+						borderRadius: { md: '32px', xs: 0 },
+						padding: '16px'
+					}
+				}}
 			>
-				<BoxAdapter
-					fullWidth={matches}
-					muiPaperProps={{
-						sx: {
-							minWidth: '25%',
-							borderRadius: { md: '32px', xs: 0 },
-							padding: '16px'
-						}
-					}}
+				<Grid
+					minHeight={{ xs: 'calc(100vh - 32px)', md: 'calc(100vh - 192px)' }}
+					container
+					direction={'column'}
+					justifyContent={'space-between'}
+					wrap="nowrap"
 				>
 					<Grid
-						minHeight={{ xs: 'calc(100vh - 32px)', md: 'calc(100vh - 192px)' }}
 						container
 						direction={'column'}
-						justifyContent={'space-between'}
-						wrap="nowrap"
+						gap={'16px'}
 					>
-						<Grid
-							container
-							direction={'column'}
-							gap={'16px'}
-						>
-							{checkData ? (
-								// <CashingCheckOverview check={checkData} />
-								<NewCheckInfoBasics
-									hasTitle
-									checkData={{
-										amount: checkData?.amount.toString(),
-										description: checkData?.description,
-										date: checkData?.dueDate,
-										sayad: checkData?.sayadId,
-										reason: checkData?.reasonDescription,
-										serie: checkData?.seriesNo,
-										serial: checkData?.serialNo,
-										sheba: checkData.fromIban,
-										checkStatus: checkData?.chequeStatusDescription
-									}}
-								/>
-							) : isError ? (
-								<Grid
-									container
-									direction={'column'}
-									gap={'8px'}
-									sx={{
-										backgroundColor: theme.palette.primary[50],
-										padding: '16px',
-										borderRadius: '16px'
-									}}
-								>
-									<Typography
-										variant="bodyMd"
-										fontWeight={'medium'}
-										align="center"
-									>
-										{t('noCheckInfo')}
-									</Typography>{' '}
-								</Grid>
-							) : null}
-							<FormProvider {...methods}>
-								<CashingCheckForm AccountData={AccountData} />
-							</FormProvider>
-						</Grid>
-						<Grid container>
-							<ButtonAdapter
-								variant="contained"
-								size="medium"
-								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
-								onClick={methods.handleSubmit(onSubmit)}
+						{checkData ? (
+							// <CashingCheckOverview check={checkData} />
+							<NewCheckInfoBasics
+								hasTitle
+								checkData={{
+									amount: checkData?.amount.toString(),
+									description: checkData?.description,
+									date: checkData?.dueDate,
+									sayad: checkData?.sayadId,
+									reason: checkData?.reasonDescription,
+									serie: checkData?.seriesNo,
+									serial: checkData?.serialNo,
+									sheba: checkData.fromIban,
+									checkStatus: checkData?.chequeStatusDescription
+								}}
+							/>
+						) : isError ? (
+							<Grid
+								container
+								direction={'column'}
+								gap={'8px'}
+								sx={{
+									backgroundColor: theme.palette.primary[50],
+									padding: '16px',
+									borderRadius: '16px'
+								}}
 							>
-								{t('confirm')}
-							</ButtonAdapter>
-						</Grid>
+								<Typography
+									variant="bodyMd"
+									fontWeight={'medium'}
+									align="center"
+								>
+									{t('noCheckInfo')}
+								</Typography>{' '}
+							</Grid>
+						) : null}
+						<FormProvider {...methods}>
+							<CashingCheckForm AccountData={AccountData} />
+						</FormProvider>
 					</Grid>
-				</BoxAdapter>
-			</Grid>
+					<Grid container>
+						<ButtonAdapter
+							variant="contained"
+							size="medium"
+							muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+							onClick={methods.handleSubmit(onSubmit)}
+						>
+							{t('confirm')}
+						</ButtonAdapter>
+					</Grid>
+				</Grid>
+			</BoxAdapter>
 
 			<Grid
 				item
@@ -164,7 +164,7 @@ export default function Cashing() {
 				</BoxAdapter>
 			</Grid>
 
-			<Loader showLoader={isLoading || accountsDataLoading || isLoadingSubmit} />
+			{/* <Loader showLoader={isLoading || accountsDataLoading || isLoadingSubmit} /> */}
 		</Grid>
 	);
 }

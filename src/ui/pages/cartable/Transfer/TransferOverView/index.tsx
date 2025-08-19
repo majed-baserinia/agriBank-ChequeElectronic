@@ -12,7 +12,7 @@ import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
 import PersonsList from 'ui/components/CheckOverview/PersonsList';
 import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { menuList } from 'ui/pages/HomePage/menuList';
 import { paths } from 'ui/route-config/paths';
 
@@ -122,6 +122,7 @@ export default function TransferOverView() {
 	// 	],
 	// 	toIBAN: '463543'
 	// };
+	useLoadingHandler(isLoading);
 
 	return (
 		<Grid
@@ -158,7 +159,7 @@ export default function TransferOverView() {
 							direction={'column'}
 							gap={'16px'}
 						>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[
 										t('checkInfo'),
@@ -169,7 +170,7 @@ export default function TransferOverView() {
 									]}
 									active={4}
 								/>
-							) : null}
+							) : null} */}
 
 							{transferOverview && selectedCheck ? (
 								<NewCheckInfoBasics
@@ -243,7 +244,7 @@ export default function TransferOverView() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={isLoading} />
+			{/* <Loader showLoader={isLoading} /> */}
 		</Grid>
 	);
 }

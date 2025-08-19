@@ -9,7 +9,7 @@ import Menu from 'ui/components/Menu';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import BreadcrumbsAdapter from 'ui/htsc-components/BreadcrumbsAdapter';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from 'ui/route-config/paths';
 
 type MenuItems = {
@@ -70,7 +70,8 @@ export default function SelectHandedOverList() {
 	}, [relatedCustomers]);
 
 	//display the loader this way to user because user shouldn't see the page if there is no Checks that user represent or sign.
-	if (isLoading) return <Loader showLoader />;
+	// if (isLoading) return <Loader showLoader />;
+	useLoadingHandler(isLoading);
 
 	return (
 		<Grid sx={{ padding: matches ? '0' : '64px' }}>

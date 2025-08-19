@@ -19,9 +19,10 @@ import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Otp from 'ui/htsc-components/Otp';
 import Stepper from 'ui/htsc-components/Stepper';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
-import Loader from 'ui/htsc-components/loader/Loader';
 import { menuList } from 'ui/pages/HomePage/menuList';
 import { paths } from 'ui/route-config/paths';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
+
 
 export default function GiveBackCheckOTP() {
 	const theme = useTheme();
@@ -118,11 +119,12 @@ export default function GiveBackCheckOTP() {
 							}
 						});
 					},
-					onSuccess: () => {}
+					onSuccess: () => { }
 				}
 			);
 		}
 	}, [sendAgain]);
+	useLoadingHandler(initLoading || verifyLoading || finalizeLoading);
 
 	return (
 		<Grid
@@ -146,12 +148,12 @@ export default function GiveBackCheckOTP() {
 						wrap="nowrap"
 					>
 						<Grid>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[t('checkInfo'), t('verificationCode'), t('end')]}
 									active={1}
 								/>
-							) : null}
+							) : null} */}
 
 							<Grid
 								marginBottom={'64px'}
@@ -228,7 +230,7 @@ export default function GiveBackCheckOTP() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={initLoading || verifyLoading || finalizeLoading} />
+			{/* <Loader showLoader={initLoading || verifyLoading || finalizeLoading} /> */}
 		</Grid>
 	);
 }

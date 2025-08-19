@@ -11,12 +11,13 @@ import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 
 import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
+import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
-import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
+import { useEffect } from 'react';
 
 import infoIcon from '../../../../assets/icon/alerts/info.png';
 
-export default function OverView() {
+export default function FinalReceipt() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
@@ -25,33 +26,33 @@ export default function OverView() {
 	const { reset, otpPage, addReceiverPage, setNewDataToWizard } = useIssueCheckWizardData((store) => store);
 
 
-	// useEffect(() => {
-	// 	setNewDataToWizard({
-	// 		otpPage: {
-	// 			issueChequeOverView: {
-	// 				"sayadNo": "2777030055138717",
-	// 				"seri": "70001",
-	// 				"serial": "452562",
-	// 				"amount": 1111111111,
-	// 				"dueDate": "1404/03/20",
-	// 				"reason": "HIPA",
-	// 				"reasonDescription": "امور درمانی",
-	// 				"description": "شرح",
-	// 				"toIBAN": "",
-	// 				"signers": null,
-	// 				"recievers": [
-	// 					{
-	// 						"name": "ماجد",
-	// 						"shahabNo": "",
-	// 						"nationalNo": "4723888217",
-	// 						"customerType": 1,
-	// 						"customerTypeDescription": "حقیقی"
-	// 					}
-	// 				]
-	// 			}
-	// 		}
-	// 	});
-	// }, [])
+	useEffect(() => {
+		// setNewDataToWizard({
+		// 	otpPage: {
+		// 		issueChequeOverView: {
+		// 			"sayadNo": "2777030055138717",
+		// 			"seri": "70001",
+		// 			"serial": "452562",
+		// 			"amount": 1111111111,
+		// 			"dueDate": "1404/03/20",
+		// 			"reason": "HIPA",
+		// 			"reasonDescription": "امور درمانی",
+		// 			"description": "شرح",
+		// 			"toIBAN": "",
+		// 			"signers": null,
+		// 			"recievers": [
+		// 				{
+		// 					"name": "ماجد",
+		// 					"shahabNo": "",
+		// 					"nationalNo": "4723888217",
+		// 					"customerType": 1,
+		// 					"customerTypeDescription": "حقیقی"
+		// 				}
+		// 			]
+		// 		}
+		// 	}
+		// });
+	}, [])
 
 	const handleSubmit = () => {
 		if (addReceiverPage?.signitureRequirementData) {
@@ -81,22 +82,20 @@ export default function OverView() {
 						}
 					},
 					onSuccess(res) {
-						// reset();
-						console.log(res)
-						navigate(paths.IssueCheck.FinalReceipt);
-						// pushAlert({
-						// 	type: 'success',
-						// 	hasConfirmAction: true,
-						// 	messageText: res.message,
-						// 	actions: {
-						// 		onCloseModal: () => {
-						// 			navigate(paths.Home);
-						// 		},
-						// 		onConfirm: () => {
-						// 			navigate(paths.Home);
-						// 		}
-						// 	}
-						// });
+						reset();
+						pushAlert({
+							type: 'success',
+							hasConfirmAction: true,
+							messageText: res.message,
+							actions: {
+								onCloseModal: () => {
+									navigate(paths.Home);
+								},
+								onConfirm: () => {
+									navigate(paths.Home);
+								}
+							}
+						});
 					}
 				}
 			);
@@ -170,7 +169,6 @@ export default function OverView() {
 	// 	],
 	// 	toIBAN: '463543'
 	// };
-	useLoadingHandler(!otpPage?.issueChequeOverView || isLoading);
 
 	return (
 		<>
@@ -214,12 +212,12 @@ export default function OverView() {
 								serialSerie={overviewData?.seri + '/' + overviewData?.serial}
 							/> */}
 
-					<Grid display={'flex'} flexDirection={"column"} justifySelf={"center"} justifyContent={"center"} alignItems={"center"} gap={10}>
+					{/* <Grid display={'flex'} flexDirection={"column"} justifySelf={"center"} justifyContent={"center"} alignItems={"center"} gap={10}>
 						<img src={infoIcon} width={60} className='mt-4' />
 						<Typography variant="bodyLg" sx={{ fontWeight: "bold" }}>{t("finalizingCheque")}</Typography>
 						<Typography variant="bodyMd" sx={{ marginBottom: "20px", textAlign: "justify" }}>{t("finalizingChequeDetail")}</Typography>
-					</Grid>
-					{otpPage?.issueChequeOverView ? (
+					</Grid> */}
+					{/* {otpPage?.issueChequeOverView ? (
 						<NewCheckInfoBasics
 							checkData={{
 								amount: otpPage.issueChequeOverView?.amount.toString(),
@@ -231,13 +229,13 @@ export default function OverView() {
 								serial: otpPage.issueChequeOverView?.serial
 							}}
 						/>
-					) : null}
+					) : null} */}
 					{/* <PersonsList
 						recievers={otpPage?.issueChequeOverView?.recievers}
 						signers={otpPage?.issueChequeOverView?.signers}
 					/> */}
 
-					{otpPage?.issueChequeOverView?.recievers?.map((item, index) => {
+					{/* {otpPage?.issueChequeOverView?.recievers?.map((item, index) => {
 						return <Grid key={index}
 							container
 							dir={theme.direction}
@@ -258,7 +256,7 @@ export default function OverView() {
 								<Typography variant="bodyMd">{item.nationalNo}</Typography>
 							</div>
 						</Grid>
-					})}
+					})} */}
 
 				</Grid>
 
@@ -267,14 +265,14 @@ export default function OverView() {
 					justifyContent={'space-between'}
 					sx={{ marginTop: 'auto' }}
 				>
-					<ButtonAdapter
+					{/* <ButtonAdapter
 						variant="contained"
 						size="medium"
 						muiButtonProps={{ sx: { width: '100%' } }}
 						onClick={() => handleSubmit()}
 					>
-						{t('registerAndSave')}
-					</ButtonAdapter>
+						{t('register')}
+					</ButtonAdapter> */}
 
 					{/* <ButtonAdapter
 								variant="outlined"
@@ -287,7 +285,7 @@ export default function OverView() {
 				</Grid>
 			</BoxAdapter>
 
-			{/* <Loader showLoader={!otpPage?.issueChequeOverView || isLoading} /> */}
+			<Loader showLoader={!otpPage?.issueChequeOverView || isLoading} />
 		</>
 	);
 }

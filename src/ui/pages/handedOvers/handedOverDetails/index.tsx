@@ -14,7 +14,7 @@ import NewCheckInfoBasics from "ui/components/NewCheckInfoBasics";
 
 import BoxAdapter from "ui/htsc-components/BoxAdapter";
 import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
-import Loader from "ui/htsc-components/loader/Loader";
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from "ui/route-config/paths";
 
 export default function HandedOverDetails() {
@@ -70,6 +70,7 @@ export default function HandedOverDetails() {
 			}
 		);
 	};
+	useLoadingHandler(isLoading || loadingUnlock);
 
 	return (
 		<Grid
@@ -180,7 +181,7 @@ export default function HandedOverDetails() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={isLoading || loadingUnlock} />
+			{/* <Loader showLoader={isLoading || loadingUnlock} /> */}
 		</Grid>
 	);
 }

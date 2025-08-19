@@ -18,7 +18,7 @@ import Menu from 'ui/components/Menu';
 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import Otp from 'ui/htsc-components/Otp';
 import Stepper from 'ui/htsc-components/Stepper';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
@@ -131,6 +131,7 @@ export default function OtpTransferConfirmation() {
 			}
 		}
 	};
+	useLoadingHandler(loadingVerifyTransfer || loadingVerifyReject || loadingInitTransfer || loadingInitReject);
 
 	return (
 		<Grid
@@ -154,7 +155,7 @@ export default function OtpTransferConfirmation() {
 						wrap="nowrap"
 					>
 						<Grid>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[
 										t('checkInfo'),
@@ -165,7 +166,7 @@ export default function OtpTransferConfirmation() {
 									]}
 									active={2}
 								/>
-							) : null}
+							) : null} */}
 
 							<Grid
 								marginBottom={'64px'}
@@ -244,9 +245,9 @@ export default function OtpTransferConfirmation() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader
+			{/* <Loader
 				showLoader={loadingVerifyTransfer || loadingVerifyReject || loadingInitTransfer || loadingInitReject}
-			/>
+			/> */}
 		</Grid>
 	);
 }

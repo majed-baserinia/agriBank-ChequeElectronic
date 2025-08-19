@@ -1,11 +1,12 @@
 import { Grid } from '@mui/material';
 import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
 import { useTranslation } from 'react-i18next';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { useLoadingHandler } from "@agribank/ui/components/Loader";
 import CheckItemCard from './CheckItemCard';
 
 export default function MobileView({ list }: { list?: Check[] }) {
 	const { t } = useTranslation();
+	useLoadingHandler(!list);
 
 	return (
 		<Grid
@@ -15,13 +16,12 @@ export default function MobileView({ list }: { list?: Check[] }) {
 		>
 			{list?.length
 				? list?.map((check) => (
-						<CheckItemCard
-							key={check.sayadNo}
-							check={check}
-						/>
-					))
+					<CheckItemCard
+						key={check.sayadNo}
+						check={check}
+					/>
+				))
 				: t('thereIsNoChecksToShow')}
-			<Loader showLoader={!list} />
 		</Grid>
 	);
 }

@@ -14,12 +14,15 @@ interface IssuCheckWizardData {
 		selectedCheckbook: string;
 		selectedSheet: string;
 		checkData: CheckSheet;
+		selectedAccountName: string;
 	};
 	checkInfoPage?: {
 		checkAmount: string;
 		date: Date;
 		reason: { value: string; name: string };
 		description: string;
+		recieverIban: string;
+		paymentId: string;
 	};
 	addReceiverPage?: {
 		receivers?: RecieverRequest[];

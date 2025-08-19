@@ -1,10 +1,8 @@
 import { Box, Grid, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import Menu from "ui/components/Menu";
-
 import BoxAdapter from "ui/htsc-components/BoxAdapter";
 import Stepper from "ui/htsc-components/Stepper";
-
 import { menuList } from "./menuList";
 
 export default function PersonalType() {
@@ -26,7 +24,7 @@ export default function PersonalType() {
 
 			<BoxAdapter fullWidth  >
 				<Grid>
-					{!matches ? (
+					{/* {!matches ? (
 						<Stepper
 							list={[
 								t("selectCheck"),
@@ -37,7 +35,7 @@ export default function PersonalType() {
 							]}
 							active={0}
 						/>
-					) : null}
+					) : null} */}
 					<Typography
 						variant="bodyMd"
 						sx={{ marginBottom: "16px" }}

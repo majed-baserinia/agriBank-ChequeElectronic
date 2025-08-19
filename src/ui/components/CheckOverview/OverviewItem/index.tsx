@@ -6,17 +6,19 @@ export default function OverviewItem(props: Props) {
 	return (
 		<Grid
 			container
+			display={"flex"}
 			justifyContent={'space-between'}
 			alignItems={'center'}
 			sx={sx}
+			paddingBottom={6}
 		>
 			<Typography
-				variant="bodySm"
+				variant="bodyMd"
 				fontWeight={'medium'}
 			>
 				{title}
 			</Typography>
-			<Typography variant="bodySm">{value}</Typography>
+			<Typography variant="bodyMd">{value}</Typography>
 		</Grid>
 	);
 }

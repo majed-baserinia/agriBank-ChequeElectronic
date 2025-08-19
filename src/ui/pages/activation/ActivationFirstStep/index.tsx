@@ -15,9 +15,9 @@ import RadioButtonAdapter from 'ui/htsc-components/RadioButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
 
 import { pushAlert } from 'business/stores/AppAlertsStore';
-import Loader from 'ui/htsc-components/loader/Loader';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 
 export default function ActivationFirstStep() {
 	const navigate = useNavigate();
@@ -66,6 +66,8 @@ export default function ActivationFirstStep() {
 			}
 		);
 	};
+	useLoadingHandler(isLoading);
+
 	return (
 		<Grid
 			container
@@ -88,12 +90,12 @@ export default function ActivationFirstStep() {
 						wrap="nowrap"
 					>
 						<Grid>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[t('accountInfo'), t('electroincSignature'), t('end')]}
 									active={0}
 								/>
-							) : null}
+							) : null} */}
 							<Typography
 								variant="bodyMd"
 								sx={{ marginBottom: '8px' }}
@@ -146,7 +148,7 @@ export default function ActivationFirstStep() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={isLoading} />
+			{/* <Loader showLoader={isLoading} /> */}
 		</Grid>
 	);
 }

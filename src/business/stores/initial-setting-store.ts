@@ -9,6 +9,7 @@ export interface InitialSetting {
 	refreshToken?: string;
 	osType: number;
 	[key: string]: unknown;
+	appVersion: string
 }
 
 interface InitialSettingStore {
@@ -18,7 +19,9 @@ interface InitialSettingStore {
 }
 
 const useInitialSettingStore = create<InitialSettingStore>((set) => ({
-	settings: <InitialSetting>{ language: 'fa-IR', themeName: 'light', theme: {} },
+	settings: <InitialSetting>{
+		language: 'fa-IR', themeName: 'light', theme: {}, appVersion: "", osType: 3,
+	},
 	setSettings: (newSetting) => {
 		if (newSetting) {
 			if (newSetting.idToken) {

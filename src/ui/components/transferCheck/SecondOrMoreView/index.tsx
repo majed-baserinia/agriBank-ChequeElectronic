@@ -93,13 +93,13 @@ export default function SecondOrMoreView({ checkData, setLoading }: Props) {
 					direction={'column'}
 					gap={'16px'}
 				>
-					{!matches ? (
+					{/* {!matches ? (
 						// TODO: check if selected compony or homself acocunt and add one more step if it is compony
 						<Stepper
 							list={[t('checkInfo'), t('verificationCode'), t('end')]}
 							active={0}
 						/>
-					) : null}
+					) : null} */}
 
 					{checkData ? (
 						<NewCheckInfoBasics

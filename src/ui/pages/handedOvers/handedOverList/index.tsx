@@ -109,7 +109,7 @@ export default function HandedOverList() {
 					direction={'column'}
 					gap={'16px'}
 				>
-					<BreadcrumbsAdapter breadcrumbs={breadcrumbs} />
+					{/* <BreadcrumbsAdapter breadcrumbs={breadcrumbs} /> */}
 					<Grid
 						container
 						justifyContent={'space-between'}

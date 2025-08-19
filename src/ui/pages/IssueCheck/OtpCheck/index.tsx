@@ -168,7 +168,7 @@ export default function OtpCheck() {
 						wrap="nowrap"
 					>
 						<Grid>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[
 										t('selectCheck'),
@@ -179,7 +179,7 @@ export default function OtpCheck() {
 									]}
 									active={3}
 								/>
-							) : null}
+							) : null} */}
 
 							<Grid
 								marginBottom={'64px'}

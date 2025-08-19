@@ -35,7 +35,7 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 				muiButtonProps={{ sx: { width: '100%' } }}
 				onClick={() => setOpen(true)}
 			>
-				{t('add')}
+				{t('addReceiver')}
 			</ButtonAdapter>
 
 			<List

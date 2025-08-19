@@ -15,15 +15,16 @@ import type { Value } from 'react-multi-date-picker';
 import Icon from 'react-multi-date-picker/components/icon';
 import InputAdapter from '../InputAdapter';
 import './styles.css';
-import { Props } from './type';
+import { Props } from './types';
 
 export default function DatePickerAdapter(props: Props) {
 	const { t } = useTranslation();
 	const appLanguage = useInitialSettingStore((store) => store.settings.language);
-	const { label = t('date'), helperText, onChange, error, defaultValue } = props;
+	const { label = t('date'), helperText, onChange, error, defaultValue, isRequired } = props;
 
 	const [value, setValue] = useState<Value>();
 	const datepicker = useRef();
+	persian_fa.weekDays = [["شنبه", "ش"], ["یکشنبه", "ی"], ["دوشنبه", "د"], ["سه‌شنبه", "س"], ["چهارشنبه", "چ"], ["پنجشنبه", "پ"], ["جمعه", "ج"]]
 
 	useEffect(() => {
 		if (defaultValue) {
@@ -52,6 +53,7 @@ export default function DatePickerAdapter(props: Props) {
 	return (
 		<InputAdapter
 			label={label}
+			isRequired={isRequired}
 			type="date"
 			defaultValue={value as string}
 			onChange={handleInputChange}

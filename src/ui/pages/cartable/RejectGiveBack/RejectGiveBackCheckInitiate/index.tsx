@@ -16,7 +16,7 @@ import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
 import TextareaAdapter from 'ui/htsc-components/TextareaAdapter';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { menuList } from 'ui/pages/HomePage/menuList';
 import { paths } from 'ui/route-config/paths';
 
@@ -70,6 +70,7 @@ export default function RejectGiveBackCheckInitiate() {
 			);
 		}
 	};
+	useLoadingHandler(isLoading);
 
 	return (
 		<Grid
@@ -106,12 +107,12 @@ export default function RejectGiveBackCheckInitiate() {
 							direction={'column'}
 							gap={'8px'}
 						>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[t('checkInfo'), t('verificationCode'), t('end')]}
 									active={0}
 								/>
-							) : null}
+							) : null} */}
 							{/* {selectedCheck && <CheckInfoBox check={selectedCheck} />} */}
 							{checkData ? (
 								<NewCheckInfoBasics
@@ -168,7 +169,7 @@ export default function RejectGiveBackCheckInitiate() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={isLoading} />
+			{/* <Loader showLoader={isLoading} /> */}
 		</Grid>
 	);
 }

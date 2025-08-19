@@ -1,9 +1,22 @@
-import activation from 'assets/icon/menu/active-check.svg';
-import issueCheck from 'assets/icon/menu/check-issue.svg';
-import deactivation from 'assets/icon/menu/deactive-check.svg';
-import list from 'assets/icon/menu/list.svg';
-import SvgToIcon from 'ui/htsc-components/SvgToIcon';
 import { paths } from 'ui/route-config/paths';
+import { jwtDecode } from 'jwt-decode';
+import useInitialSettingStore from 'business/stores/initial-setting-store';
+import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
+
+const getDecodedToken = (): any => {
+	const { settings } = useInitialSettingStore.getState();
+	try {
+		const currentData: any = useIssueCheckWizardData.getState().selectCheckPage;
+		const decoded = jwtDecode(settings?.idToken);
+		const givenName = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname"] || "";
+		const surname = decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname"] || "";
+		const fullNameObligor = `${givenName} ${surname}`.trim();
+		return { fullNameObligor, currentData };
+	} catch (e) {
+		console.error('Invalid JWT:', e);
+		return null;
+	}
+};
 
 export const menuList = {
 	personalTypes: [
@@ -11,13 +24,30 @@ export const menuList = {
 			id: '1',
 			title: 'IndividualCheque',
 			miniSubtitle: "IndividualRequestSubtitle",
-			routeTo: paths.IssueCheck.SelectAccountPath
+			routeTo: paths.IssueCheck.SelectAccountPath,
+			onClick: () => {
+				const currentData: any = useIssueCheckWizardData.getState().selectCheckPage;
+				const setNewDataToWizard = useIssueCheckWizardData.getState().setNewDataToWizard;
+
+				const { fullNameObligor } = getDecodedToken();
+				setNewDataToWizard({
+					selectCheckPage: {
+						selectedAccount: currentData?.selectedAccount || "",
+						selectedCheckbook: currentData?.selectedCheckbook || "",
+						selectedSheet: currentData?.selectedSheet || "",
+						checkData: currentData?.checkData,
+						selectedAccountName: fullNameObligor || "",
+					}
+				});
+			}
 		},
-		{
-			id: '2',
-			title: 'CorporateCheque',
-			miniSubtitle: "CorporateRequestSubtitle",
-			routeTo: paths.cartable.SelectList
-		}
+		// {
+		// 	id: '2',
+		// 	title: 'CorporateCheque',
+		// 	miniSubtitle: "CorporateRequestSubtitle",
+		// 	onClick: () => {
+		// 		const Obligor = getDecodedToken();
+		// 	}
+		// }
 	]
 };

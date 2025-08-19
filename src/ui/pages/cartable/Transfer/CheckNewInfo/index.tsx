@@ -3,13 +3,15 @@ import useFirstPageViewGenerator from 'business/hooks/cheque/transferCheck/useFi
 import Menu from 'ui/components/Menu';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { menuList } from 'ui/pages/HomePage/menuList';
 
 export default function CheckNewInfo() {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { view, isLoading } = useFirstPageViewGenerator();
+
+	useLoadingHandler(isLoading);
 
 	return (
 		<Grid
@@ -45,7 +47,7 @@ export default function CheckNewInfo() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={isLoading} />
+			{/* <Loader showLoader={isLoading} /> */}
 		</Grid>
 	);
 }

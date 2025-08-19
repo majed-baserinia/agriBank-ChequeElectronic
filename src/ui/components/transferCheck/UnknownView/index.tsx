@@ -40,7 +40,7 @@ export default function UnknownView({ checkData }: { checkData: InquiryTransferS
 					direction={'column'}
 					gap={'16px'}
 				>
-					{!matches ? (
+					{/* {!matches ? (
 						// TODO: check if selected compony or homself acocunt and add one more step if it is compony
 						<Stepper
 							list={[
@@ -52,7 +52,7 @@ export default function UnknownView({ checkData }: { checkData: InquiryTransferS
 							]}
 							active={0}
 						/>
-					) : null}
+					) : null} */}
 
 					{/* <CheckOverViewBox amount={231321321} sayadNo={213212} /> */}
 					{checkData ? (
@@ -87,9 +87,9 @@ export default function UnknownView({ checkData }: { checkData: InquiryTransferS
 										isPendingtoGetReasons || isError
 											? []
 											: reasonCodes.map((reason) => ({
-													value: reason.reasonCode,
-													name: reason.description
-												}))
+												value: reason.reasonCode,
+												name: reason.description
+											}))
 									}
 									onChange={(item) => {
 										field.onChange(item);

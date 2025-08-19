@@ -5,11 +5,15 @@ export default class CheckInfoFormValidatorCommand implements IRequest<object> {
 	checkAmount: string;
 	reason: { name: string; value: string };
 	description: string;
+	recieverIban: string;
+	paymentId: string;
 
 	constructor(formData: CheckInfoFormValidatorCommand) {
 		this.date = formData?.date;
 		this.checkAmount = formData?.checkAmount;
 		this.reason = formData?.reason;
 		this.description = formData?.description;
+		this.recieverIban = formData?.recieverIban
+		this.paymentId = formData?.paymentId
 	}
 }

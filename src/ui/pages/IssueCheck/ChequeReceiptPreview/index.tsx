@@ -1,24 +1,22 @@
-import { Box, Divider, Grid, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import Menu from "ui/components/Menu";
 
 import BoxAdapter from "ui/htsc-components/BoxAdapter";
 import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
-import SelectAdapter from "ui/htsc-components/SelectAdapter";
 import Stepper from "ui/htsc-components/Stepper";
 
-import keshavarzi from "assets/icon/Banks/Color/Keshavarzi.svg";
-import useAccounts from "business/hooks/cheque/Digital Cheque/useAccounts";
-import useGetCheckbooks from "business/hooks/cheque/Digital Cheque/useGetCheckbooks";
-import useGetChecksheets from "business/hooks/cheque/Digital Cheque/useGetChecksheets";
+// import useAccounts from "business/hooks/cheque/Digital Cheque/useAccounts";
+// import useGetCheckbooks from "business/hooks/cheque/Digital Cheque/useGetCheckbooks";
+// import useGetChecksheets from "business/hooks/cheque/Digital Cheque/useGetChecksheets";
 import { useIssueCheckWizardData } from "business/stores/issueCheck/useIssueCheckWizardData";
-import { CheckSheet } from "common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse";
-import { useEffect, useMemo, useState } from "react";
-import ChipsAdapter from "ui/htsc-components/chipsAdapter";
-import Loader from "ui/htsc-components/loader/Loader";
+// import { CheckSheet } from "common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse";
+// import { useMemo, useState } from "react";
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from "ui/route-config/paths";
-import { menuList } from "./menuList";
+import { IssueChequeInitiateRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest';
+import { pushAlert } from 'business/stores/AppAlertsStore';
+import useIssueChequeInitiate from 'business/hooks/cheque/Digital Cheque/useIssueChequeInitiate';
 
 
 export default function ChequeReceiptPreview() {
@@ -26,136 +24,178 @@ export default function ChequeReceiptPreview() {
 	const { t } = useTranslation();
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down("md"));
-	const { checkInfoPage, selectCheckPage } = useIssueCheckWizardData((store) => store);
 
-	const { data: AccountData, isLoading: loadingAccount } = useAccounts();
-	const { data: checkbooks, mutate: getCheckbooks, isLoading: loadingCheckBook } = useGetCheckbooks();
-	const { data: checksheets, mutate: getChecksheets, isLoading: loadingCheckSheet } = useGetChecksheets();
+	const { isLoading, mutate: issueChequeInitiate } = useIssueChequeInitiate();
 
-	const [selectedAccountNumber, setSelectedAccountNumber] = useState("");
-	const [selectedCheckbook, setSelectedCheckbook] = useState<string>();
-	const [selectedChecksheet, setSelectedChecksheet] = useState<CheckSheet>();
+	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage } = useIssueCheckWizardData((store) => store);
 
+	const handleSubmitToNextLevel = () => {
+		// Check if all necessary steps and data exist
+		if (!selectCheckPage || !checkInfoPage) {
+			return null;
+		}
+		if (addReceiverPage) {
+			const preparedData: IssueChequeInitiateRequest = {
+				sayadNo: selectCheckPage.checkData.sayadNo,
+				amount: Number(checkInfoPage.checkAmount),
+				dueDate: checkInfoPage.date.toString(),
+				description: checkInfoPage.description,
+				reason: checkInfoPage.reason.value,
+				recievers: addReceiverPage.receivers!
+			};
 
+			issueChequeInitiate(preparedData, {
+				onError: (err) => {
+					//TODO: navigate the user if need to
+					pushAlert({
+						type: 'error',
+						hasConfirmAction: true,
+						messageText: err.detail
+					});
+				},
+				onSuccess: (res) => {
+					//save the data
+					setNewDataToWizard({
+						addReceiverPage: {
+							...addReceiverPage,
+							signitureRequirementData: {
+								issueChequeKey: res.issueChequeKey,
+								isSingleSignatureLegal: res.isSingleSignatureLegal
+							}
+						}
+					});
 
-	const handleNextStep = () => {
-		//save the needed data for next page
-		setNewDataToWizard({
-			selectCheckPage: {
-				selectedAccount: selectedAccountNumber,
-				selectedCheckbook: selectedCheckbook!,
-				selectedSheet: selectedChecksheet!.sayadNo.toString(),
-				checkData: selectedChecksheet!
-			}
-		});
-
-		//navigate next page
-		navigate(paths.IssueCheck.CheckInfoPath);
+					//check the res and navigate based on it
+					if (res.isNeedOtp) {
+						navigate(paths.IssueCheck.OtpCheckPath);
+					} else {
+						navigate(paths.IssueCheck.SignatureRegistrationPath);
+					}
+				}
+			});
+		}
 	};
 
-	const sortedChequeSheets = useMemo(() => {
-		return checksheets?.toSorted((a, b) => {
-			if (a.isUsed && !b.isUsed) {
-				return 1;
-			}
-			if ((a.isUsed && b.isUsed) || (!a.isUsed && !b.isUsed)) {
-				return 0;
-			}
-			return -1;
-		});
-	}, [checksheets]);
 
-	if (loadingAccount || loadingCheckBook || loadingCheckSheet)
-		return <Loader showLoader={true} />
+	// if (isLoading)
+	// 	return <Loader showLoader={true} />
+	useLoadingHandler(isLoading);
 
 
 	return (
-		<Grid
-			container
-			// sx={{ padding: matches ? "0" : "0 0" }}
-			height={"100%"}
-			width={"100%"}
-			display={"flex"}
-			justifyContent={"center"}
-			gap={"24px"}
-			dir={theme.direction}
-		>
+		<BoxAdapter fullWidth  >
+			<Grid>
+				{/* {!matches ? (
+					<Stepper
+						list={[
+							t("selectCheck"),
+							t("checkInfo"),
+							t("recivers"),
+							t("issueSignature"),
+							t("end")
+						]}
+						active={0}
+					/>
+				) : null} */}
 
-			<BoxAdapter fullWidth  >
-				<Grid>
-					{!matches ? (
-						<Stepper
-							list={[
-								t("selectCheck"),
-								t("checkInfo"),
-								t("recivers"),
-								t("issueSignature"),
-								t("end")
-							]}
-							active={0}
-						/>
-					) : null}
+			</Grid>
 
-				</Grid>
-				<Grid
-					container
-					dir={theme.direction}
-					display={"flex"}
-					direction={'column'}
-					width={"100%"}
-					marginTop={10}
-					padding={10}
-					sx={{ backgroundColor: theme.palette.info[50], borderRadius: 10 }}
-				>
-					<div className="flex flex-col justify-center items-center p-2">
-						<Typography variant="bodyLg" sx={{ marginBottom: "20px", fontWeight: "bold" }}>{t("checkDetailPageTitle")}</Typography>
+			<Grid
+				container
+				dir={theme.direction}
+				display={"flex"}
+				direction={'column'}
+				width={"100%"}
+				marginTop={10}
+				padding={10}
+				sx={{ backgroundColor: theme.palette.info[50], borderRadius: 10 }}
+			>
+				<div className="flex flex-col justify-center items-center p-2">
+					<Typography variant="bodyLg" sx={{ marginBottom: "20px", fontWeight: "bold" }}>{t("checkDetailPageTitle")}</Typography>
 
-						<div className="flex w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptObligor")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>____</Typography>
-						</div>
-						<div className="flex w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptAmount")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>{Number(checkInfoPage?.checkAmount).toLocaleString()} {t('rial')}</Typography>
-						</div>
-						<div className="flex w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptDueDate")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>{checkInfoPage?.date.toString()}</Typography>
-						</div>
-						<div className="flex w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptFor")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>{checkInfoPage?.reason.name}</Typography>
-						</div>
-						<div className="flex w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptIban")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>____</Typography>
-						</div>
-						<div className="flex w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptAccountNumber")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedAccount}</Typography>
-						</div>
-						<div className="flex w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptChequeSerialNumber")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedSheet}</Typography>
-						</div>
-						<div className="flex flex-col w-full justify-between">
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptDescription")}</Typography>
-							<Typography variant="bodyLg" sx={{ marginBottom: "16px" }}>
-								{checkInfoPage?.description.split('\n').map((line, i) => (
-									<span key={i}>
-										{line}
-										<br />
-									</span>
-								))}
-							</Typography>
-						</div>
-
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptObligor")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedAccountName}</Typography>
 					</div>
-				</Grid>
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptAmount")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{Number(checkInfoPage?.checkAmount).toLocaleString()} {t('rial')}</Typography>
+					</div>
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptDueDate")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.date.toString()}</Typography>
+					</div>
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptFor")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.reason.name}</Typography>
+					</div>
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptAccountNumber")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedAccount}</Typography>
+					</div>
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptChequeSerialNumber")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedSheet}</Typography>
+					</div>
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptIban")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.recieverIban || "___"}</Typography>
+					</div>
+					<div className="flex w-full justify-between">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("paymentId")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.paymentId || "___"}</Typography>
+					</div>
+					<div className="flex flex-col w-full justify-between mt-5">
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptDescription")}</Typography>
+						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>
+							{checkInfoPage?.description.split('\n').map((line, i) => (
+								<span key={i}>
+									{line}
+									<br />
+								</span>
+							))}
+						</Typography>
+					</div>
 
-			</BoxAdapter >
-
-
-		</Grid >
+				</div>
+			</Grid>
+			<Grid>
+				<Typography variant="bodyLg" sx={{ marginTop: "20px", fontWeight: "bold" }}>{t("receivers")}</Typography>
+				{addReceiverPage?.receivers?.map((item, index) => {
+					return <Grid key={index}
+						container
+						dir={theme.direction}
+						display={"flex"}
+						direction={'column'}
+						width={"100%"}
+						marginTop={10}
+						padding={10}
+						gap={10}
+						sx={{ backgroundColor: theme.palette.background.default, borderRadius: 10 }}
+					>
+						<div className="flex justify-between">
+							<Typography variant="bodyMd">{t("first&lastName")}</Typography>
+							<Typography variant="bodyMd">{item.name}</Typography>
+						</div>
+						<div className="flex justify-between">
+							<Typography variant="bodyMd">{t("nationalIdCol")}</Typography>
+							<Typography variant="bodyMd">{item.nationalNo}</Typography>
+						</div>
+					</Grid>
+				})}
+			</Grid>
+			<Grid marginTop={"auto"}>
+				<ButtonAdapter
+					variant="contained"
+					size="medium"
+					disabled={addReceiverPage?.receivers?.length == 0}
+					muiButtonProps={{ sx: { width: '100%' } }}
+					forwardIcon
+					onClick={() => handleSubmitToNextLevel()}
+				>
+					{t('continue')}
+				</ButtonAdapter>
+			</Grid>
+		</BoxAdapter >
 	);
 }

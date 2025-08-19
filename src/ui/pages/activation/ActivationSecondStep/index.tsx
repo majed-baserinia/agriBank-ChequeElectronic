@@ -13,7 +13,7 @@ import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Stepper from 'ui/htsc-components/Stepper';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
 
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from 'ui/route-config/paths';
 import infoIcon from '../../../../assets/icon/info-circle.svg';
 import sendAaginIcon from '../../../../assets/icon/refresh-alert.svg';
@@ -88,6 +88,7 @@ export default function ActivationSecondStep() {
 			}
 		);
 	};
+	useLoadingHandler(submitLoading || isLoading);
 
 	return (
 		<Grid
@@ -111,12 +112,12 @@ export default function ActivationSecondStep() {
 						wrap="nowrap"
 					>
 						<Grid>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[t('accountInfo'), t('electroincSignature'), t('end')]}
 									active={isThirdStep ? 3 : 1}
 								/>
-							) : null}
+							) : null} */}
 
 							<Grid
 								container
@@ -168,7 +169,7 @@ export default function ActivationSecondStep() {
 							</ButtonAdapter>
 						</Grid>
 					</Grid>
-					<Loader showLoader={submitLoading || isLoading} />
+					{/* <Loader showLoader={submitLoading || isLoading} /> */}
 				</BoxAdapter>
 			</Grid>
 			{matches ? null : (

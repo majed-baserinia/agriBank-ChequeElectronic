@@ -14,6 +14,14 @@ export * from './business/application/dependencyInjection';
 
 const queryClient = new QueryClient();
 
+// if (!(window as any).__hasMessageEventListener) {
+// 	window.addEventListener("message", (event) => {
+// 		console.log("[Received message event]:", event);
+// 		alert(JSON.stringify(event.data));
+// 	});
+// 	(window as any).__hasMessageEventListener = true;
+// }
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<QueryClientProvider client={queryClient}>
 		<RouterProvider router={router} />

@@ -7,13 +7,17 @@ export default function BoxAdapter(props: Props) {
 
 	return (
 		<Paper
+			component="div"
 			elevation={0}
-			sx={{
-				minWidth: '25%',
-				borderRadius: fullWidth ? 0 : '32px',
-				padding: '32px'
-			}}
 			{...muiPaperProps}
+			sx={{
+				display: "flex",
+				flexDirection: "column",
+				minWidth: '100%',
+				// borderRadius: fullWidth ? 0 : '32px',
+				padding: '20px',
+				height: "100%"
+			}}
 		>
 			{children}
 		</Paper>

@@ -8,7 +8,7 @@ import NewCheckInfoAdvance from 'ui/components/NewCheckInfoAdvance';
 import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
 
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
-import Loader from 'ui/htsc-components/loader/Loader';
+// import Loader from 'ui/htsc-components/loader/Loader';
 
 export default function Details() {
 	const theme = useTheme();
@@ -103,7 +103,7 @@ export default function Details() {
 				</BoxAdapter>
 			</Grid>
 
-			<Loader showLoader={false} />
+			{/* <Loader showLoader={false} /> */}
 		</Grid>
 	);
 }

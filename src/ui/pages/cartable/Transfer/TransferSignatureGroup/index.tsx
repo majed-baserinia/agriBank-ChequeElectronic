@@ -102,7 +102,7 @@ export default function TransferSignatureGroup() {
 				]
 			};
 			IssueWithDrawalGroupMutate(data, {
-				onSuccess: (_) => {},
+				onSuccess: (_) => { },
 				onError: (err) => {
 					if (err.status == 453) {
 						pushAlert({
@@ -151,7 +151,7 @@ export default function TransferSignatureGroup() {
 							direction={'column'}
 							gap={'16px'}
 						>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[
 										t('checkInfo'),
@@ -162,7 +162,7 @@ export default function TransferSignatureGroup() {
 									]}
 									active={3}
 								/>
-							) : null}
+							) : null} */}
 							<Typography
 								variant="bodyMd"
 								sx={{ marginBottom: '16px' }}

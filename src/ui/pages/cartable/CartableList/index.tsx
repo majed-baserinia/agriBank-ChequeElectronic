@@ -50,11 +50,15 @@ export default function CartableList() {
 	}, [selectedBeneficiary]);
 
 	return (
-		<Grid sx={{ padding: { tablet: '64px 0', xs: '0' } }}>
+		<Grid
+			minHeight={"100%"}
+		// sx={{ padding: { tablet: '64px 0', xs: '0' } }}
+		>
 			<BoxAdapter
 				fullWidth={matches}
 				muiPaperProps={{
 					sx: {
+						minHeight: "100%",
 						minWidth: '25%',
 						borderRadius: { md: '32px', xs: 0 },
 						padding: '16px'
@@ -63,14 +67,15 @@ export default function CartableList() {
 			>
 				<Grid
 					sx={{
-						minHeight: { tablet: 'calc(100% - 128px)', xs: '100vh' },
 						padding: { tablet: '16px', xs: '0' }
 					}}
-					container
+					// container
+					minHeight="100%"
+					display={"flex"}
 					direction={'column'}
 					gap={'16px'}
 				>
-					<BreadcrumbsAdapter breadcrumbs={breadcrumbs} />
+					{/* <BreadcrumbsAdapter breadcrumbs={breadcrumbs} /> */}
 					<Grid
 						container
 						justifyContent={'space-between'}

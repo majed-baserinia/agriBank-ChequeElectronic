@@ -151,7 +151,7 @@ export default function SignatureGroup() {
 							direction={'column'}
 							gap={'16px'}
 						>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[
 										t('selectCheck'),
@@ -163,7 +163,7 @@ export default function SignatureGroup() {
 									]}
 									active={4}
 								/>
-							) : null}
+							) : null} */}
 							<Typography
 								variant="bodyMd"
 								sx={{ marginBottom: '16px' }}

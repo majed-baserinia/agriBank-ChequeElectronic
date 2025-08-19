@@ -19,7 +19,7 @@ import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import Otp from 'ui/htsc-components/Otp';
 import Stepper from 'ui/htsc-components/Stepper';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
-import Loader from 'ui/htsc-components/loader/Loader';
+import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { menuList } from 'ui/pages/HomePage/menuList';
 import { paths } from 'ui/route-config/paths';
 
@@ -75,7 +75,7 @@ export default function RejectGiveBackCheckOTP() {
 							}
 						});
 					},
-					onSuccess: () => {}
+					onSuccess: () => { }
 				}
 			);
 		}
@@ -122,6 +122,7 @@ export default function RejectGiveBackCheckOTP() {
 			);
 		}
 	};
+	useLoadingHandler(initLoading || verifyLoading || finalizeLoading);
 
 	return (
 		<Grid
@@ -145,12 +146,12 @@ export default function RejectGiveBackCheckOTP() {
 						wrap="nowrap"
 					>
 						<Grid>
-							{!matches ? (
+							{/* {!matches ? (
 								<Stepper
 									list={[t('checkInfo'), t('verificationCode'), t('end')]}
 									active={1}
 								/>
-							) : null}
+							) : null} */}
 
 							<Grid
 								marginBottom={'64px'}
@@ -227,7 +228,7 @@ export default function RejectGiveBackCheckOTP() {
 					</BoxAdapter>
 				</Grid>
 			)}
-			<Loader showLoader={initLoading || verifyLoading || finalizeLoading} />
+			{/* <Loader showLoader={initLoading || verifyLoading || finalizeLoading} /> */}
 		</Grid>
 	);
 }
