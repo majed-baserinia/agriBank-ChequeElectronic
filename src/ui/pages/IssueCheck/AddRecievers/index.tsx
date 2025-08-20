@@ -63,7 +63,7 @@ export default function AddReceivers() {
 								active={2}
 							/>
 						) : null} */}
-						<Typography variant="bodyMd">{t('addReceiversText')}</Typography>
+						<Typography variant="bodyMd" marginBottom={20}>{t('addReceiversText')}</Typography>
 						{selectCheckPage && (
 							<CheckReceivers
 								sayad={selectCheckPage.checkData.sayadNo}
@@ -80,7 +80,7 @@ export default function AddReceivers() {
 						variant="contained"
 						size="medium"
 						disabled={addReceiverPage?.receivers?.length == 0}
-						muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+						muiButtonProps={{ sx: { width: '100%', marginTop: '16px', marginBottom: '16px' } }}
 						forwardIcon
 						onClick={() => handleSubmitToNextLevel()}
 					>

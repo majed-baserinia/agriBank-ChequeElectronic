@@ -189,7 +189,7 @@ export default function ChequeReceiptPreview() {
 					variant="contained"
 					size="medium"
 					disabled={addReceiverPage?.receivers?.length == 0}
-					muiButtonProps={{ sx: { width: '100%' } }}
+					muiButtonProps={{ sx: { width: '100%', marginTop: '16px', marginBottom: '20px' } }}
 					forwardIcon
 					onClick={() => handleSubmitToNextLevel()}
 				>

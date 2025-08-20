@@ -49,7 +49,7 @@ export default function MenuItem(props: Props) {
 					<Grid item> {icon ? icon : null}</Grid>
 					<Grid>
 						<Typography
-							variant="bodyLg"
+							variant="bodyMd"
 							fontWeight={'medium'}
 							noWrap
 						>

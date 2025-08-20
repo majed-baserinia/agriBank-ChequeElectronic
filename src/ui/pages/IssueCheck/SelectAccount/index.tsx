@@ -262,7 +262,7 @@ export default function SelectAccount() {
 															direction={"column"}
 															justifyContent={"center"}
 															spacing={"8px"}
-															sx={{ padding: "16px" }}
+															sx={{ padding: "5px" }}
 															gap={"8px"}
 														>
 															<Typography
@@ -278,15 +278,16 @@ export default function SelectAccount() {
 																{t("serieAndSerial")}: {sheet.chequeFrom}
 																{/* | {sheet.chequeTo} */}
 															</Typography>
+															{sheet.isUsed && (
+																<Box textAlign={"right"}>
+																	<ChipsAdapter
+																		label={t("issuedCheck")}
+																		color="error"
+																	/>
+																</Box>
+															)}
 														</Grid>
-														{sheet.isUsed && (
-															<Box>
-																<ChipsAdapter
-																	label={t("issuedCheck")}
-																	color="error"
-																/>
-															</Box>
-														)}
+
 													</Grid>
 												</MenuItem>
 											);

@@ -26,8 +26,10 @@ export default function FinalReceipt() {
 
 	const appVersion = useInitialSettingStore((state) => state.settings.appVersion)
 	const osType = useInitialSettingStore((state) => state.settings.osType)
-	console.log("appVersion", appVersion)
-	console.log("osType", osType)
+	const { checkInfoPage } = useIssueCheckWizardData((store) => store);
+
+	// console.log("appVersion", appVersion)
+	// console.log("osType", osType)
 	const handleTooltipToggle = () => {
 		setTooltipOpen((prev) => !prev);
 	};
@@ -47,7 +49,8 @@ export default function FinalReceipt() {
 		},
 	}));
 
-	console.log(store)
+	// console.log(store)
+	// console.log(checkInfoPage)
 
 	const formattedAmount = !isNaN(Number(store?.checkInfoPage?.checkAmount)) ? Number(store?.checkInfoPage?.checkAmount).toLocaleString() : "0";
 
@@ -56,52 +59,55 @@ export default function FinalReceipt() {
 		[t("chequeReceiptChequeSerialNumber")]: store?.selectCheckPage?.selectedSheet,
 		[t("chequeSeriSerial")]: store?.selectCheckPage?.checkData?.chequeTo,
 		[t("chequeReceiptAmount")]: `${formattedAmount} ${t('rial')}`,
-		[t("chequeReceiptDueDate")]: store?.checkInfoPage?.checkAmount,
+		[t("chequeReceiptDueDate")]: store?.checkInfoPage?.date,
 		[t("chequeReceiptFor")]: store?.checkInfoPage?.reason?.name,
 		[t("chequeReceiptIban")]: store?.checkInfoPage?.recieverIban ?? "____",
+		[t("paymentId")]: checkInfoPage?.paymentId ?? "____",
 		[t("chequeReceiptDescription")]: store?.checkInfoPage?.description,
 		[t("chequeReceiptNames")]: store?.addReceiverPage?.receivers?.map((item) => item.name).join(" - ")
 	}
 	const shareTextData = {
-		message: t("chequeReceiptSuccess"),
-		url: "",
+		[t('status')]: t("chequeReceiptSuccess"),
 		[t("chequeReceiptObligor")]: store?.selectCheckPage?.selectedAccountName,
 		[t("chequeReceiptChequeSerialNumber")]: store?.selectCheckPage?.selectedSheet,
 		[t("chequeSeriSerial")]: store?.selectCheckPage?.checkData?.chequeTo,
 		[t("chequeReceiptAmount")]: `${formattedAmount} ${t('rial')}`,
-		[t("chequeReceiptDueDate")]: store?.checkInfoPage?.checkAmount,
+		[t("chequeReceiptDueDate")]: store?.checkInfoPage?.date,
 		[t("chequeReceiptFor")]: store?.checkInfoPage?.reason?.name,
 		[t("chequeReceiptIban")]: store?.checkInfoPage?.recieverIban ?? "____",
+		[t("paymentId")]: checkInfoPage?.paymentId ?? "____",
 		[t("chequeReceiptDescription")]: store?.checkInfoPage?.description,
 		[t("chequeReceiptNames")]: store?.addReceiverPage?.receivers?.map((item) => item.name).join(" - ")
 
 	}
 	const shareImageData = {
-		message: t("chequeReceiptSuccess"),
+		[t('status')]: t("chequeReceiptSuccess"),
 		url: "",
 		data: {
 			[t("chequeReceiptObligor")]: store?.selectCheckPage?.selectedAccountName,
 			[t("chequeReceiptChequeSerialNumber")]: store?.selectCheckPage?.selectedSheet,
 			[t("chequeSeriSerial")]: store?.selectCheckPage?.checkData?.chequeTo,
 			[t("chequeReceiptAmount")]: `${formattedAmount} ${t('rial')}`,
-			[t("chequeReceiptDueDate")]: store?.checkInfoPage?.checkAmount,
+			[t("chequeReceiptDueDate")]: store?.checkInfoPage?.date,
 			[t("chequeReceiptFor")]: store?.checkInfoPage?.reason?.name,
 			[t("chequeReceiptIban")]: store?.checkInfoPage?.recieverIban ?? "____",
+			[t("paymentId")]: checkInfoPage?.paymentId ?? "____",
 			[t("chequeReceiptDescription")]: store?.checkInfoPage?.description,
 			[t("chequeReceiptNames")]: store?.addReceiverPage?.receivers?.map((item) => item.name).join(" - ")
 		}
 	}
 	const saveImageData = {
-		message: t("chequeReceiptSuccess"),
+		[t('status')]: t("chequeReceiptSuccess"),
 		url: "",
 		data: {
 			[t("chequeReceiptObligor")]: store?.selectCheckPage?.selectedAccountName,
 			[t("chequeReceiptChequeSerialNumber")]: store?.selectCheckPage?.selectedSheet,
 			[t("chequeSeriSerial")]: store?.selectCheckPage?.checkData?.chequeTo,
 			[t("chequeReceiptAmount")]: `${formattedAmount} ${t('rial')}`,
-			[t("chequeReceiptDueDate")]: store?.checkInfoPage?.checkAmount,
+			[t("chequeReceiptDueDate")]: store?.checkInfoPage?.date,
 			[t("chequeReceiptFor")]: store?.checkInfoPage?.reason?.name,
 			[t("chequeReceiptIban")]: store?.checkInfoPage?.recieverIban ?? "____",
+			[t("paymentId")]: checkInfoPage?.paymentId ?? "____",
 			[t("chequeReceiptDescription")]: store?.checkInfoPage?.description,
 			[t("chequeReceiptNames")]: store?.addReceiverPage?.receivers?.map((item) => item.name).join(" - ")
 		}

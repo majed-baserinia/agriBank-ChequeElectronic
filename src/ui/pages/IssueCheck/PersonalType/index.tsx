@@ -18,7 +18,7 @@ export default function PersonalType() {
 			width={"100%"}
 			display={"flex"}
 			justifyContent={"center"}
-			gap={"24px"}
+			gap={"24x"}
 			dir={theme.direction}
 		>
 
@@ -38,7 +38,7 @@ export default function PersonalType() {
 					) : null} */}
 					<Typography
 						variant="bodyMd"
-						sx={{ marginBottom: "16px" }}
+						sx={{ marginBottom: "0px" }}
 					>
 						{t("PersonalTypeSelect")}
 					</Typography>
@@ -50,7 +50,7 @@ export default function PersonalType() {
 					display={"flex"}
 					direction={'column'}
 					width={"100%"}
-					marginTop={50}
+					marginTop={30}
 				>
 					<Menu
 						list={menuList.personalTypes}
