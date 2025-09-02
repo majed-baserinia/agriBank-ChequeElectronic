@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@agribank/ignite':
         specifier: 13.2.1
-        version: 13.2.1(@agribank/i18n@0.6.2(i18next@23.16.8)(zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76)))(@agribank/post-message@0.4.3(react@18.3.1))(@agribank/ui@6.5.2(2h22ivnc53xegd7ogsumfa7ndy))(@tanstack/react-router@1.102.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(i18next@23.16.8)(immer@10.1.1)(react-i18next@13.5.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.30.1(react@18.3.1))(react@18.3.1)(zustand@4.5.7(@types/react@18.3.23)(immer@10.1.1)(react@18.3.1))
+        version: 13.2.1(@agribank/i18n@0.6.2(i18next@23.16.8)(zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76)))(@agribank/post-message@0.4.3(react@18.3.1))(@agribank/ui@6.5.9(2h22ivnc53xegd7ogsumfa7ndy))(@tanstack/react-router@1.102.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(i18next@23.16.8)(immer@10.1.1)(react-i18next@13.5.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.30.1(react@18.3.1))(react@18.3.1)(zustand@4.5.7(@types/react@18.3.23)(immer@10.1.1)(react@18.3.1))
       '@agribank/post-message':
         specifier: 0.4.3
         version: 0.4.3(react@18.3.1)
       '@agribank/ui':
-        specifier: 6.5.2
-        version: 6.5.2(2h22ivnc53xegd7ogsumfa7ndy)
+        specifier: 6.5.9
+        version: 6.5.9(2h22ivnc53xegd7ogsumfa7ndy)
       '@emotion/cache':
         specifier: ^11.11.0
         version: 11.14.0
@@ -345,8 +345,8 @@ packages:
     peerDependencies:
       prettier: ^3.3.3
 
-  '@agribank/ui@6.5.2':
-    resolution: {integrity: sha512-4ONnatRpE0X1slaeT0alPSnu8JXpMCnHbs8EPbmZP0L7U8av95nkTbeaVnzpQM6wMpCDPnfO0yo6RzDOaAA/8g==}
+  '@agribank/ui@6.5.9':
+    resolution: {integrity: sha512-Z+K2VLU4MpWm4C7uzjnoZNQz21iLRzqnSey6TBm0RKYOo5+wRv3pHIIQd3A9xYtZNVLIlU5p2UMBnyCg6cx0aQ==}
     peerDependencies:
       '@agribank/i18n': 0.6.2
       '@emotion/cache': 11.11.0
@@ -7303,11 +7303,11 @@ snapshots:
       i18next: 23.16.8
       zod-i18n-map: 2.27.0(i18next@23.16.8)(zod@3.25.76)
 
-  '@agribank/ignite@13.2.1(@agribank/i18n@0.6.2(i18next@23.16.8)(zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76)))(@agribank/post-message@0.4.3(react@18.3.1))(@agribank/ui@6.5.2(2h22ivnc53xegd7ogsumfa7ndy))(@tanstack/react-router@1.102.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(i18next@23.16.8)(immer@10.1.1)(react-i18next@13.5.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.30.1(react@18.3.1))(react@18.3.1)(zustand@4.5.7(@types/react@18.3.23)(immer@10.1.1)(react@18.3.1))':
+  '@agribank/ignite@13.2.1(@agribank/i18n@0.6.2(i18next@23.16.8)(zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76)))(@agribank/post-message@0.4.3(react@18.3.1))(@agribank/ui@6.5.9(2h22ivnc53xegd7ogsumfa7ndy))(@tanstack/react-router@1.102.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(i18next@23.16.8)(immer@10.1.1)(react-i18next@13.5.0(i18next@23.16.8)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-router@6.30.1(react@18.3.1))(react@18.3.1)(zustand@4.5.7(@types/react@18.3.23)(immer@10.1.1)(react@18.3.1))':
     dependencies:
       '@agribank/i18n': 0.6.2(i18next@23.16.8)(zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76))
       '@agribank/post-message': 0.4.3(react@18.3.1)
-      '@agribank/ui': 6.5.2(2h22ivnc53xegd7ogsumfa7ndy)
+      '@agribank/ui': 6.5.9(2h22ivnc53xegd7ogsumfa7ndy)
       '@tanstack/react-router': 1.102.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       i18next: 23.16.8
       immer: 10.1.1
@@ -7345,7 +7345,7 @@ snapshots:
       - prettier-plugin-twig-melody
       - typescript
 
-  '@agribank/ui@6.5.2(2h22ivnc53xegd7ogsumfa7ndy)':
+  '@agribank/ui@6.5.9(2h22ivnc53xegd7ogsumfa7ndy)':
     dependencies:
       '@agribank/i18n': 0.6.2(i18next@23.16.8)(zod-i18n-map@2.27.0(i18next@23.16.8)(zod@3.25.76))
       '@emotion/cache': 11.14.0
@@ -11309,7 +11309,7 @@ snapshots:
     dependencies:
       eslint: 8.57.1
 
-  eslint-config-react-app@5.2.1(@typescript-eslint/eslint-plugin@2.34.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0)(typescript@3.9.10))(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(babel-eslint@10.1.0(eslint@6.8.0))(eslint-plugin-flowtype@3.13.0(eslint@6.8.0))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0))(eslint-plugin-jsx-a11y@6.10.2(eslint@6.8.0))(eslint-plugin-react-hooks@2.5.1(eslint@6.8.0))(eslint-plugin-react@7.37.5(eslint@6.8.0))(eslint@6.8.0)(typescript@3.9.10):
+  eslint-config-react-app@5.2.1(@typescript-eslint/eslint-plugin@2.34.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0)(typescript@3.9.10))(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(babel-eslint@10.1.0(eslint@8.57.1))(eslint-plugin-flowtype@3.13.0(eslint@8.57.1))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0))(eslint-plugin-jsx-a11y@6.10.2(eslint@8.57.1))(eslint-plugin-react-hooks@2.5.1(eslint@8.57.1))(eslint-plugin-react@7.37.5(eslint@8.57.1))(eslint@6.8.0)(typescript@3.9.10):
     dependencies:
       '@typescript-eslint/eslint-plugin': 2.34.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0)(typescript@3.9.10)
       '@typescript-eslint/parser': 2.34.0(eslint@6.8.0)(typescript@3.9.10)
@@ -12933,10 +12933,7 @@ snapshots:
       pretty-format: 25.5.0
       throat: 5.0.0
     transitivePeerDependencies:
-      - bufferutil
-      - canvas
       - supports-color
-      - utf-8-validate
 
   jest-leak-detector@25.5.0:
     dependencies:
@@ -15303,7 +15300,7 @@ snapshots:
       enquirer: 2.4.1
       eslint: 6.8.0
       eslint-config-prettier: 6.15.0(eslint@6.8.0)
-      eslint-config-react-app: 5.2.1(@typescript-eslint/eslint-plugin@2.34.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0)(typescript@3.9.10))(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(babel-eslint@10.1.0(eslint@6.8.0))(eslint-plugin-flowtype@3.13.0(eslint@6.8.0))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0))(eslint-plugin-jsx-a11y@6.10.2(eslint@6.8.0))(eslint-plugin-react-hooks@2.5.1(eslint@6.8.0))(eslint-plugin-react@7.37.5(eslint@6.8.0))(eslint@6.8.0)(typescript@3.9.10)
+      eslint-config-react-app: 5.2.1(@typescript-eslint/eslint-plugin@2.34.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0)(typescript@3.9.10))(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(babel-eslint@10.1.0(eslint@8.57.1))(eslint-plugin-flowtype@3.13.0(eslint@8.57.1))(eslint-plugin-import@2.32.0(@typescript-eslint/parser@2.34.0(eslint@6.8.0)(typescript@3.9.10))(eslint@6.8.0))(eslint-plugin-jsx-a11y@6.10.2(eslint@8.57.1))(eslint-plugin-react-hooks@2.5.1(eslint@8.57.1))(eslint-plugin-react@7.37.5(eslint@8.57.1))(eslint@6.8.0)(typescript@3.9.10)
       eslint-plugin-flowtype: 3.13.0(eslint@6.8.0)
       eslint-plugin-import: 2.32.0(@typescript-eslint/parser@6.21.0(eslint@8.57.1)(typescript@5.9.2))(eslint@8.57.1)
       eslint-plugin-jsx-a11y: 6.10.2(eslint@6.8.0)

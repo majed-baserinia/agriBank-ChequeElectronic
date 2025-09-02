@@ -1,18 +1,18 @@
-import { Grid, Typography } from '@mui/material';
-import infoIcon from 'assets/icon/info-circle.svg';
-import TablerMoneybag from 'assets/icon/menu/TablerMoneybag.svg';
-import giveBackCheckIcon from 'assets/icon/menu/giveBackCheckIcon.svg';
-import rejectGiveBack from 'assets/icon/menu/rejectGiveBack.svg';
-import transferCheck from 'assets/icon/menu/transfer-check.svg';
-import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
-import { Check } from 'common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import BottomSheetAdapter from 'ui/htsc-components/BottomSheetAdapter/BottomSheetAdapter';
-import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
-import SvgToIcon from 'ui/htsc-components/SvgToIcon';
-import { paths } from 'ui/route-config/paths';
-import Menu from '../../Menu';
+import { Grid, Typography } from "@mui/material";
+import infoIcon from "assets/icon/info-circle.svg";
+import TablerMoneybag from "assets/icon/menu/TablerMoneybag.svg";
+import giveBackCheckIcon from "assets/icon/menu/giveBackCheckIcon.svg";
+import rejectGiveBack from "assets/icon/menu/rejectGiveBack.svg";
+import transferCheck from "assets/icon/menu/transfer-check.svg";
+import { useCartableChecklistData } from "business/stores/cartableListData/cartableListData";
+import { Check } from "common/entities/cheque/chekList/CartableInquiry/CartableInquiryResponse";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import BottomSheetAdapter from "ui/htsc-components/BottomSheetAdapter/BottomSheetAdapter";
+import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
+import SvgToIcon from "ui/htsc-components/SvgToIcon";
+import { paths } from "ui/route-config/paths";
+import Menu from "../../Menu";
 
 export default function BottomSheetActionButton({ checkData }: { checkData: Check }) {
 	const { t } = useTranslation();
@@ -29,11 +29,11 @@ export default function BottomSheetActionButton({ checkData }: { checkData: Chec
 				}}
 				muiButtonProps={{
 					sx: {
-						width: '100%'
+						width: "100%"
 					}
 				}}
 			>
-				{t('selectAction')}
+				{t("selectAction")}
 			</ButtonAdapter>
 			<BottomSheetAdapter
 				open={open}
@@ -41,16 +41,16 @@ export default function BottomSheetActionButton({ checkData }: { checkData: Chec
 				snapPoints={[450, 0]}
 			>
 				<Grid
-					sx={{ padding: '16px' }}
+					sx={{ padding: "16px" }}
 					container
-					justifyContent={'center'}
-					direction={'column'}
-					gap={'18px'}
+					justifyContent={"center"}
+					direction={"column"}
+					gap={"18px"}
 				>
 					<Grid
 						container
-						alignItems={'center'}
-						gap={'8px'}
+						alignItems={"center"}
+						gap={"8px"}
 					>
 						<SvgToIcon
 							icon={infoIcon}
@@ -58,12 +58,12 @@ export default function BottomSheetActionButton({ checkData }: { checkData: Chec
 						/>
 						<Typography
 							variant="bodyLg"
-							fontWeight={'bold'}
+							fontWeight={"bold"}
 						>
-							{t('selectAction')}
+							{t("selectAction")}
 						</Typography>
 					</Grid>
-					<Typography variant="bodySm">{t('selectActionText')}</Typography>
+					<Typography variant="bodySm">{t("selectActionText")}</Typography>
 					<Menu list={checkActionsMenuList} />
 				</Grid>
 			</BottomSheetAdapter>
@@ -73,8 +73,8 @@ export default function BottomSheetActionButton({ checkData }: { checkData: Chec
 
 export const checkActionsMenuList = [
 	{
-		id: '1',
-		title: 'transferCheck',
+		id: "1",
+		title: "transferCheck",
 		icon: (
 			<SvgToIcon
 				icon={transferCheck}
@@ -84,8 +84,8 @@ export const checkActionsMenuList = [
 		routeTo: paths.cartable.Transfer
 	},
 	{
-		id: '2',
-		title: 'CashingCheck',
+		id: "2",
+		title: "CashingCheck",
 		icon: (
 			<SvgToIcon
 				icon={TablerMoneybag}
@@ -106,8 +106,8 @@ export const checkActionsMenuList = [
 	// 	routeTo:   paths.cartable.TransferCheck
 	// },
 	{
-		id: '3',
-		title: 'giveBackCheck',
+		id: "3",
+		title: "giveBackCheck",
 		icon: (
 			<SvgToIcon
 				icon={giveBackCheckIcon}
@@ -128,8 +128,8 @@ export const checkActionsMenuList = [
 	// 	routeTo:   paths.cartable.Transfer
 	// },
 	{
-		id: '3',
-		title: 'rejectGiveBack',
+		id: "3",
+		title: "rejectGiveBack",
 		icon: (
 			<SvgToIcon
 				icon={rejectGiveBack}

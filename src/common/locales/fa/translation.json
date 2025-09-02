@@ -159,7 +159,7 @@
 	"IdmaxLengthErrorText": "کد ملی یا شناسه نباید بیشتر از 13 کاراکتر باشد.",
 	"IdminLengthErrorText": "کد ملی یا شناسه باید بیشتر یا مساوی 10 کاراکتر باشد.",
 	"freignerLable": "دریافت کننده اتباع خارجی است.",
-	"sayadNo": "َشماره صیاد",
+	"sayadNo": "شماره صیاد",
 	"checkNo": "شماره چک",
 	"shebaOrigin": "شماره شبا",
 	"dueDate": "تاریخ سر رسید",
@@ -294,7 +294,7 @@
 	"registerCheckRequest": "درخواست ثبت چک",
 	"checkInquiryByIssuer": "استعلام توسط صادر کننده چک",
 	"share": "اشتراک گذاری",
-	"go-back":"بازگشت",
+	"go-back": "بازگشت",
 	"shareText": "اشتراک متن",
 	"shareImage": "اشتراک عکس",
 	"saveImage": "ذخیره عکس"

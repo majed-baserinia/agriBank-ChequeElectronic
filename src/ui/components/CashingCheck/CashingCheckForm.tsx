@@ -50,7 +50,25 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 									return (
 										<MenuItem
 											key={index}
-											style={{ margin: "10px 0" }}
+											sx={{
+												borderBottom: `1px solid ${theme.palette.primary.main}`,
+												borderTop: `1px solid ${theme.palette.primary.main}`,
+												borderRadius: "10px",
+												marginTop: "10px",
+												padding: 16,
+												backgroundColor:
+													theme.palette.mode == "dark"
+														? theme.palette.grey[100]
+														: theme.palette.grey[50],
+												"&:hover": {
+													borderBottom: `2px solid ${theme.palette.primary.main}`,
+													borderTop: `2px solid ${theme.palette.primary.main}`,
+													backgroundColor:
+														theme.palette.mode == "dark"
+															? theme.palette.grey[100]
+															: theme.palette.grey[50]
+												}
+											}}
 											value={item.accountNumber.toString()}
 										>
 											<Grid
@@ -74,10 +92,14 @@ export default function CashingCheckForm({ AccountData }: { AccountData?: Accoun
 													gap={"5px"}
 												>
 													<Typography
-														variant="bodyXs"
+														variant="bodyMd"
 														color={theme.palette.text["secondary"]}
 													>
-														{`${item.owners[0]?.firstName} ${item.owners[0]?.lastName} (${item.accountTypeName})`}
+														{!item.isShared
+															? `${item.owners[0]?.firstName} ${
+																	item.owners[0]?.lastName
+																} ${t("curentAccountP")}`
+															: t("sharedAccountP")}
 													</Typography>
 
 													<Typography variant="bodyMd">{item.accountNumber}</Typography>

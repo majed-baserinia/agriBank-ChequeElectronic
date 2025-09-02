@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 import BoxAdapter from "ui/htsc-components/BoxAdapter";
 import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
-import Stepper from "ui/htsc-components/Stepper";
 
 // import useAccounts from "business/hooks/cheque/Digital Cheque/useAccounts";
 // import useGetCheckbooks from "business/hooks/cheque/Digital Cheque/useGetCheckbooks";
@@ -12,12 +11,11 @@ import Stepper from "ui/htsc-components/Stepper";
 import { useIssueCheckWizardData } from "business/stores/issueCheck/useIssueCheckWizardData";
 // import { CheckSheet } from "common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse";
 // import { useMemo, useState } from "react";
-import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
+import { useLoadingHandler } from "@agribank/ui/components/Loader";
+import useIssueChequeInitiate from "business/hooks/cheque/Digital Cheque/useIssueChequeInitiate";
+import { pushAlert } from "business/stores/AppAlertsStore";
+import { IssueChequeInitiateRequest } from "common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest";
 import { paths } from "ui/route-config/paths";
-import { IssueChequeInitiateRequest } from 'common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest';
-import { pushAlert } from 'business/stores/AppAlertsStore';
-import useIssueChequeInitiate from 'business/hooks/cheque/Digital Cheque/useIssueChequeInitiate';
-
 
 export default function ChequeReceiptPreview() {
 	const navigate = useNavigate();
@@ -27,7 +25,8 @@ export default function ChequeReceiptPreview() {
 
 	const { isLoading, mutate: issueChequeInitiate } = useIssueChequeInitiate();
 
-	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage } = useIssueCheckWizardData((store) => store);
+	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage } =
+		useIssueCheckWizardData((store) => store);
 
 	const handleSubmitToNextLevel = () => {
 		// Check if all necessary steps and data exist
@@ -48,7 +47,7 @@ export default function ChequeReceiptPreview() {
 				onError: (err) => {
 					//TODO: navigate the user if need to
 					pushAlert({
-						type: 'error',
+						type: "error",
 						hasConfirmAction: true,
 						messageText: err.detail
 					});
@@ -76,14 +75,12 @@ export default function ChequeReceiptPreview() {
 		}
 	};
 
-
 	// if (isLoading)
 	// 	return <Loader showLoader={true} />
 	useLoadingHandler(isLoading);
 
-
 	return (
-		<BoxAdapter fullWidth  >
+		<BoxAdapter fullWidth>
 			<Grid>
 				{/* {!matches ? (
 					<Stepper
@@ -97,58 +94,150 @@ export default function ChequeReceiptPreview() {
 						active={0}
 					/>
 				) : null} */}
-
 			</Grid>
 
 			<Grid
 				container
 				dir={theme.direction}
 				display={"flex"}
-				direction={'column'}
+				direction={"column"}
 				width={"100%"}
 				marginTop={10}
 				padding={10}
 				sx={{ backgroundColor: theme.palette.info[50], borderRadius: 10 }}
 			>
-				<div className="flex flex-col justify-center items-center p-2">
-					<Typography variant="bodyLg" sx={{ marginBottom: "20px", fontWeight: "bold" }}>{t("checkDetailPageTitle")}</Typography>
+				<div className="flex flex-col items-center justify-center p-2">
+					<Typography
+						variant="bodyLg"
+						sx={{ marginBottom: "20px", fontWeight: "bold" }}
+					>
+						{t("checkDetailPageTitle")}
+					</Typography>
 
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptObligor")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedAccountName}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptObligor")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{selectCheckPage?.selectedAccountName}
+						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptAmount")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{Number(checkInfoPage?.checkAmount).toLocaleString()} {t('rial')}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptAmount")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{Number(checkInfoPage?.checkAmount).toLocaleString()} {t("rial")}
+						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptDueDate")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.date.toString()}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptDueDate")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{checkInfoPage?.date.toString()}
+						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptFor")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.reason.name}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptFor")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{checkInfoPage?.reason.name}
+						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptAccountNumber")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedAccount}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptAccountNumber")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{selectCheckPage?.selectedAccount}
+						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptChequeSerialNumber")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{selectCheckPage?.selectedSheet}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptChequeSerialNumber")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{selectCheckPage?.selectedSheet}
+						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptIban")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.recieverIban || "___"}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptIban")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{checkInfoPage?.recieverIban || "___"}
+						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("paymentId")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>{checkInfoPage?.paymentId || "___"}</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("paymentId")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{checkInfoPage?.paymentId || "___"}
+						</Typography>
 					</div>
-					<div className="flex flex-col w-full justify-between mt-5">
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px", fontWeight: "bold" }}>{t("chequeReceiptDescription")}</Typography>
-						<Typography variant="bodyMd" sx={{ marginBottom: "16px" }}>
-							{checkInfoPage?.description.split('\n').map((line, i) => (
+					<div className="mt-5 flex w-full flex-col justify-between">
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px", fontWeight: "bold" }}
+						>
+							{t("chequeReceiptDescription")}
+						</Typography>
+						<Typography
+							variant="bodyMd"
+							sx={{ marginBottom: "16px" }}
+						>
+							{checkInfoPage?.description.split("\n").map((line, i) => (
 								<span key={i}>
 									{line}
 									<br />
@@ -156,32 +245,39 @@ export default function ChequeReceiptPreview() {
 							))}
 						</Typography>
 					</div>
-
 				</div>
 			</Grid>
 			<Grid>
-				<Typography variant="bodyLg" sx={{ marginTop: "20px", fontWeight: "bold" }}>{t("receivers")}</Typography>
+				<Typography
+					variant="bodyLg"
+					sx={{ marginTop: "20px", fontWeight: "bold" }}
+				>
+					{t("receivers")}
+				</Typography>
 				{addReceiverPage?.receivers?.map((item, index) => {
-					return <Grid key={index}
-						container
-						dir={theme.direction}
-						display={"flex"}
-						direction={'column'}
-						width={"100%"}
-						marginTop={10}
-						padding={10}
-						gap={10}
-						sx={{ backgroundColor: theme.palette.background.default, borderRadius: 10 }}
-					>
-						<div className="flex justify-between">
-							<Typography variant="bodyMd">{t("first&lastName")}</Typography>
-							<Typography variant="bodyMd">{item.name}</Typography>
-						</div>
-						<div className="flex justify-between">
-							<Typography variant="bodyMd">{t("nationalIdCol")}</Typography>
-							<Typography variant="bodyMd">{item.nationalNo}</Typography>
-						</div>
-					</Grid>
+					return (
+						<Grid
+							key={index}
+							container
+							dir={theme.direction}
+							display={"flex"}
+							direction={"column"}
+							width={"100%"}
+							marginTop={10}
+							padding={10}
+							gap={10}
+							sx={{ backgroundColor: theme.palette.background.default, borderRadius: 10 }}
+						>
+							<div className="flex justify-between">
+								<Typography variant="bodyMd">{t("first&lastName")}</Typography>
+								<Typography variant="bodyMd">{item.name}</Typography>
+							</div>
+							<div className="flex justify-between">
+								<Typography variant="bodyMd">{t("nationalIdCol")}</Typography>
+								<Typography variant="bodyMd">{item.nationalNo}</Typography>
+							</div>
+						</Grid>
+					);
 				})}
 			</Grid>
 			<Grid marginTop={"auto"}>
@@ -189,13 +285,13 @@ export default function ChequeReceiptPreview() {
 					variant="contained"
 					size="medium"
 					disabled={addReceiverPage?.receivers?.length == 0}
-					muiButtonProps={{ sx: { width: '100%', marginTop: '16px', marginBottom: '20px' } }}
+					muiButtonProps={{ sx: { width: "100%", marginTop: "16px", marginBottom: "20px" } }}
 					forwardIcon
 					onClick={() => handleSubmitToNextLevel()}
 				>
-					{t('continue')}
+					{t("continue")}
 				</ButtonAdapter>
 			</Grid>
-		</BoxAdapter >
+		</BoxAdapter>
 	);
 }

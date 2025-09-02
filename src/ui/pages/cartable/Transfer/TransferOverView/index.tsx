@@ -1,29 +1,27 @@
-import { Grid, useMediaQuery, useTheme } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import Menu from 'ui/components/Menu';
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import Menu from "ui/components/Menu";
 
-import BoxAdapter from 'ui/htsc-components/BoxAdapter';
-import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
-import Stepper from 'ui/htsc-components/Stepper';
+import BoxAdapter from "ui/htsc-components/BoxAdapter";
+import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
 
-import useDetectFinalizeTransfer from 'business/hooks/cheque/transferCheck/useDetectFinalizeTransfer';
-import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useCartableChecklistData } from 'business/stores/cartableListData/cartableListData';
-import PersonsList from 'ui/components/CheckOverview/PersonsList';
-import NewCheckInfoBasics from 'ui/components/NewCheckInfoBasics';
-import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
-import { menuList } from 'ui/pages/HomePage/menuList';
-import { paths } from 'ui/route-config/paths';
+import { useLoadingHandler } from "@agribank/ui/components/Loader";
+import useDetectFinalizeTransfer from "business/hooks/cheque/transferCheck/useDetectFinalizeTransfer";
+import { pushAlert } from "business/stores/AppAlertsStore";
+import { useCartableChecklistData } from "business/stores/cartableListData/cartableListData";
+import PersonsList from "ui/components/CheckOverview/PersonsList";
+import NewCheckInfoBasics from "ui/components/NewCheckInfoBasics";
+import { menuList } from "ui/pages/HomePage/menuList";
+import { paths } from "ui/route-config/paths";
 
 export default function TransferOverView() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const { transferOverview, selectedCheck, otpTransferRequirments, reset } = useCartableChecklistData(
-		(store) => store
-	);
+	const matches = useMediaQuery(theme.breakpoints.down("md"));
+	const { transferOverview, selectedCheck, otpTransferRequirments, reset } =
+		useCartableChecklistData((store) => store);
 
 	const { isLoading, mutate: finalSubmit } = useDetectFinalizeTransfer()();
 
@@ -35,12 +33,12 @@ export default function TransferOverView() {
 				},
 				{
 					onError: (err) => {
-						pushAlert({ type: 'error', hasConfirmAction: true, messageText: err.detail });
+						pushAlert({ type: "error", hasConfirmAction: true, messageText: err.detail });
 					},
 					onSuccess(res) {
 						reset();
 						pushAlert({
-							type: 'success',
+							type: "success",
 							hasConfirmAction: true,
 							messageText: res.message,
 							actions: {
@@ -127,9 +125,9 @@ export default function TransferOverView() {
 	return (
 		<Grid
 			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
-			justifyContent={'center'}
-			gap={'24px'}
+			sx={{ padding: matches ? "0" : "64px 0" }}
+			justifyContent={"center"}
+			gap={"24px"}
 			dir={theme.direction}
 		>
 			<Grid
@@ -141,23 +139,23 @@ export default function TransferOverView() {
 					fullWidth={matches}
 					muiPaperProps={{
 						sx: {
-							minWidth: '25%',
-							borderRadius: matches ? 0 : '32px',
-							padding: '16px'
+							minWidth: "25%",
+							borderRadius: matches ? 0 : "32px",
+							padding: "16px"
 						}
 					}}
 				>
 					<Grid
-						minHeight={matches ? 'calc(100vh - 32px)' : 'calc(100vh - 192px)'}
+						minHeight={matches ? "calc(100vh - 32px)" : "calc(100vh - 192px)"}
 						container
-						direction={'column'}
-						justifyContent={'space-between'}
+						direction={"column"}
+						justifyContent={"space-between"}
 						wrap="nowrap"
 					>
 						<Grid
 							container
-							direction={'column'}
-							gap={'16px'}
+							direction={"column"}
+							gap={"16px"}
 						>
 							{/* {!matches ? (
 								<Stepper
@@ -196,30 +194,30 @@ export default function TransferOverView() {
 
 						<Grid
 							container
-							justifyContent={'space-between'}
-							gap={'16px'}
+							justifyContent={"space-between"}
+							gap={"16px"}
 						>
 							<Grid
 								container
-								justifyContent={'space-between'}
-								sx={{ marginTop: '16px' }}
+								justifyContent={"space-between"}
+								sx={{ marginTop: "16px" }}
 							>
 								<ButtonAdapter
 									variant="contained"
 									size="medium"
-									muiButtonProps={{ sx: { width: '49%' } }}
+									muiButtonProps={{ sx: { width: "49%" } }}
 									onClick={() => handleSubmit()}
 								>
-									{t('registerAndConfirm')}
+									{t("registerAndConfirm")}
 								</ButtonAdapter>
 
 								<ButtonAdapter
 									variant="outlined"
 									size="medium"
-									muiButtonProps={{ sx: { width: '49%' } }}
+									muiButtonProps={{ sx: { width: "49%" } }}
 									onClick={() => handleCancel()}
 								>
-									{t('cancel')}
+									{t("cancel")}
 								</ButtonAdapter>
 							</Grid>
 						</Grid>
@@ -240,11 +238,10 @@ export default function TransferOverView() {
 						<Menu
 							divider={false}
 							list={menuList.services}
-						/>{' '}
+						/>{" "}
 					</BoxAdapter>
 				</Grid>
 			)}
-			{/* <Loader showLoader={isLoading} /> */}
 		</Grid>
 	);
 }

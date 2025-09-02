@@ -228,7 +228,7 @@ export default function SelectAccount() {
 												onClick={(e) => {}}
 											/>
 										</ChipWrapperForSelect> */}
-									<div className="h-full" style={{ backgroundColor: theme.palette.background.default }}>
+									<div className="" style={{ backgroundColor: theme.palette.background.default }}>
 										{sortedChequeSheets?.map((sheet) => {
 											return (
 												<MenuItem

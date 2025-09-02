@@ -1,5 +1,5 @@
-import { Box, Typography } from '@mui/material';
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+import { Box, Typography } from "@mui/material";
+import { isRouteErrorResponse, useRouteError } from "react-router-dom";
 
 const ErrorPage = () => {
 	const error = useRouteError();
@@ -7,9 +7,11 @@ const ErrorPage = () => {
 	return (
 		<>
 			<Box padding={5}>
-				<Typography variant="h1Md">Oops</Typography>
+				<Typography variant="h1Md">خطا</Typography>
 				<Typography variant="bodyLg">
-					{isRouteErrorResponse(error) ? 'This page does not exist.' : 'An unexpected error occurred.'}
+					{isRouteErrorResponse(error)
+						? "This page does not exist."
+						: "در ارتباط مشکلی به وجود آمده، لطفا مجدد اقدام فرمایید."}
 				</Typography>
 			</Box>
 		</>

@@ -1,14 +1,11 @@
-import { Grid, useMediaQuery, useTheme } from '@mui/material';
-import useFirstPageViewGenerator from 'business/hooks/cheque/transferCheck/useFirstPageViewGenerator';
-import Menu from 'ui/components/Menu';
-import BoxAdapter from 'ui/htsc-components/BoxAdapter';
+import { Grid, useMediaQuery, useTheme } from "@mui/material";
+import useFirstPageViewGenerator from "business/hooks/cheque/transferCheck/useFirstPageViewGenerator";
 
-import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
-import { menuList } from 'ui/pages/HomePage/menuList';
+import { useLoadingHandler } from "@agribank/ui/components/Loader";
 
 export default function CheckNewInfo() {
 	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.down('md'));
+	const matches = useMediaQuery(theme.breakpoints.down("md"));
 	const { view, isLoading } = useFirstPageViewGenerator();
 
 	useLoadingHandler(isLoading);
@@ -16,20 +13,21 @@ export default function CheckNewInfo() {
 	return (
 		<Grid
 			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
-			justifyContent={'center'}
-			gap={'24px'}
+			// sx={{ padding: matches ? "0" : "64px 0" }}
+			justifyContent={"center"}
+			gap={"24px"}
 			dir={theme.direction}
+			flexDirection={"column"}
 		>
 			<Grid
 				item
 				xs={12}
-				md={8}
+				md={12}
 			>
 				{view}
 			</Grid>
 
-			{matches ? null : (
+			{/* {matches ? null : (
 				<Grid
 					item
 					md={3}
@@ -46,7 +44,7 @@ export default function CheckNewInfo() {
 						/>
 					</BoxAdapter>
 				</Grid>
-			)}
+			)} */}
 			{/* <Loader showLoader={isLoading} /> */}
 		</Grid>
 	);

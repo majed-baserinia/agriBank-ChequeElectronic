@@ -1,71 +1,34 @@
-import { Grid, RadioGroup, Typography, useMediaQuery, useTheme } from '@mui/material';
-import infoIcon from 'assets/icon/info-circle.svg';
-import IssueWithDrawalGroupsCommand from 'business/application/cheque/Digital Cheque/Issue With drawal groups/IssueWithDrawalGroupsCommand';
-import useInquiryWithDrawalGroup from 'business/hooks/cheque/Digital Cheque/useInquiryWithDrawalGroup';
-import useIssueWithDrawalGroup from 'business/hooks/cheque/Digital Cheque/useIssueWithDrawalGroup';
-import { pushAlert } from 'business/stores/AppAlertsStore';
-import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import DraggableList from 'ui/components/DraggableList';
-import Menu from 'ui/components/Menu';
-import RadioButtonOpenable from 'ui/components/RadioButtonOpenable';
+import { Grid, RadioGroup, Typography, useMediaQuery, useTheme } from "@mui/material";
+import infoIcon from "assets/icon/info-circle.svg";
+import IssueWithDrawalGroupsCommand from "business/application/cheque/Digital Cheque/Issue With drawal groups/IssueWithDrawalGroupsCommand";
+import useInquiryWithDrawalGroup from "business/hooks/cheque/Digital Cheque/useInquiryWithDrawalGroup";
+import useIssueWithDrawalGroup from "business/hooks/cheque/Digital Cheque/useIssueWithDrawalGroup";
+import { pushAlert } from "business/stores/AppAlertsStore";
+import { useIssueCheckWizardData } from "business/stores/issueCheck/useIssueCheckWizardData";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
+import DraggableList from "ui/components/DraggableList";
+import Menu from "ui/components/Menu";
+import RadioButtonOpenable from "ui/components/RadioButtonOpenable";
 
-import BoxAdapter from 'ui/htsc-components/BoxAdapter';
-import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
-import ModalOrPage from 'ui/htsc-components/ModalOrPage';
-import Stepper from 'ui/htsc-components/Stepper';
-import SvgToIcon from 'ui/htsc-components/SvgToIcon';
-import { menuList } from 'ui/pages/HomePage/menuList';
+import BoxAdapter from "ui/htsc-components/BoxAdapter";
+import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
+import ModalOrPage from "ui/htsc-components/ModalOrPage";
+import SvgToIcon from "ui/htsc-components/SvgToIcon";
+import { menuList } from "ui/pages/HomePage/menuList";
 
 const data = {
-	issueChequeKey: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-	withdrawalGroup: [
-		{
-			groupNumber: 'groupNumber1',
-			withdrawalGroups: [
-				{
-					customerNumber: 1000,
-					name: 'غزل عادل زاده'
-				}
-			]
-		},
-		{
-			groupNumber: 'groupNumber2',
-			withdrawalGroups: [
-				{
-					customerNumber: 1001,
-					name: 'بیتا پاکنژاد'
-				},
-				{
-					customerNumber: 1002,
-					name: 'سروش شروری'
-				}
-			]
-		},
-		{
-			groupNumber: 'groupNumber3',
-			withdrawalGroups: [
-				{
-					customerNumber: 3000,
-					name: 'وحید علیمردانی'
-				},
-				{
-					customerNumber: 3001,
-					name: 'پروین افشار'
-				}
-			]
-		}
-	]
+	issueChequeKey: "",
+	withdrawalGroup: []
 };
 
 export default function TransferSignatureGroup() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.down('md'));
-	const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
+	const matches = useMediaQuery(theme.breakpoints.down("md"));
+	const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 	const { addReceiverPage } = useIssueCheckWizardData((store) => store);
 
 	const { mutate: InquiryWithDrawalGroupMutate } = useInquiryWithDrawalGroup();
@@ -79,10 +42,10 @@ export default function TransferSignatureGroup() {
 	useEffect(() => {
 		InquiryWithDrawalGroupMutate(
 			//{ issueChequeKey: GetStepData?.issueChequeKey },
-			{ issueChequeKey: '36a2e042-8481-4f5f-93f0-52e3ed29ae33' },
+			{ issueChequeKey: "36a2e042-8481-4f5f-93f0-52e3ed29ae33" },
 			{
 				onError: (err) => {
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+					pushAlert({ type: "error", messageText: err.detail, hasConfirmAction: true });
 				}
 			}
 		);
@@ -102,20 +65,20 @@ export default function TransferSignatureGroup() {
 				]
 			};
 			IssueWithDrawalGroupMutate(data, {
-				onSuccess: (_) => { },
+				onSuccess: (_) => {},
 				onError: (err) => {
 					if (err.status == 453) {
 						pushAlert({
-							type: 'error',
+							type: "error",
 							messageText: err.detail,
 							hasConfirmAction: true,
 							actions: {
-								onCloseModal: () => navigate('/cheque'),
-								onConfirm: () => navigate('/cheque')
+								onCloseModal: () => navigate("/cheque"),
+								onConfirm: () => navigate("/cheque")
 							}
 						});
 					}
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+					pushAlert({ type: "error", messageText: err.detail, hasConfirmAction: true });
 				}
 			});
 		}
@@ -128,9 +91,9 @@ export default function TransferSignatureGroup() {
 	return (
 		<Grid
 			container
-			sx={{ padding: matches ? '0' : '64px 0' }}
-			justifyContent={'center'}
-			gap={'24px'}
+			sx={{ padding: matches ? "0" : "64px 0" }}
+			justifyContent={"center"}
+			gap={"24px"}
 			dir={theme.direction}
 		>
 			<Grid
@@ -140,16 +103,16 @@ export default function TransferSignatureGroup() {
 			>
 				<BoxAdapter fullWidth={matches}>
 					<Grid
-						minHeight={matches ? 'calc(100vh - 64px)' : 'calc(100vh - 192px)'}
+						minHeight={matches ? "calc(100vh - 64px)" : "calc(100vh - 192px)"}
 						container
-						direction={'column'}
-						justifyContent={'space-between'}
+						direction={"column"}
+						justifyContent={"space-between"}
 						wrap="nowrap"
 					>
 						<Grid
 							container
-							direction={'column'}
-							gap={'16px'}
+							direction={"column"}
+							gap={"16px"}
 						>
 							{/* {!matches ? (
 								<Stepper
@@ -165,20 +128,20 @@ export default function TransferSignatureGroup() {
 							) : null} */}
 							<Typography
 								variant="bodyMd"
-								sx={{ marginBottom: '16px' }}
+								sx={{ marginBottom: "16px" }}
 							>
-								{t('signatureGroupText')}
+								{t("signatureGroupText")}
 							</Typography>
 							<Grid
 								container
-								spacing={'24px'}
+								spacing={"24px"}
 							>
 								<RadioGroup
 									value={value}
 									onChange={(e) => {
 										setValue(e.target.value);
 									}}
-									sx={{ width: '100%', marginLeft: '20px' }}
+									sx={{ width: "100%", marginLeft: "20px" }}
 								>
 									{data.withdrawalGroup.map((item) => (
 										<RadioButtonOpenable
@@ -188,7 +151,7 @@ export default function TransferSignatureGroup() {
 													.map((group) => {
 														return group?.name;
 													})
-													.join(', ') || ''
+													.join(", ") || ""
 											}
 											onEditClick={() => setOpen(true)}
 											groupParts={selectedGroup ? selectedGroup.map((group) => group?.name) : []}
@@ -212,11 +175,11 @@ export default function TransferSignatureGroup() {
 							<ButtonAdapter
 								variant="contained"
 								size="medium"
-								muiButtonProps={{ sx: { width: '100%' } }}
+								muiButtonProps={{ sx: { width: "100%" } }}
 								forwardIcon
 								onClick={IssueWithDrawalGroupSubmit}
 							>
-								{t('continue')}
+								{t("continue")}
 							</ButtonAdapter>
 						</Grid>
 					</Grid>
@@ -249,16 +212,16 @@ export default function TransferSignatureGroup() {
 			>
 				<Grid
 					container
-					direction={'column'}
-					gap={'32px'}
-					justifyContent={'space-between'}
-					sx={{ borderRadius: '24px', padding: matchesSM ? '16px ' : '40px', height: '100%' }}
+					direction={"column"}
+					gap={"32px"}
+					justifyContent={"space-between"}
+					sx={{ borderRadius: "24px", padding: matchesSM ? "16px " : "40px", height: "100%" }}
 				>
 					<Grid>
 						<Grid
 							container
-							flexWrap={'nowrap'}
-							gap={'8px'}
+							flexWrap={"nowrap"}
+							gap={"8px"}
 						>
 							<SvgToIcon
 								icon={infoIcon}
@@ -266,9 +229,9 @@ export default function TransferSignatureGroup() {
 							/>
 							<Typography
 								variant="bodyMd"
-								textOverflow={'ellipsis'}
+								textOverflow={"ellipsis"}
 							>
-								{t('draggableListText')}
+								{t("draggableListText")}
 							</Typography>
 						</Grid>
 						<DraggableList
@@ -278,7 +241,10 @@ export default function TransferSignatureGroup() {
 								}) || []
 							}
 							getData={(a) => {
-								const list = a.map((i) => ({ customerNumber: Number(i.id), name: i.text as string }));
+								const list = a.map((i) => ({
+									customerNumber: Number(i.id),
+									name: i.text as string
+								}));
 								setListOrder(list);
 							}}
 						/>
@@ -286,10 +252,10 @@ export default function TransferSignatureGroup() {
 					<ButtonAdapter
 						variant="contained"
 						size="medium"
-						muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+						muiButtonProps={{ sx: { width: "100%", marginTop: "16px" } }}
 						onClick={() => handleListUpdate()}
 					>
-						{t('register')}
+						{t("register")}
 					</ButtonAdapter>
 				</Grid>
 			</ModalOrPage>
