@@ -42,7 +42,11 @@ export default function AddReceivers() {
 	}, []);
 
 	const handleSubmitToNextLevel = () => {
-		navigate(paths.IssueCheck.ChequeReceiptPreview);
+		const currentData: any = useIssueCheckWizardData.getState();
+		if (currentData.accountType === "IndividualCheque")
+			navigate(paths.IssueCheck.ChequeReceiptPreview);
+		if (currentData.accountType === "CorporateCheque")
+			navigate(paths.IssueCheck.SignatureGroupPath);
 	};
 
 	return (
@@ -80,7 +84,7 @@ export default function AddReceivers() {
 						variant="contained"
 						size="medium"
 						disabled={addReceiverPage?.receivers?.length == 0}
-						muiButtonProps={{ sx: { width: '100%', marginTop: '16px', marginBottom: '16px' } }}
+						muiButtonProps={{ sx: { width: '100%', marginTop: '16px', marginBottom: '16px', minHeight: "48px" } }}
 						forwardIcon
 						onClick={() => handleSubmitToNextLevel()}
 					>

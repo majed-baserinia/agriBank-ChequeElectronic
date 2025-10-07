@@ -1,4 +1,5 @@
 export const CurrentAccounts = '/CustomerManager/currentaccounts';
+export const customercurrentaccounts = '/CustomerManager/customercurrentaccounts';
 export const Accounts = '/CustomerManager/accounts';
 export const getCodes = '/Cheque/getreasoncodes';
 export const InquiryListType = '/Cheque/InquiryActiveDigitalListDetails';
@@ -7,8 +8,10 @@ export const getCheckbooks = '/cheque/DigitalCheque/InquiryActiveDigitalChequeLi
 export const getChecksheets = '/cheque/DigitalCheque/InquiryActiveDigitalListDetails';
 export const VerifyOtp = '/cheque/DigitalCheque/issuechequeverifyinitiate';
 export const issuechequeinitiate = '/cheque/DigitalCheque/issuechequeinitiate';
+export const IssueChequeInitiateOtp = '/cheque/DigitalCheque/IssueChequeInitiateotp';
 export const IssueChequeInitiateSignature = '/cheque/DigitalCheque/IssueChequeInitiateSignature';
 export const IssueChequeVerifyInitiate = '/cheque/DigitalCheque/IssueChequeVerifyInitiate';
+export const IssueChequeConfirm = '/cheque/DigitalCheque/issuechequeconfirm';
 export const IssueChequeFinalize = '/cheque/DigitalCheque/IssueChequeFinalize';
 export const IssueInquiryWithDrawalGroup = '/cheque/DigitalCheque/issuechequeinquirywithdrawalgroup';
 export const IssueChequeIssueWithDrawalGroup = '/cheque/DigitalCheque/issuechequeissuewithdrawalgroup';

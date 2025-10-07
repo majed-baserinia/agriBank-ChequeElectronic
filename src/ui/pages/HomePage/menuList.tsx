@@ -19,7 +19,7 @@ export const menuList = {
 					alt="issue Check"
 				/>
 			),
-			routeTo: paths.IssueCheck.PersonalTypePath
+			routeTo: paths.IssueCheck.AccountTypePath
 		},
 		{
 			id: '2',

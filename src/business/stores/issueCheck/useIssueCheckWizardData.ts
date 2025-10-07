@@ -9,6 +9,8 @@ interface Functions {
 }
 
 interface IssuCheckWizardData {
+	accountType?: string;
+	CorporateChequeCompany?: {};
 	selectCheckPage?: {
 		selectedAccount: string;
 		selectedCheckbook: string;
@@ -34,15 +36,17 @@ interface IssuCheckWizardData {
 	otpPage?: {
 		needInquiryWithDrawalGroup?: boolean;
 		issueChequeOverView?: IssueChequeOverView;
+		message?: string
 	};
 }
 
 export const useIssueCheckWizardData = create<IssuCheckWizardData & Functions>((set) => ({
-	setNewDataToWizard: (data) =>
+	setNewDataToWizard: (data) => {
 		set((state) => ({
 			...state,
 			...data
-		})),
+		}))
+	},
 
 	reset: () => {
 		return set(() => ({

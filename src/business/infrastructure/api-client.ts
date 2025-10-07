@@ -130,12 +130,18 @@ class APIClient<TBody, TResponse> {
 	};
 }
 
-function prepareErrorType<T>(error: ErrorType<T>) {
-	if (!error.detail || error.detail.trim().length === 0) {
-		error.detail = i18n.t("Internal Error");
+function prepareErrorType<T>(error: ErrorType<T> | string | undefined) {
+	if (typeof error === "string" || !error) {
+		return {
+			detail: error || i18n.t("Internal Error"),
+			instance: "",
+		} as ErrorType<T>;
 	}
-	error.instance = error?.instance || "";
+
+	error.detail = error.detail && error.detail.trim().length > 0 ? error.detail : i18n.t("Internal Error");
+	error.instance = error.instance || "";
 	return error;
 }
+
 
 export default APIClient;

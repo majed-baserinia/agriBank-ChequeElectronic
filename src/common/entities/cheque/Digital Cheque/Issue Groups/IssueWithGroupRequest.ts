@@ -1,12 +1,14 @@
 export interface IssueWithGroupRequest {
 	isSequentional: boolean;
-	withDrawalGroup: WithdrawalDetails[];
+	issueChequeKey: string;
+	withDrawalGroups: WithdrawalDetails;
 }
 export interface WithdrawalDetails {
 	groupNumber: string;
-	withdrawalGroups: withdrawalGroups[];
+	withdrawalGroups: WithdrawalGroups[];
 }
-interface withdrawalGroups {
+interface WithdrawalGroups {
 	customerNumber: number;
-	name: string;
+	firstName: string;
+	lastName: string;
 }

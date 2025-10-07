@@ -129,7 +129,7 @@ export default function HandedOverList() {
 								<Filter
 									relatedCustomers={selectListPage?.relatedCustomers}
 									onFilter={(o) => {
-										console.log(o);
+										// console.log(o);
 
 										getListOfTheChecksByFilters(
 											o.customerNumber,

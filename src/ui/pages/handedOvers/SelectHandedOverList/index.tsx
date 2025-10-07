@@ -48,7 +48,7 @@ export default function SelectHandedOverList() {
 	useEffect(() => {
 		if (relatedCustomers) {
 			addNewStoreData({ selectListPage: { relatedCustomers: relatedCustomers } });
-			console.log({ relatedCustomers });
+			// console.log({ relatedCustomers });
 
 			if (relatedCustomers.length === 1) {
 				navigate(paths.HandedOvers.HandedOverList + '?cif=' + relatedCustomers[0].customerNumber, {

@@ -24,35 +24,6 @@ export default function OverView() {
 	const { isLoading, mutate: finalSubmit } = useIssueChequeFinalize();
 	const { reset, otpPage, addReceiverPage, setNewDataToWizard } = useIssueCheckWizardData((store) => store);
 
-
-	// useEffect(() => {
-	// 	setNewDataToWizard({
-	// 		otpPage: {
-	// 			issueChequeOverView: {
-	// 				"sayadNo": "2777030055138717",
-	// 				"seri": "70001",
-	// 				"serial": "452562",
-	// 				"amount": 1111111111,
-	// 				"dueDate": "1404/03/20",
-	// 				"reason": "HIPA",
-	// 				"reasonDescription": "امور درمانی",
-	// 				"description": "شرح",
-	// 				"toIBAN": "",
-	// 				"signers": null,
-	// 				"recievers": [
-	// 					{
-	// 						"name": "ماجد",
-	// 						"shahabNo": "",
-	// 						"nationalNo": "4723888217",
-	// 						"customerType": 1,
-	// 						"customerTypeDescription": "حقیقی"
-	// 					}
-	// 				]
-	// 			}
-	// 		}
-	// 	});
-	// }, [])
-
 	const handleSubmit = () => {
 		if (addReceiverPage?.signitureRequirementData) {
 			finalSubmit(
@@ -81,95 +52,12 @@ export default function OverView() {
 						}
 					},
 					onSuccess(res) {
-						// reset();
-						console.log(res)
 						navigate(paths.IssueCheck.FinalReceipt);
-						// pushAlert({
-						// 	type: 'success',
-						// 	hasConfirmAction: true,
-						// 	messageText: res.message,
-						// 	actions: {
-						// 		onCloseModal: () => {
-						// 			navigate(paths.Home);
-						// 		},
-						// 		onConfirm: () => {
-						// 			navigate(paths.Home);
-						// 		}
-						// 	}
-						// });
 					}
 				}
 			);
 		}
 	};
-
-	// const handleRefuse = () => {
-	// 	reset();
-	// 	navigate(paths.Home, { replace: true });
-	// };
-	// const overviewData: IssueChequeOverView = {
-	// 	amount: 212,
-	// 	description: 'advdsvds',
-	// 	dueDate: '222222',
-	// 	reason: 'dsv dsvds',
-	// 	recievers: [
-	// 		{
-	// 			customerType:4,
-	// 			name: 'name',
-	// 			nationalNo: '321123123',
-	// 			shahabNo: '',
-	// 			customerTypeDescription: ''
-	// 		},
-	// 		{
-	// 			customerTypeDescription: '',
-	// 			customerType: 3,
-	// 			name: 'name',
-	// 			nationalNo: '321123123',
-	// 			shahabNo: '4142'
-	// 		},
-	// 		{
-	// 			customerTypeDescription: '',
-	// 			customerType: 2,
-	// 			name: 'name',
-	// 			nationalNo: '321123123',
-	// 			shahabNo: '4142'
-	// 		},
-	// 		{
-	// 			customerTypeDescription: '',
-	// 			customerType: 1,
-	// 			name: 'name',
-	// 			nationalNo: '321123123',
-	// 			shahabNo: '4142'
-	// 		}
-	// 	],
-	// 	sayadNo: 3232413.2,
-	// 	seri: '21321',
-	// 	serial: '324324',
-	// 	signers: [
-	// 		{
-	// 			withdrawalGroups: [
-	// 				{
-	// 					customerNumber: 3241534135,
-	// 					name: 'name'
-	// 				},
-	// 				{
-	// 					customerNumber: 3241534135,
-	// 					name: 'name'
-	// 				},
-	// 				{
-	// 					customerNumber: 3241534135,
-	// 					name: 'name'
-	// 				},
-	// 				{
-	// 					customerNumber: 3241534135,
-	// 					name: 'name'
-	// 				}
-	// 			],
-	// 			groupNumber: 'grupnumber'
-	// 		}
-	// 	],
-	// 	toIBAN: '463543'
-	// };
 	useLoadingHandler(!otpPage?.issueChequeOverView || isLoading);
 
 	return (

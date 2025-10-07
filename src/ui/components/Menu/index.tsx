@@ -1,18 +1,18 @@
-import { Divider, Grid, Typography } from '@mui/material';
-import { Fragment } from 'react';
-import { useTranslation } from 'react-i18next';
-import MenuItem from './MenuItem';
-import { Props } from './type';
+import { Divider, Grid, Typography } from "@mui/material";
+import { Fragment } from "react";
+import { useTranslation } from "react-i18next";
+import MenuItem from "./MenuItem";
+import { Props } from "./type";
 
 export default function Menu(props: Props) {
-	const { list, menuTitle, divider = true } = props;
+	const { list, menuTitle, divider = true, setOpen } = props;
 	const { t } = useTranslation();
 
 	return (
-		<Grid overflow={'hidden'}>
+		<Grid overflow={"hidden"}>
 			<Typography
 				variant="bodyLg"
-				fontWeight={'bold'}
+				fontWeight={"bold"}
 			>
 				{t(menuTitle!, menuTitle as string)}
 			</Typography>
@@ -21,6 +21,8 @@ export default function Menu(props: Props) {
 					<Fragment key={item.title}>
 						<MenuItem
 							{...item}
+							onClick={item.onClick}
+							setOpen={setOpen}
 							key={index}
 						/>
 

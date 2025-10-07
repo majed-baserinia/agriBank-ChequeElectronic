@@ -51,7 +51,9 @@ export default function CheckReceivers(props: CheckReceiversProps) {
 				>
 					<Sheet.Backdrop onTap={() => setOpen(false)} />
 					<Sheet.Container>
-						<Sheet.Header />
+						<Sheet.Header style={{
+							backgroundColor: theme.palette.background.paper
+						}} />
 						<Sheet.Content
 							style={{
 								backgroundColor: theme.palette.background.paper

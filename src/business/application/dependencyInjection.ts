@@ -42,7 +42,7 @@ export * from './cheque/Digital Cheque/Inquiry With drawal groups/InquiryWithDra
 export * from './cheque/Digital Cheque/Inquiry With drawal groups/InquiryWithDrawalGroupsCommandHandler';
 
 export * from './cheque/Digital Cheque/Issuechequeinitiatesignature/IssuechequeinitiatesignatureCommand';
-export * from './cheque/Digital Cheque/Issuechequeinitiatesignature/IssuechequeinitiatesignatureCommandHandler';
+export * from './cheque/Digital Cheque/Issuechequeinitiatesignature/IssuechequeinitiatesignatureHandler';
 
 export * from './cheque/Digital Cheque/IssueChequeVerifyInitiate/IssueChequeVerifyInitiateCommand';
 export * from './cheque/Digital Cheque/IssueChequeVerifyInitiate/IssueChequeVerifyInitiateCommandHandler';

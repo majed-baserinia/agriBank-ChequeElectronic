@@ -21,6 +21,9 @@ import Stepper from 'ui/htsc-components/Stepper';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
 import { paths } from 'ui/route-config/paths';
 import { menuList } from '../../HomePage/menuList';
+import useIssueChequeInitiateOtp from 'business/hooks/cheque/Digital Cheque/useIssueChequeInitiateOtp';
+import useIssueChequeConfirm from 'business/hooks/cheque/Digital Cheque/useIssueChequeConfirm';
+import { useLoadingHandler } from '@agribank/ui/components/Loader';
 
 export default function OtpCheck() {
 	const theme = useTheme();
@@ -28,11 +31,13 @@ export default function OtpCheck() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
 	const [otpLifeTime, setOtpLifeTime] = useState(0);
-	const { setNewDataToWizard, addReceiverPage } = useIssueCheckWizardData((s) => s);
+	const { setNewDataToWizard, addReceiverPage, accountType } = useIssueCheckWizardData((s) => s);
 	usePostMessage({ callback: readOtp, message: { type: 'GetOTP', OTPLen: '8', ReadMode: 'UserConsent' } });
 
 	const { mutate: verifyOtp, error: veryError, isLoading } = useVerifyOtp();
-	const { data: CheckInitiateOtpData, mutate: CheckInitiateOtpMutate } = useCheckInitiateOtp();
+	const { mutate: IssueChequeConfirm, isLoading: isLoadingIssueChequeConfirm } = useIssueChequeConfirm();
+	const { data: dataCheckInitiateOtpData, mutate: CheckInitiateOtpMutate, isPending } = useCheckInitiateOtp();
+	const { isLoading: isLoadingIssueChequeInitiateOtp, mutate: issueChequeInitiateOtp, data: dataIssueChequeInitiateOtp } = useIssueChequeInitiateOtp();
 
 	const {
 		handleSubmit: handleSubmitForVerifyOtp,
@@ -54,71 +59,49 @@ export default function OtpCheck() {
 	}
 
 	useEffect(() => {
-		if (CheckInitiateOtpData) {
-			setOtpLifeTime(CheckInitiateOtpData.lifeTime);
+		if (dataCheckInitiateOtpData) {
+			setOtpLifeTime(dataCheckInitiateOtpData.lifeTime);
 		}
-	}, [CheckInitiateOtpData]);
+		if (dataIssueChequeInitiateOtp) {
+			setOtpLifeTime(dataIssueChequeInitiateOtp.lifeTime);
+		}
+	}, [dataCheckInitiateOtpData, dataIssueChequeInitiateOtp]);
 
 	useEffect(() => {
-		CheckInitiateOtpMutate(
-			{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey },
-			{
-				onError: (err) => {
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
-				}
-			}
-		);
+		handleSendAgain()
 	}, []);
 
-	const CheckInitiateOtp = (data: CheckInitiateOtpCommand) => {
-		CheckInitiateOtpMutate(data, {
-			onSuccess: (response) => {
-				pushAlert({
-					type: 'success',
-					messageText: response.message,
-					hasConfirmAction: true,
-					actions: {
-						onCloseModal: () => navigate(paths.Home),
-						onConfirm: () => navigate(paths.Home)
-					}
-				});
-			},
-			onError: (err) => {
-				if (err.status == 453) {
-					pushAlert({
-						type: 'error',
-						messageText: err.detail,
-						hasConfirmAction: true,
-						actions: {
-							onCloseModal: () => navigate(paths.Home),
-							onConfirm: () => navigate(paths.Home)
-						}
-					});
-				}
-				pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
-			}
-		});
-	};
 	const handleSendAgain = () => {
-		CheckInitiateOtpMutate(
-			{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey },
-			{
-				onSuccess: (response) => {
-					pushAlert({
-						type: 'info',
-						messageText: response.message,
-						hasConfirmAction: true
-					});
-				},
-				onError: (err) => {
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+		if (accountType == "IndividualCheque")
+			CheckInitiateOtpMutate(
+				{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey },
+				{
+					onError: (err) => {
+						pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+					}
 				}
-			}
-		);
+			);
+
+		if (accountType == "CorporateCheque")
+			issueChequeInitiateOtp(
+				{ issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey! },
+				{
+					onError: (err) => {
+						pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+					},
+					onSuccess: (res) => {
+						pushAlert({
+							type: 'success',
+							messageText: res.message,
+							hasConfirmAction: true,
+						});
+					}
+				}
+			)
 	};
 
 	const verify = (data: VerifyOtpCommand) => {
-		if (addReceiverPage?.signitureRequirementData) {
+		if (accountType == "IndividualCheque" && addReceiverPage?.signitureRequirementData) {
 			verifyOtp(
 				{
 					issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey!,
@@ -145,7 +128,36 @@ export default function OtpCheck() {
 				}
 			);
 		}
-	};
+
+		if (accountType == "CorporateCheque" && addReceiverPage?.signitureRequirementData) {
+			IssueChequeConfirm(
+				{
+					issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey!,
+					otpCode: data.otpCode
+				},
+				{
+					onError: (err) => {
+						pushAlert({
+							type: 'error',
+							messageText: err.detail,
+							hasConfirmAction: true
+						});
+					},
+					onSuccess: (res) => {
+						setNewDataToWizard({
+							otpPage: {
+								message: res.message
+							}
+						});
+						navigate(paths.IssueCheck.FinalReceiptSimple);
+					}
+				}
+			);
+		};
+	}
+
+	useLoadingHandler(isLoading || isLoadingIssueChequeConfirm || isPending || isLoadingIssueChequeInitiateOtp);
+
 	return (
 		<Grid
 			container
@@ -217,7 +229,7 @@ export default function OtpCheck() {
 											error={!!formState?.errors?.otpCode}
 											helperText={formState?.errors?.otpCode?.message}
 											label={t('activationCodeOtp')}
-											maxLength={CheckInitiateOtpData?.codeLength}
+											maxLength={accountType == "IndividualCheque" ? dataCheckInitiateOtpData?.codeLength : dataIssueChequeInitiateOtp?.codeLength}
 											timerInSeconds={{ timer: otpLifeTime }}
 											handleResend={handleSendAgain}
 										/>
@@ -229,7 +241,7 @@ export default function OtpCheck() {
 							<ButtonAdapter
 								variant="contained"
 								size="medium"
-								muiButtonProps={{ sx: { width: '100%', marginTop: '16px' } }}
+								muiButtonProps={{ sx: { width: '100%', marginTop: '16px', minHeight: "48px" } }}
 								onClick={handleSubmitForVerifyOtp(verify)}
 							>
 								{t('continue')}

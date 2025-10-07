@@ -1,4 +1,4 @@
-import { Box, Grid, MenuItem, Typography, useMediaQuery, useTheme, Menu } from "@mui/material";
+import { Box, Grid, MenuItem, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 // import Menu from "ui/components/Menu";
@@ -6,19 +6,19 @@ import { useNavigate } from "react-router-dom";
 import BoxAdapter from "ui/htsc-components/BoxAdapter";
 import ButtonAdapter from "ui/htsc-components/ButtonAdapter";
 import SelectAdapter from "ui/htsc-components/SelectAdapter";
-import Stepper from "ui/htsc-components/Stepper";
 
+import { useLoadingHandler } from "@agribank/ui/components/Loader";
 import keshavarzi from "assets/icon/Banks/Color/Keshavarzi.svg";
 import useAccounts from "business/hooks/cheque/Digital Cheque/useAccounts";
 import useGetCheckbooks from "business/hooks/cheque/Digital Cheque/useGetCheckbooks";
 import useGetChecksheets from "business/hooks/cheque/Digital Cheque/useGetChecksheets";
 import { useIssueCheckWizardData } from "business/stores/issueCheck/useIssueCheckWizardData";
 import { CheckSheet } from "common/entities/cheque/Digital Cheque/GetChecksheets/GetChecksheetsResponse";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ChipsAdapter from "ui/htsc-components/chipsAdapter";
-import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from "ui/route-config/paths";
-import { usePostMessageRaw } from "@agribank/post-message";
+import useCustomerCurrentAccounts from "business/hooks/cheque/Digital Cheque/useCustomerCurrentAccounts";
+
 
 export default function SelectAccount() {
 	const navigate = useNavigate();
@@ -26,22 +26,23 @@ export default function SelectAccount() {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down("md"));
 	const { setNewDataToWizard, selectCheckPage } = useIssueCheckWizardData((store) => store);
+	const [AccountData, setAccountData] = useState()
 
-	const { data: AccountData, isLoading: loadingAccount } = useAccounts();
-	const { data: checkbooks, mutate: getCheckbooks, isLoading: loadingCheckBook } = useGetCheckbooks();
-	const { data: checksheets, mutate: getChecksheets, isLoading: loadingCheckSheet } = useGetChecksheets();
+	// const { data: AccountData, isLoading: loadingAccount } = useAccounts();
+
+	const { mutateAsync: IndividualCurrentAccounts, isLoading: isLoadingIndividualCurrentAccounts } = useCustomerCurrentAccounts();
+	const { mutateAsync: CorporateCurrentAccounts, isLoading: isLoadingCorporateChequeAccounts } = useCustomerCurrentAccounts();
+
+	const currentData: any = useIssueCheckWizardData.getState();
+	// console.log("useIssueCheckWizardData: ", currentData)
+	const { data: checkbooks, mutateAsync: getCheckbooks, isLoading: loadingCheckBook } = useGetCheckbooks();
+	const { data: checksheets, mutateAsync: getChecksheets, isLoading: loadingCheckSheet } = useGetChecksheets();
 
 	const [selectedAccountNumber, setSelectedAccountNumber] = useState("");
 	const [selectedCheckbook, setSelectedCheckbook] = useState<string>();
 	const [selectedChecksheet, setSelectedChecksheet] = useState<CheckSheet>();
+	const [allChecksheets, setAllChecksheets] = useState<CheckSheet[]>([]);
 
-	// useEffect(() => {
-	// 	if (!isLoading && selectCheckPage) {
-	// setSelectedAccountNumber(selectCheckPage.selectedAccount);
-	// setSelectedCheckbook(selectCheckPage.selectedCheckbook);
-	// setSelectedChecksheet(selectCheckPage.checkData);
-	// 	}
-	// }, [isLoading]);
 
 	const handleNextStep = () => {
 		setNewDataToWizard({
@@ -57,19 +58,30 @@ export default function SelectAccount() {
 		navigate(paths.IssueCheck.CheckInfoPath);
 	};
 
-	const sortedChequeSheets = useMemo(() => {
-		return checksheets?.toSorted((a, b) => {
-			if (a.isUsed && !b.isUsed) {
-				return 1;
+	useEffect(() => {
+		const fetchData = async () => {
+			if (currentData.accountType === "IndividualCheque") {
+				const result = await IndividualCurrentAccounts({
+					corporationCif: "0",
+					serviceName: "ChakadIssueCheque",
+				});
+				setAccountData(result)
+				// console.log(result);
 			}
-			if ((a.isUsed && b.isUsed) || (!a.isUsed && !b.isUsed)) {
-				return 0;
-			}
-			return -1;
-		});
-	}, [checksheets]);
+			if (currentData.accountType === "CorporateCheque") {
+				const result = await CorporateCurrentAccounts({
+					corporationCif: currentData.CorporateChequeCompany.customerNumber,
+					serviceName: "ChakadIssueCheque",
+				});
+				setAccountData(result)
+				// console.log(result);
 
-	useLoadingHandler(loadingAccount || loadingCheckBook || loadingCheckSheet);
+			}
+		};
+		fetchData();
+	}, [])
+
+	useLoadingHandler(loadingCheckBook || loadingCheckSheet || isLoadingIndividualCurrentAccounts || isLoadingCorporateChequeAccounts);
 
 	return (
 		<Grid
@@ -82,8 +94,7 @@ export default function SelectAccount() {
 			gap={"24px"}
 			dir={theme.direction}
 		>
-
-			<BoxAdapter fullWidth  >
+			<BoxAdapter fullWidth>
 				<Grid
 					minHeight={"100%"}
 					container
@@ -138,6 +149,9 @@ export default function SelectAccount() {
 													key={index}
 													onClick={() => {
 														setSelectedAccountNumber(String(item?.accountNumber));
+														setSelectedChecksheet(undefined);
+														setSelectedCheckbook("")
+														setAllChecksheets([])
 														getCheckbooks({ accountNumber: String(item?.accountNumber) });
 													}}
 													sx={{
@@ -146,11 +160,17 @@ export default function SelectAccount() {
 														borderRadius: "10px",
 														marginTop: "10px",
 														padding: 16,
-														backgroundColor: theme.palette.mode == "dark" ? theme.palette.grey[100] : theme.palette.grey[50],
+														backgroundColor:
+															theme.palette.mode == "dark"
+																? theme.palette.grey[100]
+																: theme.palette.grey[50],
 														"&:hover": {
 															borderBottom: `2px solid ${theme.palette.primary.main}`,
 															borderTop: `2px solid ${theme.palette.primary.main}`,
-															backgroundColor: theme.palette.mode == "dark" ? theme.palette.grey[100] : theme.palette.grey[50],
+															backgroundColor:
+																theme.palette.mode == "dark"
+																	? theme.palette.grey[100]
+																	: theme.palette.grey[50]
 														}
 													}}
 													value={item.accountNumber}
@@ -202,7 +222,7 @@ export default function SelectAccount() {
 								lg={6}
 								xl={6}
 								sx={{
-									order: { xs: 3, sm: 3, md: 3, lg: 3, xl: 3 },
+									order: { xs: 3, sm: 3, md: 3, lg: 3, xl: 3 }
 								}}
 							>
 								<SelectAdapter
@@ -228,8 +248,11 @@ export default function SelectAccount() {
 												onClick={(e) => {}}
 											/>
 										</ChipWrapperForSelect> */}
-									<div className="" style={{ backgroundColor: theme.palette.background.default }}>
-										{sortedChequeSheets?.map((sheet) => {
+									<div
+										className=""
+										style={{ backgroundColor: theme.palette.background.default }}
+									>
+										{allChecksheets?.map((sheet) => {
 											return (
 												<MenuItem
 													key={sheet.sayadNo}
@@ -243,12 +266,17 @@ export default function SelectAccount() {
 														borderRadius: "10px",
 														marginTop: "10px",
 														padding: 16,
-														backgroundColor: theme.palette.mode == "dark" ? theme.palette.grey[100] : theme.palette.grey[50],
+														backgroundColor:
+															theme.palette.mode == "dark"
+																? theme.palette.grey[100]
+																: theme.palette.grey[50],
 														"&:hover": {
 															borderBottom: `2px solid ${theme.palette.primary.main}`,
 															borderTop: `2px solid ${theme.palette.primary.main}`,
-															backgroundColor: theme.palette.mode == "dark" ? theme.palette.grey[100] : theme.palette.grey[50],
-
+															backgroundColor:
+																theme.palette.mode == "dark"
+																	? theme.palette.grey[100]
+																	: theme.palette.grey[50]
 														}
 													}}
 												>
@@ -287,7 +315,6 @@ export default function SelectAccount() {
 																</Box>
 															)}
 														</Grid>
-
 													</Grid>
 												</MenuItem>
 											);
@@ -303,7 +330,7 @@ export default function SelectAccount() {
 								lg={6}
 								xl={6}
 								sx={{
-									order: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 },
+									order: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2 }
 								}}
 							>
 								<SelectAdapter
@@ -314,12 +341,13 @@ export default function SelectAccount() {
 									renderValue
 								>
 									<div style={{ backgroundColor: theme.palette.background.default }}>
-										{checkbooks?.map((checkbook, index) => {
+										{checkbooks?.map((checkbook: any, index) => {
 											return (
 												<MenuItem
 													key={index}
 													value={checkbook.chequeTo}
-													onClick={() => {
+													onClick={async () => {
+														// console.log(checkbook)
 														const selectedCheckbook = {
 															accountNumber: selectedAccountNumber,
 															startChequeNo: checkbook.chequeFrom,
@@ -327,7 +355,13 @@ export default function SelectAccount() {
 															pageNo: 1
 														};
 														setSelectedCheckbook(checkbook.chequeTo);
-														getChecksheets(selectedCheckbook);
+														setSelectedChecksheet(undefined);
+														setAllChecksheets([])
+														const loopCount = Math.ceil(Number(checkbook.noofCheqs) / Number(checkbook.numberOfChequesPerPage))
+														for (let i = 1; i <= loopCount; i++) {
+															const res = await getChecksheets({ ...selectedCheckbook, pageNo: i });
+															setAllChecksheets((pre) => [...pre, ...res])
+														}
 													}}
 													sx={{
 														borderBottom: `1px solid ${theme.palette.primary.main}`,
@@ -335,16 +369,20 @@ export default function SelectAccount() {
 														borderRadius: "10px",
 														marginTop: "10px",
 														padding: 16,
-														backgroundColor: theme.palette.mode == "dark" ? theme.palette.grey[100] : theme.palette.grey[50],
+														backgroundColor:
+															theme.palette.mode == "dark"
+																? theme.palette.grey[100]
+																: theme.palette.grey[50],
 														"&:hover": {
 															borderBottom: `2px solid ${theme.palette.primary.main}`,
 															borderTop: `2px solid ${theme.palette.primary.main}`,
-															backgroundColor: theme.palette.mode == "dark" ? theme.palette.grey[100] : theme.palette.grey[50],
-
+															backgroundColor:
+																theme.palette.mode == "dark"
+																	? theme.palette.grey[100]
+																	: theme.palette.grey[50]
 														}
 													}}
 												>
-
 													<Grid
 														container
 														direction={"column"}
@@ -388,8 +426,7 @@ export default function SelectAccount() {
 						</ButtonAdapter>
 					</Grid>
 				</Grid>
-			</BoxAdapter >
-
+			</BoxAdapter>
 
 			{/* {matches ? null : (
 				<Grid
@@ -409,6 +446,6 @@ export default function SelectAccount() {
 					</BoxAdapter>
 				</Grid>
 			)} */}
-		</Grid >
+		</Grid>
 	);
 }

@@ -2,19 +2,11 @@ import { IRequestHandler, requestHandler } from '@Mediatr/index';
 import IssueWithDrawalGroupsCommand from 'business/application/cheque/Digital Cheque/Issue With drawal groups/IssueWithDrawalGroupsCommand';
 import APIClient from 'business/infrastructure/api-client';
 import { IssueChequeIssueWithDrawalGroup } from 'business/infrastructure/end-points';
-import { IssueWithGroupRequest } from 'common/entities/cheque/Digital Cheque/Issue Groups/IssueWithGroupRequest';
-import { IssueWithGroupResponse } from 'common/entities/cheque/Digital Cheque/Issue Groups/IssueWithGroupResponse';
 
 @requestHandler(IssueWithDrawalGroupsCommand)
-export class IssueWithDrawalGroupsCommandHandler
-	implements IRequestHandler<IssueWithDrawalGroupsCommand, IssueWithGroupResponse>
-{
-	handle(value: IssueWithDrawalGroupsCommand): Promise<IssueWithGroupResponse> {
-		const apiClient = new APIClient<IssueWithGroupRequest, IssueWithGroupResponse>(IssueChequeIssueWithDrawalGroup);
-		return apiClient.post(<IssueWithGroupRequest>{
-			issueChequeKey: value.issueChequeKey,
-			isSequentional: value.isSequentional,
-			withDrawalGroup: value.withDrawalGroup
-		});
+export class IssueWithDrawalGroupsCommandHandler implements IRequestHandler<any, any> {
+	handle(command: IssueWithDrawalGroupsCommand): Promise<any> {
+		const apiClient = new APIClient<any, any>(IssueChequeIssueWithDrawalGroup);
+		return apiClient.post(command.payload);
 	}
 }

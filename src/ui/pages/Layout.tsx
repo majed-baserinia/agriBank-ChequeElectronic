@@ -11,7 +11,6 @@ import ApiConfigSingleton from '../../business/stores/api-config-singleton';
 import useInitialSettingStore from '../../business/stores/initial-setting-store';
 import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 
-
 import { useLocation, Outlet } from 'react-router-dom';
 import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
 import { usePostMessageRaw } from '@agribank/post-message';
@@ -24,7 +23,7 @@ const Layout = () => {
 
 	const location = useLocation();
 	console.log('Current route:', location.pathname);
-	// console.log('store:', useIssueCheckWizardData((store) => store));
+	console.log('store:', useIssueCheckWizardData((store) => store));
 
 	const GlobalStyle = createGlobalStyle`
       html, body {

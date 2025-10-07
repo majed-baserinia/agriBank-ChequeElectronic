@@ -8,8 +8,7 @@ import IssueChequeInitiateSignatureCommand from './IssuechequeinitiatesignatureC
 
 @requestHandler(IssueChequeInitiateSignatureCommand)
 export class IssueChequeInitiateSignatureCommandHandler
-	implements IRequestHandler<IssueChequeInitiateSignatureCommand, IssueChequeInitiateSignatureResponse>
-{
+	implements IRequestHandler<IssueChequeInitiateSignatureCommand, IssueChequeInitiateSignatureResponse> {
 	handle(value: IssueChequeInitiateSignatureCommand): Promise<IssueChequeInitiateSignatureResponse> {
 		const apiClient = new APIClient<IssueChequeInitiateSignatureRequest, IssueChequeInitiateSignatureResponse>(
 			IssueChequeInitiateSignature

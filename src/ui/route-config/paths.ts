@@ -7,7 +7,7 @@ export const paths = {
 
 	Deactivation: '/cheque/Deactivation',
 	IssueCheck: {
-		PersonalTypePath: '/cheque/Issue/PersonalType',
+		AccountTypePath: '/cheque/Issue/AccountType',
 		SelectAccountPath: '/cheque/Issue/SelectAccount',
 		CheckInfoPath: '/cheque/Issue/CheckInfo',
 		addReceiversPath: '/cheque/Issue/addReceivers',
@@ -16,7 +16,8 @@ export const paths = {
 		SignatureGroupPath: '/cheque/Issue/SignatureGroup',
 		OverViewPath: '/cheque/Issue/OverView',
 		OtpCheckPath: '/cheque/Issue/OtpCheck',
-		FinalReceipt: '/cheque/Issue/FinalReceipt'
+		FinalReceipt: '/cheque/Issue/FinalReceipt',
+		FinalReceiptSimple: '/cheque/Issue/FinalReceiptSimple'
 	},
 	cartable: {
 		SelectList: '/cheque/cartable/SelectList',

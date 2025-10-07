@@ -1,7 +1,6 @@
 import { Grid, RadioGroup, Typography, useMediaQuery, useTheme } from '@mui/material';
 import infoIcon from 'assets/icon/info-circle.svg';
 import IssueWithDrawalGroupsCommand from 'business/application/cheque/Digital Cheque/Issue With drawal groups/IssueWithDrawalGroupsCommand';
-import useInquiryWithDrawalGroup from 'business/hooks/cheque/Digital Cheque/useInquiryWithDrawalGroup';
 import useIssueWithDrawalGroup from 'business/hooks/cheque/Digital Cheque/useIssueWithDrawalGroup';
 import { pushAlert } from 'business/stores/AppAlertsStore';
 import { useIssueCheckWizardData } from 'business/stores/issueCheck/useIssueCheckWizardData';
@@ -10,54 +9,18 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import DraggableList from 'ui/components/DraggableList';
 import Menu from 'ui/components/Menu';
-import RadioButtonOpenable from 'ui/components/RadioButtonOpenable';
-
+import RadioButtonAdapter from 'ui/htsc-components/RadioButtonAdapter';
 import BoxAdapter from 'ui/htsc-components/BoxAdapter';
 import ButtonAdapter from 'ui/htsc-components/ButtonAdapter';
 import ModalOrPage from 'ui/htsc-components/ModalOrPage';
 import Stepper from 'ui/htsc-components/Stepper';
 import SvgToIcon from 'ui/htsc-components/SvgToIcon';
 import { menuList } from '../../HomePage/menuList';
-const data = {
-	issueChequeKey: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-	withdrawalGroup: [
-		{
-			groupNumber: 'groupNumber1',
-			withdrawalGroups: [
-				{
-					customerNumber: 1000,
-					name: 'غزل عادل زاده'
-				}
-			]
-		},
-		{
-			groupNumber: 'groupNumber2',
-			withdrawalGroups: [
-				{
-					customerNumber: 1001,
-					name: 'بیتا پاکنژاد'
-				},
-				{
-					customerNumber: 1002,
-					name: 'سروش شروری'
-				}
-			]
-		},
-		{
-			groupNumber: 'groupNumber3',
-			withdrawalGroups: [
-				{
-					customerNumber: 3000,
-					name: 'وحید علیمردانی'
-				},
-				{
-					customerNumber: 3001,
-					name: 'پروین افشار'
-				}
-			]
-		}
-	]
-};
+import useIssueChequeInitiate from "business/hooks/cheque/Digital Cheque/useIssueChequeInitiate";
+import useInquiryWithDrawalGroup from 'business/hooks/cheque/Digital Cheque/useInquiryWithDrawalGroup';
+import { useLoadingHandler } from '@agribank/ui/components/Loader';
+import { paths } from 'ui/route-config/paths';
+
 
 export default function SignatureGroup() {
 	const navigate = useNavigate();
@@ -65,69 +28,74 @@ export default function SignatureGroup() {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const matchesSM = useMediaQuery(theme.breakpoints.down('sm'));
-	const { addReceiverPage } = useIssueCheckWizardData((store) => store);
-	//const { mutate: IssueWithDrawalGroup, isLoading } = useIssueWithDrawalGroup();
-	//const GetStepData = useDataSteps((s) => s.steps.signitureRequirementData);
+	const [data, setData] = useState<any>();
+	const { isLoading, mutateAsync: issueChequeInitiate } = useIssueChequeInitiate();
+	const { isLoading: isLoadingInquiryWithDrawalGroupMutate, mutateAsync: InquiryWithDrawalGroupMutate } = useInquiryWithDrawalGroup();
+	const store = useIssueCheckWizardData((store) => store);
 
-	const { mutate: InquiryWithDrawalGroupMutate } = useInquiryWithDrawalGroup();
 	const [value, setValue] = useState(data?.withdrawalGroup[0].groupNumber);
 	const [listOrder, setListOrder] = useState<{ customerNumber: number; name: string }[]>();
-	const [selectedGroup, setSelectedGroup] = useState(
-		data?.withdrawalGroup.find((g) => g.groupNumber === value)?.withdrawalGroups
-	);
+	const [selectedGroup, setSelectedGroup] = useState(data?.withdrawalGroup.find((g) => g.groupNumber === value)?.withdrawalGroups);
 
-	const [open, setOpen] = useState(false);
+	// const [open, setOpen] = useState(false);
+
+	const { setNewDataToWizard, addReceiverPage, CorporateChequeCompany } = useIssueCheckWizardData((store) => store);
+
+
 	useEffect(() => {
-		InquiryWithDrawalGroupMutate(
-			//{ issueChequeKey: GetStepData?.issueChequeKey },
-			{ issueChequeKey: '36a2e042-8481-4f5f-93f0-52e3ed29ae33' },
-			{
-				onError: (err) => {
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+		const fetchData = async () => {
+			const resultIssueChequeInitiate = await issueChequeInitiate(
+				{
+					amount: Number(store.checkInfoPage?.checkAmount),
+					dueDate: String(store.checkInfoPage?.date),
+					description: store.checkInfoPage?.description ?? "",
+					toIban: store.checkInfoPage?.recieverIban ?? "",
+					sayadNo: store.selectCheckPage?.checkData.sayadNo ?? "",
+					recievers: store.addReceiverPage?.receivers ?? [],
+					reason: "POSA"
 				}
-			}
-		);
-	}, []);
-	const { mutate: IssueWithDrawalGroupMutate } = useIssueWithDrawalGroup();
+			)
 
-	const IssueWithDrawalGroupSubmit = () => {
-		if (addReceiverPage?.signitureRequirementData) {
-			const data: IssueWithDrawalGroupsCommand = {
-				isSequentional: false,
-				issueChequeKey: addReceiverPage.signitureRequirementData.issueChequeKey!,
-				withDrawalGroup: [
-					{
-						groupNumber: value,
-						withdrawalGroups: selectedGroup!
-					}
-				]
-			};
-			IssueWithDrawalGroupMutate(data, {
-				onError: (err) => {
-					if (err.status == 453) {
-						pushAlert({
-							type: 'error',
-							messageText: err.detail,
-							hasConfirmAction: true,
-							actions: {
-								onCloseModal: () => navigate('/cheque'),
-								onConfirm: () => navigate('/cheque')
-							}
-						});
-					}
-					pushAlert({ type: 'error', messageText: err.detail, hasConfirmAction: true });
+			const resultInquiryWithDrawalGroupMutate = await InquiryWithDrawalGroupMutate({ issueChequeKey: resultIssueChequeInitiate.issueChequeKey });
+			console.log(resultInquiryWithDrawalGroupMutate)
+			setNewDataToWizard({
+				addReceiverPage: {
+					receivers: addReceiverPage?.receivers,
+					signitureRequirementData: { issueChequeKey: resultIssueChequeInitiate.issueChequeKey }
 				}
-			});
+			})
+			setData(resultInquiryWithDrawalGroupMutate)
+		};
+		fetchData();
+	}, []);
+
+
+	const { mutateAsync: IssueWithDrawalGroupMutate } = useIssueWithDrawalGroup();
+	const IssueWithDrawalGroupSubmit = async () => {
+		const data = {
+			isSequentional: false,
+			issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
+			withDrawalGroups: { groupNumber: value, withdrawalGroups: selectedGroup! }
+		};
+		const result: any = await IssueWithDrawalGroupMutate(data);
+		if (result) {
+			setNewDataToWizard({
+				CorporateChequeCompany: { ...CorporateChequeCompany, canSign: result.canSign, canSendOtp: result.canSendOtp }
+			})
+			navigate(paths.IssueCheck.ChequeReceiptPreview);
 		}
 	};
 
-	function handleListUpdate() {
-		setSelectedGroup(listOrder);
-		setOpen(false);
-	}
+	// function handleListUpdate() {
+	// 	setSelectedGroup(listOrder);
+	// 	setOpen(false);
+	// }
+
+	useLoadingHandler(isLoadingInquiryWithDrawalGroupMutate || isLoading);
+
 	return (
 		<Grid
-			container
+			// container
 			sx={{ padding: matches ? '0' : '64px 0' }}
 			justifyContent={'center'}
 			gap={'24px'}
@@ -171,7 +139,7 @@ export default function SignatureGroup() {
 								{t('signatureGroupText')}
 							</Typography>
 							<Grid
-								container
+								// container
 								spacing={'24px'}
 							>
 								<RadioGroup
@@ -179,32 +147,30 @@ export default function SignatureGroup() {
 									onChange={(e) => {
 										setValue(e.target.value);
 									}}
-									sx={{ width: '100%', marginLeft: '20px' }}
+									sx={{ width: '100%', gap: 10 }}
 								>
-									{data.withdrawalGroup.map((item) => (
-										<RadioButtonOpenable
-											key={item.groupNumber}
-											label={
-												item.withdrawalGroups
-													.map((group) => {
-														return group?.name;
-													})
-													.join(', ') || ''
-											}
-											onEditClick={() => setOpen(true)}
-											groupParts={selectedGroup ? selectedGroup.map((group) => group?.name) : []}
-											value={item.groupNumber}
-											checked={value === item.groupNumber}
-											onChange={(e) => {
-												//console.log(e.target.value);
-												setSelectedGroup(
-													data?.withdrawalGroup.find((g) => g.groupNumber === e.target.value)
-														?.withdrawalGroups
-												);
-												setValue(e.target.value);
-											}}
-										/>
-									))}
+									{data?.withdrawalGroup.map((item) => {
+										return (
+											<RadioButtonAdapter
+												key={item.groupNumber}
+												label={item.withdrawalGroups.map((group) => { return `${group?.firstName} ${group?.lastName}` }).join(' , ') || ''
+												}
+												// onEditClick={() => setOpen(true)}
+												// groupParts={selectedGroup ? selectedGroup.map((group) => group?.name) : []}
+												value={item.groupNumber}
+												checked={value === item.groupNumber}
+												onChange={(e) => {
+													//console.log(e.target.value);
+													setSelectedGroup(
+														data?.withdrawalGroup.find((g) => g.groupNumber === e.target.value)
+															?.withdrawalGroups
+													);
+													setValue(e.target.value);
+												}}
+											/>
+										)
+									}
+									)}
 								</RadioGroup>
 							</Grid>
 						</Grid>
@@ -213,7 +179,7 @@ export default function SignatureGroup() {
 							<ButtonAdapter
 								variant="contained"
 								size="medium"
-								muiButtonProps={{ sx: { width: '100%' } }}
+								muiButtonProps={{ sx: { width: '100%', minHeight: "48px" } }}
 								forwardIcon
 								onClick={IssueWithDrawalGroupSubmit}
 							>
@@ -224,7 +190,7 @@ export default function SignatureGroup() {
 				</BoxAdapter>
 			</Grid>
 
-			{matches ? null : (
+			{/* {matches ? null : (
 				<Grid
 					item
 					md={3}
@@ -241,8 +207,8 @@ export default function SignatureGroup() {
 						/>
 					</BoxAdapter>
 				</Grid>
-			)}
-			<ModalOrPage
+			)} */}
+			{/* <ModalOrPage
 				open={open}
 				setOpen={setOpen}
 				breackpoint="sm"
@@ -295,7 +261,7 @@ export default function SignatureGroup() {
 						{t('register')}
 					</ButtonAdapter>
 				</Grid>
-			</ModalOrPage>
+			</ModalOrPage> */}
 		</Grid>
 	);
 }

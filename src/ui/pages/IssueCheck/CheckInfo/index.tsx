@@ -19,6 +19,7 @@ import DatePickerAdapter from 'ui/htsc-components/DatePickerAdapter';
 import { Loader, useLoadingHandler } from "@agribank/ui/components/Loader";
 import { paths } from 'ui/route-config/paths';
 
+
 export default function CheckInfo() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
@@ -26,7 +27,6 @@ export default function CheckInfo() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { data: reasonCodes, isLoading: isPendingGetReasons, isError } = useGetReasonCodes();
 	const { setNewDataToWizard, checkInfoPage } = useIssueCheckWizardData((store) => store);
-
 	const { control, formState, getValues, handleSubmit, reset } = useForm<CheckInfoFormValidatorCommand>({
 		resolver: (values, context, options) => {
 			return validator(values, context, options);

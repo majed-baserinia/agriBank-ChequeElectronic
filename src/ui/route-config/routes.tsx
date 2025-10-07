@@ -6,10 +6,11 @@ import CheckInfo from 'ui/pages/IssueCheck/CheckInfo';
 import OtpCheck from 'ui/pages/IssueCheck/OtpCheck';
 import OverView from 'ui/pages/IssueCheck/OverView';
 import SelectAccount from 'ui/pages/IssueCheck/SelectAccount';
-import PersonalType from 'ui/pages/IssueCheck/PersonalType';
+import AccountType from 'ui/pages/IssueCheck/AccountType';
 import SignatureGroup from 'ui/pages/IssueCheck/SignatureGroup';
 import SignatureRegistration from 'ui/pages/IssueCheck/SignatureRegistration';
 import FinalReceipt from 'ui/pages/IssueCheck/FinalReceipt';
+import FinalReceiptSimple from 'ui/pages/IssueCheck/FinalReceiptSimple';
 
 import ActivationFirstStep from 'ui/pages/activation/ActivationFirstStep';
 import ActivationSecondStep from 'ui/pages/activation/ActivationSecondStep';
@@ -46,7 +47,7 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
 			{
 				index: true, path: paths.Home,
 				element: <HomePage />
-				// element: <OverView />
+				// element: <FinalReceiptSimple />
 			},
 			{ path: paths.guide, element: <GuidePage /> },
 			{
@@ -58,8 +59,8 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
 				element: <ActivationSecondStep />
 			},
 			{
-				path: paths.IssueCheck.PersonalTypePath,
-				element: <PersonalType />
+				path: paths.IssueCheck.AccountTypePath,
+				element: <AccountType />
 				// element: <OverView />
 			},
 			{
@@ -97,6 +98,10 @@ const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
 			{
 				path: paths.IssueCheck.FinalReceipt,
 				element: <FinalReceipt />
+			},
+			{
+				path: paths.IssueCheck.FinalReceiptSimple,
+				element: <FinalReceiptSimple />
 			},
 			{
 				path: paths.cartable.SelectList,

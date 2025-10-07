@@ -16,6 +16,8 @@ import useIssueChequeInitiate from "business/hooks/cheque/Digital Cheque/useIssu
 import { pushAlert } from "business/stores/AppAlertsStore";
 import { IssueChequeInitiateRequest } from "common/entities/cheque/Digital Cheque/IssueChequeInitiate/IssueChequeInitiateRequest";
 import { paths } from "ui/route-config/paths";
+import useIssueChequeInitiateOtp from "business/hooks/cheque/Digital Cheque/useIssueChequeInitiateOtp";
+import useIssueChequeConfirm from "business/hooks/cheque/Digital Cheque/useIssueChequeConfirm";
 
 export default function ChequeReceiptPreview() {
 	const navigate = useNavigate();
@@ -23,12 +25,12 @@ export default function ChequeReceiptPreview() {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down("md"));
 
-	const { isLoading, mutate: issueChequeInitiate } = useIssueChequeInitiate();
+	const { isLoading: isLoadingIssueChequeInitiate, mutate: issueChequeInitiate } = useIssueChequeInitiate();
+	const { mutate: IssueChequeConfirm, isLoading: isLoadingIssueChequeConfirm } = useIssueChequeConfirm();
 
-	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage } =
-		useIssueCheckWizardData((store) => store);
+	const { setNewDataToWizard, checkInfoPage, selectCheckPage, addReceiverPage, CorporateChequeCompany, accountType } = useIssueCheckWizardData((store) => store);
 
-	const handleSubmitToNextLevel = () => {
+	const handleSubmitIndividualCheque = () => {
 		// Check if all necessary steps and data exist
 		if (!selectCheckPage || !checkInfoPage) {
 			return null;
@@ -75,9 +77,43 @@ export default function ChequeReceiptPreview() {
 		}
 	};
 
+	const handleOtp = async () => {
+		navigate(paths.IssueCheck.OtpCheckPath);
+	}
+
+	const handleSignCorporateCheque = async () => {
+		navigate(paths.IssueCheck.SignatureRegistrationPath);
+	}
+
+	const handleSubmitCorporateCheque = async () => {
+		IssueChequeConfirm(
+			{
+				issueChequeKey: addReceiverPage?.signitureRequirementData?.issueChequeKey!,
+				otpCode: ""
+			},
+			{
+				onError: (err) => {
+					pushAlert({
+						type: 'error',
+						messageText: err.detail,
+						hasConfirmAction: true
+					});
+				},
+				onSuccess: (res) => {
+					setNewDataToWizard({
+						otpPage: {
+							message: res.message
+						}
+					});
+					navigate(paths.IssueCheck.FinalReceiptSimple);
+				}
+			}
+		);
+	}
+
 	// if (isLoading)
 	// 	return <Loader showLoader={true} />
-	useLoadingHandler(isLoading);
+	useLoadingHandler(isLoadingIssueChequeInitiate || isLoadingIssueChequeConfirm);
 
 	return (
 		<BoxAdapter fullWidth>
@@ -125,7 +161,7 @@ export default function ChequeReceiptPreview() {
 							variant="bodyMd"
 							sx={{ marginBottom: "16px" }}
 						>
-							{selectCheckPage?.selectedAccountName}
+							{selectCheckPage?.selectedAccountName || CorporateChequeCompany?.fullName}
 						</Typography>
 					</div>
 					<div className="flex w-full justify-between">
@@ -280,17 +316,44 @@ export default function ChequeReceiptPreview() {
 					);
 				})}
 			</Grid>
-			<Grid marginTop={"auto"}>
-				<ButtonAdapter
-					variant="contained"
-					size="medium"
-					disabled={addReceiverPage?.receivers?.length == 0}
-					muiButtonProps={{ sx: { width: "100%", marginTop: "16px", marginBottom: "20px" } }}
-					forwardIcon
-					onClick={() => handleSubmitToNextLevel()}
-				>
-					{t("continue")}
-				</ButtonAdapter>
+			<Grid marginTop={"auto"} display={"flex"} flexDirection={"row"} gap={10}>
+				{accountType == "CorporateCheque" && CorporateChequeCompany?.canSign
+					? <> <ButtonAdapter
+						variant="contained"
+						size="medium"
+						disabled={addReceiverPage?.receivers?.length == 0}
+						muiButtonProps={{ sx: { width: "100%", marginTop: "16px", marginBottom: "20px", minHeight: "48px" } }}
+						// forwardIcon
+						onClick={() => handleSignCorporateCheque()}
+					>
+						{t("issueSignature")}
+					</ButtonAdapter>
+						<ButtonAdapter
+							variant="outlined"
+							size="medium"
+							disabled={addReceiverPage?.receivers?.length == 0}
+							muiButtonProps={{ sx: { width: "100%", marginTop: "16px", marginBottom: "20px", minHeight: "48px" } }}
+							// forwardIcon
+							onClick={() => handleSubmitCorporateCheque()}
+						>
+							{t("issueCheck")}
+						</ButtonAdapter>
+					</>
+					: <ButtonAdapter
+						variant="contained"
+						size="medium"
+						disabled={addReceiverPage?.receivers?.length == 0}
+						muiButtonProps={{ sx: { width: "100%", marginTop: "16px", marginBottom: "20px", minHeight: "48px" } }}
+						// forwardIcon
+						onClick={() => {
+							if (accountType == "CorporateCheque")
+								handleOtp()
+							if (accountType == "IndividualCheque")
+								handleSubmitIndividualCheque()
+						}}
+					>
+						{t("confirmData")}
+					</ButtonAdapter>}
 			</Grid>
 		</BoxAdapter>
 	);

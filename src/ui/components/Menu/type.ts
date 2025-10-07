@@ -10,5 +10,6 @@ type Item = {
 export interface Props {
 	list: Item[];
 	menuTitle?: string;
+	setOpen?: any;
 	divider?: boolean;
 }

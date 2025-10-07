@@ -24,7 +24,7 @@ export default function SignatureRegistration() {
 	const matches = useMediaQuery(theme.breakpoints.down('md'));
 	const { addReceiverPage, setNewDataToWizard } = useIssueCheckWizardData((store) => store);
 	const store = useIssueCheckWizardData((store) => store)
-	console.log(store)
+	// console.log(store)
 
 	const { mutate: issueChequeInitiateSignature, isLoading: initiateLoading } = useIssueChequeInitiateSignature();
 	const { mutate: issueChequeVerifyInitiate, isLoading } = useIssueChequeVerifyInitiate();
@@ -183,7 +183,7 @@ export default function SignatureRegistration() {
 							//onClick={() => setOpenModal(true)}
 							onClick={() => handleSubmitToNextLevel()}
 						>
-							{t('FinalSignatureRegistration')}
+							{t('continue')}
 						</ButtonAdapter>
 					</Grid>
 				</Grid>

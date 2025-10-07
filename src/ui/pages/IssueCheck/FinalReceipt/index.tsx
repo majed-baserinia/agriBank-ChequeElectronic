@@ -131,7 +131,7 @@ export default function FinalReceipt() {
 			return { type: "shareText", data: { ...data } } as any;
 		},
 		callback: (e) => {
-			console.log(e);
+			// console.log(e);
 		}
 	});
 
@@ -140,7 +140,7 @@ export default function FinalReceipt() {
 			return { type: "shareImage", data: { ...data } } as any;
 		},
 		callback: (e) => {
-			console.log(e);
+			// console.log(e);
 		}
 	});
 
@@ -149,7 +149,7 @@ export default function FinalReceipt() {
 			return { type: "saveImage", data: { ...data } } as any;
 		},
 		callback: (e) => {
-			console.log(e);
+			// console.log(e);
 		}
 	});
 
